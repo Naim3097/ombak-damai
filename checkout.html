@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirm your stay. Ombak Damai, Penarik</title>
+  <meta name="description" content="Confirm your stay at Ombak Damai, Penarik, Terengganu.">
+  <meta name="theme-color" content="#F5F1E8">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Confirm your stay. Ombak Damai, Penarik">
+  <meta property="og:description" content="Send your booking request for Ombak Damai, Penarik, Terengganu.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1585505307857-2dce5cfd77cd?w=1200&q=75&auto=format&fit=crop">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231B1813'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='26' fill='%23F5F1E8' text-anchor='middle'%3EOD%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="site-head">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Ombak Damai, home">
+        <img src="assets/img/logo.png" alt="Ombak Damai, Penarik, Terengganu">
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="booking.html">Back to dates</a>
+        <a href="index.html">The house</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <div class="empty-state" id="empty-state" hidden style="margin: clamp(48px, 6vw, 80px) 0;">
+      <h2 class="serif">No dates chosen yet.</h2>
+      <p>Start by picking your check-in and check-out days, and we will bring you back here.</p>
+      <a class="btn btn-ink" href="booking.html">Choose your dates</a>
+    </div>
+
+    <div id="checkout-main">
+
+      <div class="page-head">
+        <p class="kicker">Booking, step two of two</p>
+        <h1>Confirm your stay.</h1>
+        <p>Check the details, tell us who is coming, and send the request. It opens in WhatsApp with everything filled in, and we reply to confirm.</p>
+      </div>
+
+      <div class="book-grid summary-first" style="padding-bottom: clamp(84px, 11vw, 150px);">
+
+        <div>
+          <div id="form-side">
+            <form id="guest-form" novalidate>
+              <div class="field">
+                <label for="f-name">Full name</label>
+                <input type="text" id="f-name" name="name" autocomplete="name" required>
+                <p class="err">Please give us your name.</p>
+              </div>
+              <div class="field">
+                <label for="f-phone">WhatsApp number</label>
+                <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="+60" required>
+                <p class="err">Please give us a number we can reach you on.</p>
+              </div>
+              <div class="field">
+                <label for="f-email">Email, optional</label>
+                <input type="email" id="f-email" name="email" autocomplete="email">
+                <p class="err">That email does not look right.</p>
+              </div>
+              <div class="field">
+                <label for="f-notes">Anything we should know, optional</label>
+                <textarea id="f-notes" name="notes" placeholder="Arrival time, a cot for the little one, allergies"></textarea>
+              </div>
+
+              <div class="steps">
+                <div class="step"><span class="n">01</span><span>Your request opens in WhatsApp, already written out with your dates and total.</span></div>
+                <div class="step"><span class="n">02</span><span>We reply to confirm availability, usually within the hour.</span></div>
+                <div class="step"><span class="n">03</span><span>A 50% deposit by bank transfer holds your dates. The balance is paid on arrival.</span></div>
+              </div>
+
+              <button type="submit" class="btn btn-ink" style="margin-top: 34px;">Send request on WhatsApp</button>
+              <p class="small" style="margin-top: 16px;">Nothing is charged on this page.</p>
+            </form>
+          </div>
+
+          <div class="confirm-panel" id="confirm-state" hidden>
+            <h2>Your request is ready.</h2>
+            <span class="ref" id="ref-code">OD-000000</span>
+            <p>WhatsApp should have opened in a new tab with your booking request. Press send there and we will take it from that side, confirming availability and sharing deposit details.</p>
+            <p>If nothing opened, use the button below.</p>
+            <div class="confirm-actions">
+              <a class="btn btn-ink" id="wa-again" href="#" target="_blank" rel="noopener">Open WhatsApp</a>
+              <a class="tlink" href="index.html">Back to the house</a>
+            </div>
+          </div>
+        </div>
+
+        <aside class="panel sticky" aria-label="Your stay">
+          <h2>Your stay</h2>
+          <div class="qrow"><span class="k">Check-in</span><span class="v" id="s-in"></span></div>
+          <div class="qrow"><span class="k">Check-out</span><span class="v" id="s-out"></span></div>
+          <div class="qrow"><span class="k">Nights</span><span class="v" id="s-nights"></span></div>
+          <div class="qrow"><span class="k">Guests</span><span class="v" id="s-guests"></span></div>
+          <div class="qrow"><span class="k">Rate</span><span class="v" id="s-breakdown"></span></div>
+          <div class="qrow"><span class="k">Deposit to confirm</span><span class="v" id="s-deposit"></span></div>
+          <div class="qrow total"><span class="k">Total</span><span class="v" id="s-total"></span></div>
+          <p class="aside-note" style="text-align: right;"><a class="tlink" id="change-dates" href="booking.html" style="font-size: 11px;">Change dates</a></p>
+        </aside>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <div class="foot-base">
+        <span>&copy; 2026 Ombak Damai. All rights reserved.</span>
+        <span>Kampung Penarik, 22120 Setiu, Terengganu</span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" data-wa="Salam Ombak Damai, saya ada pertanyaan tentang tempahan." href="#" target="_blank" rel="noopener">WhatsApp</a>
+
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/checkout.js"></script>
+</body>
+</html>

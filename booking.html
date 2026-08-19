@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose your dates. Ombak Damai, Penarik</title>
+  <meta name="description" content="Check availability at Ombak Damai, a private whole-house homestay in Penarik, Terengganu.">
+  <meta name="theme-color" content="#F5F1E8">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Choose your dates. Ombak Damai, Penarik">
+  <meta property="og:description" content="Pick your nights at Ombak Damai, a private whole-house homestay in Penarik, Terengganu.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1585505307857-2dce5cfd77cd?w=1200&q=75&auto=format&fit=crop">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231B1813'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='26' fill='%23F5F1E8' text-anchor='middle'%3EOD%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="site-head">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Ombak Damai, home">
+        <img src="assets/img/logo.png" alt="Ombak Damai, Penarik, Terengganu">
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="index.html#house">The house</a>
+        <a href="index.html#rates">Rates</a>
+        <a href="index.html#visit">Getting here</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <div class="page-head">
+      <p class="kicker">Booking, step one of two</p>
+      <h1>Choose your dates.</h1>
+      <p>Ombak Damai is let as one whole house, so your dates are yours alone. Pick your nights below. Friday and Saturday nights carry the weekend rate.</p>
+    </div>
+
+    <div class="book-grid" style="padding-bottom: clamp(84px, 11vw, 150px);">
+
+      <div class="cal" aria-label="Availability calendar">
+        <div class="cal-top">
+          <p class="cal-hint" id="cal-hint">Choose your check-in day to begin.</p>
+          <div class="cal-nav">
+            <button type="button" id="cal-prev">Prev</button>
+            <button type="button" id="cal-next">Next</button>
+          </div>
+        </div>
+        <div class="months" id="months"></div>
+        <div class="cal-legend">
+          <span><span class="chip c-wknd"></span>Weekend rate night</span>
+          <span><span class="chip c-sel"></span>Your selection</span>
+        </div>
+      </div>
+
+      <aside class="panel sticky" aria-label="Your stay">
+        <h2>Your stay</h2>
+        <div class="qrow"><span class="k">Check-in</span><span class="v" id="q-in">Select a date</span></div>
+        <div class="qrow"><span class="k">Check-out</span><span class="v" id="q-out">Select a date</span></div>
+        <div class="qrow"><span class="k">Nights</span><span class="v" id="q-nights">0</span></div>
+        <div class="qrow"><span class="k">Rate</span><span class="v" id="q-breakdown">Select your dates</span></div>
+        <div class="field guests-field" style="margin: 20px 0 4px;">
+          <label for="guests">Guests</label>
+          <select id="guests"></select>
+        </div>
+        <div class="qrow total"><span class="k">Total</span><span class="v" id="q-total">RM 0</span></div>
+        <p class="small" id="q-deposit" style="text-align: right; margin-top: 2px;"></p>
+        <button class="btn btn-ink" id="continue" disabled>Continue</button>
+        <p class="aside-note">No payment is taken online. We confirm availability on WhatsApp and share deposit details there.</p>
+      </aside>
+
+    </div>
+
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <div class="foot-base">
+        <span>&copy; 2026 Ombak Damai. All rights reserved.</span>
+        <span>Kampung Penarik, 22120 Setiu, Terengganu</span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" data-wa="Salam Ombak Damai, saya ada pertanyaan tentang tempahan." href="#" target="_blank" rel="noopener">WhatsApp</a>
+
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/booking.js"></script>
+</body>
+</html>
