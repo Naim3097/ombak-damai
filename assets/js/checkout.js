@@ -5,20 +5,23 @@
   let saved = null;
   try { saved = JSON.parse(sessionStorage.getItem("od-stay") || "null"); } catch (e) {}
 
-  const inStr = params.get("in") || (saved && saved.in);
-  const outStr = params.get("out") || (saved && saved.out);
-  const guestsStr = params.get("guests") || (saved && saved.guests);
+  const pick = (key) => params.get(key) || (saved && saved[key]) || "";
+  const inStr = pick("in");
+  const outStr = pick("out");
 
   const checkIn = odParseISO(inStr);
   const checkOut = odParseISO(outStr);
-  let guests = parseInt(guestsStr, 10);
+  const rooms = parseInt(pick("rooms"), 10);
+  const guests = parseInt(pick("guests"), 10);
+  let addonIds = pick("addons").split(",").filter((id) => OD.addons.some((a) => a.id === id));
 
   const main = document.getElementById("checkout-main");
   const empty = document.getElementById("empty-state");
 
   const valid =
     checkIn && checkOut && checkOut > checkIn && checkIn >= odToday() &&
-    guests >= 1 && guests <= OD.maxGuests;
+    rooms >= 1 && rooms <= odRoomsLeftForStay(checkIn, checkOut) &&
+    guests >= 1 && guests <= rooms * OD.guestsPerRoom;
 
   if (!valid) {
     main.hidden = true;
@@ -26,22 +29,34 @@
     return;
   }
 
-  const q = odQuote(checkIn, checkOut);
+  // Island trips cannot be requested for a stay that falls wholly in the monsoon.
+  if (!odStayHasIslandDay(checkIn, checkOut)) {
+    addonIds = addonIds.filter((id) => !OD.addons.find((a) => a.id === id).seasonal);
+  }
+
+  const q = odQuote(checkIn, checkOut, rooms);
+  const addonLabels = odAddonLabels(addonIds);
 
   // Summary panel
   document.getElementById("s-in").textContent = odFmtLong(checkIn);
   document.getElementById("s-out").textContent = odFmtLong(checkOut);
-  document.getElementById("s-nights").textContent = q.nights + (q.nights === 1 ? " night" : " nights");
-  document.getElementById("s-guests").textContent = guests + (guests === 1 ? " guest" : " guests");
-  const parts = [];
-  if (q.weeknights) parts.push(q.weeknights + " x " + odRM(OD.rates.weeknight));
-  if (q.weekends) parts.push(q.weekends + " x " + odRM(OD.rates.weekend));
-  document.getElementById("s-breakdown").textContent = parts.join("  +  ");
+  document.getElementById("s-nights").textContent = odPlural(q.nights, "night");
+  document.getElementById("s-rooms").textContent = odRoomsLabel(rooms);
+  document.getElementById("s-guests").textContent = odPlural(guests, "guest");
+  document.getElementById("s-breakdown").textContent = q.breakdown;
   document.getElementById("s-total").textContent = odRM(q.total);
   document.getElementById("s-deposit").textContent = odRM(q.deposit);
 
-  document.getElementById("change-dates").href =
-    "booking.html?" + new URLSearchParams({ in: inStr, out: outStr, guests: guests }).toString();
+  const extrasRow = document.getElementById("s-addons-row");
+  if (addonLabels.length) {
+    document.getElementById("s-addons").textContent = addonLabels.join(", ");
+  } else {
+    extrasRow.hidden = true;
+  }
+
+  const back = { in: inStr, out: outStr, rooms: String(rooms), guests: String(guests) };
+  if (addonIds.length) back.addons = addonIds.join(",");
+  document.getElementById("change-dates").href = "booking.html?" + new URLSearchParams(back).toString();
 
   // Form
   const form = document.getElementById("guest-form");
@@ -54,6 +69,7 @@
 
   function setInvalid(input, bad) {
     input.closest(".field").classList.toggle("invalid", bad);
+    input.setAttribute("aria-invalid", bad ? "true" : "false");
   }
 
   form.addEventListener("submit", (e) => {
@@ -86,13 +102,13 @@
       "Check-in: " + odFmtLong(checkIn),
       "Check-out: " + odFmtLong(checkOut),
       "Nights: " + q.nights,
+      "Rooms: " + odRoomsLabel(rooms),
       "Guests: " + guests,
-      "Total: " + odRM(q.total),
-      "Deposit (50%): " + odRM(q.deposit),
-      "",
-      "Name: " + name,
-      "Phone: " + phone,
+      "Total: " + odRM(q.total) + " (" + q.breakdown + ")",
+      "Deposit (" + Math.round(OD.depositRate * 100) + "%): " + odRM(q.deposit),
     ];
+    if (addonLabels.length) lines.push("Also interested in: " + addonLabels.join(", "));
+    lines.push("", "Name: " + name, "Phone: " + phone);
     if (email) lines.push("Email: " + email);
     if (notes) lines.push("Notes: " + notes);
 

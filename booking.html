@@ -3,30 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Choose your dates. Ombak Damai, Penarik</title>
-  <meta name="description" content="Check availability at Ombak Damai, a private whole-house homestay in Penarik, Terengganu.">
-  <meta name="theme-color" content="#F5F1E8">
+  <title>Choose your dates. Ombak Damai Penarik</title>
+  <meta name="description" content="Check availability at Ombak Damai, a four-room coastal roomstay in Penarik, Terengganu. RM 150 a room, a night.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0E1A2B">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Choose your dates. Ombak Damai, Penarik">
-  <meta property="og:description" content="Pick your nights at Ombak Damai, a private whole-house homestay in Penarik, Terengganu.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1585505307857-2dce5cfd77cd?w=1200&q=75&auto=format&fit=crop">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231B1813'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='26' fill='%23F5F1E8' text-anchor='middle'%3EOD%3C/text%3E%3C/svg%3E">
+  <meta property="og:title" content="Choose your dates. Ombak Damai Penarik">
+  <meta property="og:description" content="Pick your nights and rooms at Ombak Damai, a coastal roomstay in Penarik, Terengganu.">
+  <meta property="og:image" content="https://ombak-damai.vercel.app/assets/img/og.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230E1A2B'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='26' fill='%23E3B866' text-anchor='middle'%3EOD%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Besley:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Mr+Dafoe&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="stars">
 
-  <div class="topline">Kampung Penarik &middot; Setiu &middot; Terengganu<span class="topline-x"> &middot; The South China Sea</span></div>
+  <div class="topline">Rhu Sepuluh &middot; Penarik &middot; Terengganu<span class="topline-x"> &middot; The South China Sea</span></div>
 
   <header class="site-head">
     <div class="wrap">
-      <a class="brand" href="index.html" aria-label="Ombak Damai, home">
-        <img src="assets/img/logo.png" alt="Ombak Damai, Penarik, Terengganu">
+      <a class="brand" href="index.html" aria-label="Ombak Damai Penarik, home">
+        <img src="assets/img/logo-cream.png" width="720" height="240" alt="Ombak Damai, Penarik, Terengganu">
       </a>
       <nav class="site-nav" aria-label="Main">
-        <a href="index.html#house">The house</a>
+        <a href="index.html#rooms">Rooms</a>
         <a href="index.html#rates">Rates</a>
         <a href="index.html#visit">Getting here</a>
       </nav>
@@ -37,15 +38,15 @@
 
     <div class="page-head">
       <p class="kicker">Booking, step one of two</p>
-      <h1>Choose your dates.</h1>
-      <p>Ombak Damai is let as one whole house, so your dates are yours alone. Pick your nights below. Friday and Saturday nights carry the weekend rate.</p>
+      <h1>Choose <span class="script">your dates.</span></h1>
+      <p>Pick the day you arrive and the day you leave, then tell us how many rooms you need. Every room is <span data-od="rate">RM 150</span> a night.</p>
     </div>
 
-    <div class="book-grid" style="padding-bottom: clamp(84px, 11vw, 150px);">
+    <div class="book-grid">
 
-      <div class="cal" aria-label="Availability calendar">
+      <div class="cal paper">
         <div class="cal-top">
-          <p class="cal-hint" id="cal-hint">Choose your check-in day to begin.</p>
+          <p class="cal-hint" id="cal-hint" aria-live="polite">Choose the day you arrive.</p>
           <div class="cal-nav">
             <button type="button" id="cal-prev">Prev</button>
             <button type="button" id="cal-next">Next</button>
@@ -53,23 +54,39 @@
         </div>
         <div class="months" id="months"></div>
         <div class="cal-legend">
-          <span><span class="chip c-wknd"></span>Weekend rate night</span>
-          <span><span class="chip c-sel"></span>Your selection</span>
+          <span><span class="chip c-sel"></span>Your stay</span>
+          <span><span class="chip c-few"></span>A few rooms left</span>
+          <span><span class="chip c-full"></span>Fully booked</span>
         </div>
       </div>
 
-      <aside class="panel sticky" aria-label="Your stay">
+      <aside class="panel paper sticky" aria-label="Your stay">
         <h2>Your stay</h2>
         <div class="qrow"><span class="k">Check-in</span><span class="v" id="q-in">Select a date</span></div>
         <div class="qrow"><span class="k">Check-out</span><span class="v" id="q-out">Select a date</span></div>
         <div class="qrow"><span class="k">Nights</span><span class="v" id="q-nights">0</span></div>
-        <div class="qrow"><span class="k">Rate</span><span class="v" id="q-breakdown">Select your dates</span></div>
-        <div class="field guests-field" style="margin: 20px 0 4px;">
-          <label for="guests">Guests</label>
-          <select id="guests"></select>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="rooms">Rooms</label>
+            <select id="rooms"></select>
+          </div>
+          <div class="field">
+            <label for="guests">Guests</label>
+            <select id="guests"></select>
+          </div>
         </div>
+        <p class="field-note" id="rooms-note" aria-live="polite"></p>
+
+        <fieldset class="addons">
+          <legend>Add to your request</legend>
+          <div id="addons"></div>
+          <p class="field-note">No charge to ask. We quote these on WhatsApp.</p>
+        </fieldset>
+
+        <div class="qrow"><span class="k">Rate</span><span class="v" id="q-breakdown"></span></div>
         <div class="qrow total"><span class="k">Total</span><span class="v" id="q-total">RM 0</span></div>
-        <p class="small" id="q-deposit" style="text-align: right; margin-top: 2px;"></p>
+        <p class="deposit-line" id="q-deposit"></p>
         <button class="btn btn-ink" id="continue" disabled>Continue</button>
         <p class="aside-note">No payment is taken online. We confirm availability on WhatsApp and share deposit details there.</p>
       </aside>
@@ -78,16 +95,16 @@
 
   </main>
 
-  <footer class="site-foot">
+  <footer class="site-foot slim">
     <div class="wrap">
       <div class="foot-base">
-        <span>&copy; 2026 Ombak Damai. All rights reserved.</span>
-        <span>Kampung Penarik, 22120 Setiu, Terengganu</span>
+        <span>&copy; 2026 Ombak Damai Penarik. All rights reserved.</span>
+        <span>Rhu Sepuluh, Penarik, 22120 Permaisuri, Terengganu</span>
       </div>
     </div>
   </footer>
 
-  <a class="wa-float" data-wa="Salam Ombak Damai, saya ada pertanyaan tentang tempahan." href="#" target="_blank" rel="noopener">WhatsApp</a>
+  <a class="wa-float compact" data-wa="Salam Ombak Damai, saya ada pertanyaan tentang tempahan." href="#" target="_blank" rel="noopener">WhatsApp</a>
 
   <script src="assets/js/site.js"></script>
   <script src="assets/js/booking.js"></script>
