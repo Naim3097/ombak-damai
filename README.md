@@ -27,7 +27,7 @@ Rates, room counts and the phone number on every page are filled from there.
 
 | Setting | What it does | Now |
 | --- | --- | --- |
-| `phone` | WhatsApp number, digits only, international format | `601169805737` |
+| `phone` | WhatsApp number, digits only, international format | `60107648227` |
 | `rooms` | Rooms in the roomstay | `4` |
 | `guestsPerRoom` | Most guests one room takes | `4` |
 | `rate` | RM per room, per night | `150` |

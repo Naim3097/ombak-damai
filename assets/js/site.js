@@ -3,7 +3,7 @@
 
 const OD = {
   // WhatsApp number in international format, digits only.
-  phone: "601169805737",
+  phone: "60107648227",
 
   rooms: 4,          // rooms in the roomstay
   guestsPerRoom: 4,  // two double beds in each room
@@ -233,7 +233,7 @@ function odWaLink(text) {
   return "https://wa.me/" + OD.phone + (text ? "?text=" + encodeURIComponent(text) : "");
 }
 
-/* The number as printed: "011-6980 5737" locally, "+60 11-6980 5737" abroad. */
+/* The number as printed: "010-764 8227" locally, "+60 10-764 8227" abroad. */
 function odPhone(intl) {
   const rest = OD.phone.replace(/^60/, "");
   const head = rest.slice(0, 2); // operator prefix, after the leading zero
