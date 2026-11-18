@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirm your stay. Ombak Damai Penarik</title>
-  <meta name="description" content="Send your booking request to Ombak Damai, Penarik, Terengganu.">
+  <title data-i18n="title.checkout">Confirm your stay. Ombak Damai Penarik</title>
+  <meta name="description" data-i18n-content="meta.checkout" content="Send your booking request to Ombak Damai, Penarik, Terengganu.">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#0E1A2B">
   <meta property="og:type" content="website">
@@ -16,19 +16,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Mr+Dafoe&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    /* When the page will be shown in Malay, hide it until the text is swapped, so English never flashes first. */
+    (function () { try { var q = new URLSearchParams(location.search).get("lang"), s = null; try { s = localStorage.getItem("od-lang"); } catch (e) {} var l = q === "ms" || q === "en" ? q : s === "ms" || s === "en" ? s : /^ms\b/i.test(navigator.language || "") ? "ms" : "en"; if (l === "ms") { var d = document.documentElement; d.classList.add("lang-pending"); setTimeout(function () { d.classList.remove("lang-pending"); }, 2500); } } catch (e) {} })();
+  </script>
 </head>
 <body class="stars">
 
-  <div class="topline">Rhu Sepuluh &middot; Penarik &middot; Terengganu<span class="topline-x"> &middot; The South China Sea</span></div>
+  <div class="topline">
+    <span class="topline-place"><span class="topline-a">Rhu Sepuluh &middot; </span>Penarik &middot; Terengganu<span class="topline-x" data-i18n="top.sea"> &middot; The South China Sea</span></span>
+    <div class="lang" role="group" aria-label="Language" data-i18n-aria="lang.label">
+      <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+      <button type="button" data-lang="ms" lang="ms" aria-label="Bahasa Melayu" aria-pressed="false">BM</button>
+    </div>
+  </div>
 
   <header class="site-head">
     <div class="wrap">
-      <a class="brand" href="index.html" aria-label="Ombak Damai Penarik, home">
+      <a class="brand" href="index.html" aria-label="Ombak Damai Penarik, home" data-i18n-aria="brand.home">
         <img src="assets/img/logo-cream.png" width="720" height="240" alt="Ombak Damai, Penarik, Terengganu">
       </a>
-      <nav class="site-nav" aria-label="Main">
-        <a href="booking.html">Back to dates</a>
-        <a href="index.html">Home</a>
+      <nav class="site-nav" aria-label="Main" data-i18n-aria="nav.label">
+        <a href="booking.html" data-i18n="nav.back">Back to dates</a>
+        <a href="index.html" data-i18n="nav.home">Home</a>
       </nav>
     </div>
   </header>
@@ -36,17 +46,17 @@
   <main class="wrap">
 
     <div class="empty-state paper" id="empty-state" hidden>
-      <h2>No dates chosen yet.</h2>
-      <p>Start by picking the day you arrive and the day you leave, and we will bring you back here.</p>
-      <a class="btn btn-ink" href="booking.html">Choose your dates</a>
+      <h2 data-i18n="empty.h">No dates chosen yet.</h2>
+      <p data-i18n="empty.p">Start by picking the day you arrive and the day you leave, and we will bring you back here.</p>
+      <a class="btn btn-ink" href="booking.html" data-i18n="empty.btn">Choose your dates</a>
     </div>
 
     <div id="checkout-main">
 
       <div class="page-head">
-        <p class="kicker">Booking, step two of two</p>
-        <h1>Confirm <span class="script">your stay.</span></h1>
-        <p>Check the details, tell us who is coming, and send the request. It opens in WhatsApp with everything filled in, and we reply to confirm.</p>
+        <p class="kicker" data-i18n="co.kicker">Booking, step two of two</p>
+        <h1 data-i18n-html="co.h1">Confirm <span class="script">your stay.</span></h1>
+        <p data-i18n="co.p">Check the details, tell us who is coming, and send the request. It opens in WhatsApp with everything filled in, and we reply to confirm.</p>
       </div>
 
       <div class="book-grid summary-first">
@@ -55,61 +65,61 @@
           <div class="paper form-card" id="form-side">
             <form id="guest-form" novalidate>
               <div class="field">
-                <label for="f-name">Full name</label>
+                <label for="f-name" data-i18n="f.name">Full name</label>
                 <input type="text" id="f-name" name="name" autocomplete="name" required aria-describedby="e-name">
-                <p class="err" id="e-name">Please give us your name.</p>
+                <p class="err" id="e-name" data-i18n="f.nameErr">Please give us your name.</p>
               </div>
               <div class="field">
-                <label for="f-phone">WhatsApp number</label>
+                <label for="f-phone" data-i18n="f.phone">WhatsApp number</label>
                 <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="+60" required aria-describedby="e-phone">
-                <p class="err" id="e-phone">Please give us a number we can reach you on.</p>
+                <p class="err" id="e-phone" data-i18n="f.phoneErr">Please give us a number we can reach you on.</p>
               </div>
               <div class="field">
-                <label for="f-email">Email, optional</label>
+                <label for="f-email" data-i18n="f.email">Email, optional</label>
                 <input type="email" id="f-email" name="email" autocomplete="email" aria-describedby="e-email">
-                <p class="err" id="e-email">That email does not look right.</p>
+                <p class="err" id="e-email" data-i18n="f.emailErr">That email does not look right.</p>
               </div>
               <div class="field">
-                <label for="f-notes">Anything we should know, optional</label>
-                <textarea id="f-notes" name="notes" placeholder="Arrival time, a baby cot, which trip you are keen on"></textarea>
+                <label for="f-notes" data-i18n="f.notes">Anything we should know, optional</label>
+                <textarea id="f-notes" name="notes" placeholder="Arrival time, a baby cot, which trip you are keen on" data-i18n-placeholder="f.notesPh"></textarea>
               </div>
 
               <div class="steps">
-                <div class="step"><span class="n">01</span><span>Your request opens in WhatsApp, already written out with your dates, rooms and total.</span></div>
-                <div class="step"><span class="n">02</span><span>We reply to confirm the rooms and quote any trips or extras you asked about.</span></div>
-                <div class="step"><span class="n">03</span><span>A <span data-od="deposit">50%</span> deposit by bank transfer holds your dates. The balance is paid on arrival.</span></div>
+                <div class="step"><span class="n">01</span><span data-i18n="st.1">Your request opens in WhatsApp, already written out with your dates, rooms and total.</span></div>
+                <div class="step"><span class="n">02</span><span data-i18n="st.2">We reply to confirm the rooms and quote any trips or extras you asked about.</span></div>
+                <div class="step"><span class="n">03</span><span data-i18n-html="st.3">A <span data-od="deposit">50%</span> deposit by bank transfer holds your dates. The balance is paid on arrival.</span></div>
               </div>
 
-              <button type="submit" class="btn btn-ink">Send request on WhatsApp</button>
-              <p class="small">Nothing is charged on this page.</p>
+              <button type="submit" class="btn btn-ink" data-i18n="co.send">Send request on WhatsApp</button>
+              <p class="small" data-i18n="co.small">Nothing is charged on this page.</p>
             </form>
           </div>
 
           <div class="confirm-panel paper" id="confirm-state" hidden>
-            <p class="kicker">Reference</p>
+            <p class="kicker" data-i18n="done.kicker">Reference</p>
             <span class="ref" id="ref-code">OD-000000</span>
-            <h2>Your request is ready.</h2>
-            <p>WhatsApp should have opened in a new tab with your booking request. Press send there and we will take it from that side, confirming the rooms and sharing deposit details.</p>
-            <p>If nothing opened, use the button below.</p>
+            <h2 data-i18n="done.h">Your request is ready.</h2>
+            <p data-i18n="done.p1">WhatsApp should have opened in a new tab with your booking request. Press send there and we will take it from that side, confirming the rooms and sharing deposit details.</p>
+            <p data-i18n="done.p2">If nothing opened, use the button below.</p>
             <div class="confirm-actions">
-              <a class="btn btn-ink" id="wa-again" href="#" target="_blank" rel="noopener">Open WhatsApp</a>
-              <a class="tlink" href="index.html">Back to the home page</a>
+              <a class="btn btn-ink" id="wa-again" href="#" target="_blank" rel="noopener" data-i18n="done.open">Open WhatsApp</a>
+              <a class="tlink" href="index.html" data-i18n="done.back">Back to the home page</a>
             </div>
           </div>
         </div>
 
-        <aside class="panel paper sticky" aria-label="Your stay">
-          <h2>Your stay</h2>
-          <div class="qrow"><span class="k">Check-in</span><span class="v" id="s-in"></span></div>
-          <div class="qrow"><span class="k">Check-out</span><span class="v" id="s-out"></span></div>
-          <div class="qrow"><span class="k">Nights</span><span class="v" id="s-nights"></span></div>
-          <div class="qrow"><span class="k">Rooms</span><span class="v" id="s-rooms"></span></div>
-          <div class="qrow"><span class="k">Guests</span><span class="v" id="s-guests"></span></div>
-          <div class="qrow" id="s-addons-row"><span class="k">Asking about</span><span class="v" id="s-addons"></span></div>
-          <div class="qrow"><span class="k">Rate</span><span class="v" id="s-breakdown"></span></div>
-          <div class="qrow"><span class="k">Deposit to confirm</span><span class="v" id="s-deposit"></span></div>
-          <div class="qrow total"><span class="k">Total</span><span class="v" id="s-total"></span></div>
-          <p class="aside-note right"><a class="tlink" id="change-dates" href="booking.html">Change dates</a></p>
+        <aside class="panel paper sticky" aria-label="Your stay" data-i18n-aria="stay.aria">
+          <h2 data-i18n="stay.h">Your stay</h2>
+          <div class="qrow"><span class="k" data-i18n="stay.in">Check-in</span><span class="v" id="s-in"></span></div>
+          <div class="qrow"><span class="k" data-i18n="stay.out">Check-out</span><span class="v" id="s-out"></span></div>
+          <div class="qrow"><span class="k" data-i18n="stay.nights">Nights</span><span class="v" id="s-nights"></span></div>
+          <div class="qrow"><span class="k" data-i18n="stay.rooms">Rooms</span><span class="v" id="s-rooms"></span></div>
+          <div class="qrow"><span class="k" data-i18n="stay.guests">Guests</span><span class="v" id="s-guests"></span></div>
+          <div class="qrow" id="s-addons-row"><span class="k" data-i18n="stay.asking">Asking about</span><span class="v" id="s-addons"></span></div>
+          <div class="qrow"><span class="k" data-i18n="stay.rate">Rate</span><span class="v" id="s-breakdown"></span></div>
+          <div class="qrow"><span class="k" data-i18n="stay.deposit">Deposit to confirm</span><span class="v" id="s-deposit"></span></div>
+          <div class="qrow total"><span class="k" data-i18n="stay.total">Total</span><span class="v" id="s-total"></span></div>
+          <p class="aside-note right"><a class="tlink" id="change-dates" href="booking.html" data-i18n="stay.change">Change dates</a></p>
         </aside>
 
       </div>
@@ -120,7 +130,11 @@
   <footer class="site-foot slim">
     <div class="wrap">
       <div class="foot-base">
-        <span>&copy; 2026 Ombak Damai Penarik. All rights reserved.</span>
+        <span data-i18n="foot.rights">&copy; 2026 Ombak Damai Penarik. All rights reserved.</span>
+        <div class="lang lang-foot" role="group" aria-label="Language" data-i18n-aria="lang.label">
+          <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+          <button type="button" data-lang="ms" lang="ms" aria-label="Bahasa Melayu" aria-pressed="false">BM</button>
+        </div>
         <span>Rhu Sepuluh, Penarik, 22120 Permaisuri, Terengganu</span>
       </div>
     </div>
@@ -128,6 +142,7 @@
 
   <a class="wa-float compact" data-wa="Salam Ombak Damai, saya ada pertanyaan tentang tempahan." href="#" target="_blank" rel="noopener">WhatsApp</a>
 
+  <script src="assets/js/lang-ms.js"></script>
   <script src="assets/js/site.js"></script>
   <script src="assets/js/checkout.js"></script>
 </body>

@@ -29,10 +29,6 @@
   let guests = 2;
   const picked = new Set(); // add-on ids
 
-  const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
-  const DOW = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-
   // Prefill from URL if coming back from checkout
   const params = new URLSearchParams(location.search);
   const pIn = odParseISO(params.get("in"));
@@ -61,13 +57,13 @@
     wrapper.className = "month " + extraClass;
 
     const h = document.createElement("h3");
-    h.textContent = MONTH_NAMES[month] + " " + year;
+    h.textContent = odMonthName(month) + " " + year;
     wrapper.appendChild(h);
 
     const dowRow = document.createElement("div");
     dowRow.className = "dow-row";
     dowRow.setAttribute("aria-hidden", "true");
-    DOW.forEach((d) => {
+    odT("cal.dow", ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]).forEach((d) => {
       const c = document.createElement("div");
       c.className = "dow";
       c.textContent = d;
@@ -105,10 +101,10 @@
 
       if (left === 0) {
         btn.classList.add("full");
-        states.push("fully booked");
+        states.push(odT("a.full", "fully booked"));
       } else if (left < OD.rooms && !isPast) {
         btn.classList.add("few");
-        states.push(odPlural(left, "room") + " left");
+        states.push(odT("a.left", "{n} left", { n: odCount(left, "room") }));
       }
 
       if (isPast || (left === 0 && !canCheckOutOn(date) && !isOut)) {
@@ -119,9 +115,9 @@
 
       if (isIn || isOut) btn.classList.add("edge");
       if (inRange) btn.classList.add("inrange");
-      if (isIn) states.unshift("check-in");
-      if (isOut) states.unshift("check-out");
-      if (inRange) states.unshift("in your stay");
+      if (isIn) states.unshift(odT("a.checkin", "check-in"));
+      if (isOut) states.unshift(odT("a.checkout", "check-out"));
+      if (inRange) states.unshift(odT("a.inStay", "in your stay"));
       btn.setAttribute("aria-pressed", isIn || isOut || inRange ? "true" : "false");
       btn.setAttribute("aria-label", odFmtFull(date) + (states.length ? ", " + states.join(", ") : ""));
 
@@ -182,55 +178,58 @@
 
     const maxGuests = rooms * OD.guestsPerRoom;
     guests = Math.min(Math.max(guests, 1), maxGuests);
-    fillSelect(guestsSel, maxGuests, guests, (n) => odPlural(n, "guest"));
+    fillSelect(guestsSel, maxGuests, guests, (n) => odCount(n, "guest"));
 
     roomsNote.textContent = hasDates && maxRooms < OD.rooms
-      ? "Only " + odPlural(maxRooms, "room") + " left on these dates."
-      : "Each room has two double beds and sleeps up to " + OD.guestsPerRoom + ".";
+      ? odT("b.roomsLeft", "Only {n} left on these dates.", { n: odCount(maxRooms, "room") })
+      : odT("b.roomsNote", "Each room has two double beds and sleeps up to {n}.", { n: OD.guestsPerRoom });
 
     const islandOff = hasDates && !odStayHasIslandDay(selIn, selOut);
     addonsEl.querySelectorAll("input").forEach((box) => {
       const addon = OD.addons.find((a) => a.id === box.value);
       const off = addon.seasonal && islandOff;
+      const row = box.closest(".addon");
       if (off) picked.delete(addon.id);
       box.disabled = off;
       box.checked = picked.has(addon.id);
-      box.closest(".addon").classList.toggle("off", off);
-      box.closest(".addon").querySelector(".addon-note").textContent = off
-        ? "Island trips pause for the monsoon and run again from " + MONTH_NAMES[OD.islandSeason.from - 1] + "."
-        : addon.note;
+      row.classList.toggle("off", off);
+      row.querySelector(".addon-name").textContent = odAddonText(addon, "label");
+      row.querySelector(".addon-note").textContent = off
+        ? odT("b.islandOff", "Island trips pause for the monsoon and run again from {month}.", { month: odMonthName(OD.islandSeason.from - 1) })
+        : odAddonText(addon, "note");
     });
   }
 
   function updatePanel() {
-    out.checkin.textContent = selIn ? odFmtLong(selIn) : "Select a date";
-    out.checkout.textContent = selOut ? odFmtLong(selOut) : "Select a date";
+    const unset = odT("b.selectDate", "Select a date");
+    out.checkin.textContent = selIn ? odFmtLong(selIn) : unset;
+    out.checkout.textContent = selOut ? odFmtLong(selOut) : unset;
 
     if (selIn && !selOut) {
-      hintEl.textContent = "Now choose the day you leave.";
+      hintEl.textContent = odT("b.hintOut", "Now choose the day you leave.");
     } else if (selIn && selOut) {
-      hintEl.textContent = "Dates chosen. Pick again to change them.";
+      hintEl.textContent = odT("b.hintDone", "Dates chosen. Pick again to change them.");
     } else {
-      hintEl.textContent = "Choose the day you arrive.";
+      hintEl.textContent = odT("b.hintIn", "Choose the day you arrive.");
     }
 
     const q = selIn && selOut ? odQuote(selIn, selOut, rooms) : null;
     if (q) {
-      out.nights.textContent = odPlural(q.nights, "night");
+      out.nights.textContent = odCount(q.nights, "night");
       out.breakdown.textContent = q.breakdown;
       out.total.textContent = odRM(q.total);
-      out.deposit.textContent = odRM(q.deposit) + " deposit to confirm";
+      out.deposit.textContent = odT("b.deposit", "{amount} deposit to confirm", { amount: odRM(q.deposit) });
       continueBtn.disabled = false;
     } else {
       out.nights.textContent = "0";
-      out.breakdown.textContent = odRM(OD.rate) + " a room, a night";
+      out.breakdown.textContent = odT("b.rateIdle", "{rate} a room, a night", { rate: odRM(OD.rate) });
       out.total.textContent = "RM 0";
       out.deposit.textContent = "";
       continueBtn.disabled = true;
     }
   }
 
-  // Extras
+  // Extras. Their wording is filled in by syncChoices, in the current language.
   OD.addons.forEach((addon) => {
     const label = document.createElement("label");
     label.className = "addon";
@@ -243,10 +242,8 @@
     const text = document.createElement("span");
     const name = document.createElement("span");
     name.className = "addon-name";
-    name.textContent = addon.label;
     const note = document.createElement("span");
     note.className = "addon-note";
-    note.textContent = addon.note;
     text.appendChild(name);
     text.appendChild(note);
     label.appendChild(box);
@@ -286,8 +283,12 @@
     };
     if (picked.size) stay.addons = Array.from(picked).join(",");
     try { sessionStorage.setItem("od-stay", JSON.stringify(stay)); } catch (e) {}
+    stay.lang = odLang;
     location.href = "checkout.html?" + new URLSearchParams(stay).toString();
   });
+
+  // Redraw everything this script writes when the language is switched.
+  document.addEventListener("od:lang", render);
 
   render();
 })();

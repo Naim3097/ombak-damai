@@ -5,7 +5,10 @@
   let saved = null;
   try { saved = JSON.parse(sessionStorage.getItem("od-stay") || "null"); } catch (e) {}
 
-  const pick = (key) => params.get(key) || (saved && saved[key]) || "";
+  // A link that names its own dates is read on its own; the saved stay is only
+  // for arriving here without one.
+  const source = params.has("in") ? Object.fromEntries(params) : (saved || {});
+  const pick = (key) => source[key] || "";
   const inStr = pick("in");
   const outStr = pick("out");
 
@@ -34,29 +37,31 @@
     addonIds = addonIds.filter((id) => !OD.addons.find((a) => a.id === id).seasonal);
   }
 
-  const q = odQuote(checkIn, checkOut, rooms);
-  const addonLabels = odAddonLabels(addonIds);
+  // Summary panel. Run again whenever the language is switched.
+  function fillSummary() {
+    const q = odQuote(checkIn, checkOut, rooms);
+    const addonLabels = odAddonLabels(addonIds);
 
-  // Summary panel
-  document.getElementById("s-in").textContent = odFmtLong(checkIn);
-  document.getElementById("s-out").textContent = odFmtLong(checkOut);
-  document.getElementById("s-nights").textContent = odPlural(q.nights, "night");
-  document.getElementById("s-rooms").textContent = odRoomsLabel(rooms);
-  document.getElementById("s-guests").textContent = odPlural(guests, "guest");
-  document.getElementById("s-breakdown").textContent = q.breakdown;
-  document.getElementById("s-total").textContent = odRM(q.total);
-  document.getElementById("s-deposit").textContent = odRM(q.deposit);
+    document.getElementById("s-in").textContent = odFmtLong(checkIn);
+    document.getElementById("s-out").textContent = odFmtLong(checkOut);
+    document.getElementById("s-nights").textContent = odCount(q.nights, "night");
+    document.getElementById("s-rooms").textContent = odRoomsLabel(rooms);
+    document.getElementById("s-guests").textContent = odCount(guests, "guest");
+    document.getElementById("s-breakdown").textContent = q.breakdown;
+    document.getElementById("s-total").textContent = odRM(q.total);
+    document.getElementById("s-deposit").textContent = odRM(q.deposit);
 
-  const extrasRow = document.getElementById("s-addons-row");
-  if (addonLabels.length) {
+    document.getElementById("s-addons-row").hidden = addonLabels.length === 0;
     document.getElementById("s-addons").textContent = addonLabels.join(", ");
-  } else {
-    extrasRow.hidden = true;
+
+    const back = { in: inStr, out: outStr, rooms: String(rooms), guests: String(guests) };
+    if (addonIds.length) back.addons = addonIds.join(",");
+    back.lang = odLang;
+    document.getElementById("change-dates").href = "booking.html?" + new URLSearchParams(back).toString();
   }
 
-  const back = { in: inStr, out: outStr, rooms: String(rooms), guests: String(guests) };
-  if (addonIds.length) back.addons = addonIds.join(",");
-  document.getElementById("change-dates").href = "booking.html?" + new URLSearchParams(back).toString();
+  fillSummary();
+  document.addEventListener("od:lang", fillSummary);
 
   // Form
   const form = document.getElementById("guest-form");
@@ -94,23 +99,26 @@
     }
 
     const ref = "OD-" + Date.now().toString(36).toUpperCase().slice(-6);
+    const q = odQuote(checkIn, checkOut, rooms);
+    const addonLabels = odAddonLabels(addonIds);
 
+    // The request is written in the language the guest is reading.
     const lines = [
-      "Salam Ombak Damai, saya ingin menempah. / I would like to book.",
+      odT("m.greeting", "Salam Ombak Damai, saya ingin menempah. / I would like to book."),
       "",
-      "Reference: " + ref,
-      "Check-in: " + odFmtLong(checkIn),
-      "Check-out: " + odFmtLong(checkOut),
-      "Nights: " + q.nights,
-      "Rooms: " + odRoomsLabel(rooms),
-      "Guests: " + guests,
-      "Total: " + odRM(q.total) + " (" + q.breakdown + ")",
-      "Deposit (" + Math.round(OD.depositRate * 100) + "%): " + odRM(q.deposit),
+      odT("m.ref", "Reference") + ": " + ref,
+      odT("m.in", "Check-in") + ": " + odFmtLong(checkIn),
+      odT("m.out", "Check-out") + ": " + odFmtLong(checkOut),
+      odT("m.nights", "Nights") + ": " + q.nights,
+      odT("m.rooms", "Rooms") + ": " + odRoomsLabel(rooms),
+      odT("m.guests", "Guests") + ": " + guests,
+      odT("m.total", "Total") + ": " + odRM(q.total) + " (" + q.breakdown + ")",
+      odT("m.deposit", "Deposit") + " (" + Math.round(OD.depositRate * 100) + "%): " + odRM(q.deposit),
     ];
-    if (addonLabels.length) lines.push("Also interested in: " + addonLabels.join(", "));
-    lines.push("", "Name: " + name, "Phone: " + phone);
-    if (email) lines.push("Email: " + email);
-    if (notes) lines.push("Notes: " + notes);
+    if (addonLabels.length) lines.push(odT("m.also", "Also interested in") + ": " + addonLabels.join(", "));
+    lines.push("", odT("m.name", "Name") + ": " + name, odT("m.phone", "Phone") + ": " + phone);
+    if (email) lines.push(odT("m.email", "Email") + ": " + email);
+    if (notes) lines.push(odT("m.notes", "Notes") + ": " + notes);
 
     const link = odWaLink(lines.join("\n"));
 

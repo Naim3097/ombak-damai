@@ -129,13 +129,45 @@ h1, h2, h3 {
 /* ---------- top line ---------- */
 
 .topline {
+  position: relative;
   background: var(--night-deep);
   color: var(--gold);
   text-align: center;
   font-size: 10.5px;
   letter-spacing: 0.3em;
-  padding: 9px 16px 8px;
+  padding: 9px 104px 8px; /* side room for the language switch */
 }
+
+/* ---------- language switch ---------- */
+
+/* Hides the page for a moment while Malay text is swapped in (see the script in each page head) */
+.lang-pending body { visibility: hidden; }
+
+.lang {
+  position: absolute;
+  right: clamp(12px, 4.5vw, 52px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 2px;
+}
+.lang button {
+  min-width: 32px;
+  min-height: 24px;
+  padding: 0 7px;
+  background: transparent;
+  border: 0;
+  border-radius: 2px;
+  font-family: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #B3AC9B;
+  cursor: pointer;
+}
+.lang button:hover { color: var(--cream); }
+.lang button[aria-pressed="true"] { background: var(--gold); color: var(--night-deep); }
+.lang-foot { position: static; transform: none; }
 
 /* ---------- buttons and links ---------- */
 
@@ -493,7 +525,7 @@ h1, h2, h3 {
 
 .rate-row {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(130px, 1fr) auto; /* the label keeps its room; a long value wraps */
   align-items: baseline;
   gap: 24px;
   padding: 18px 0;
@@ -509,7 +541,14 @@ h1, h2, h3 {
   color: var(--gold);
   white-space: nowrap;
 }
-.rate-row .v.plain { font-size: 11.5px; letter-spacing: 0.14em; color: var(--muted); }
+.rate-row .v.plain {
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  color: var(--muted);
+  white-space: normal;
+  text-align: right;
+}
 
 .rates-cta { margin-top: 34px; display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
 
@@ -743,15 +782,17 @@ h1, h2, h3 {
 
 .cal-top {
   display: flex;
+  flex-wrap: wrap; /* the month buttons drop under the hint when both will not fit */
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 10px 16px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
   margin-bottom: 18px;
 }
 
 .cal-hint {
+  flex: 1 1 150px;
   font-family: "Cormorant Garamond", Georgia, serif;
   font-style: italic;
   font-weight: 500;
@@ -760,7 +801,7 @@ h1, h2, h3 {
   color: var(--ink-2);
 }
 
-.cal-nav { display: flex; gap: 20px; }
+.cal-nav { display: flex; gap: 20px; margin-left: auto; }
 .cal-nav button {
   background: none;
   border: 0;
@@ -955,6 +996,7 @@ h1, h2, h3 {
 }
 
 @media (max-width: 900px) {
+  .topline-x { display: none; }
   .hero-grid { grid-template-columns: 1fr; }
   .hero-note { flex-direction: column; gap: 8px; }
   .postcards { justify-self: center; max-width: 480px; }
@@ -993,8 +1035,7 @@ h1, h2, h3 {
 }
 
 @media (max-width: 640px) {
-  .topline { letter-spacing: 0.2em; font-size: 9.5px; }
-  .topline-x { display: none; }
+  .topline { letter-spacing: 0.2em; font-size: 9.5px; text-align: left; padding-left: 20px; padding-right: 92px; }
   .hero h1 { font-size: clamp(40px, 12.5vw, 56px); }
   .amenities { columns: 1; }
   .notes { grid-template-columns: 1fr; }
@@ -1011,6 +1052,7 @@ h1, h2, h3 {
 
 @media (max-width: 380px) {
   .script { white-space: normal; }
+  .topline-a { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

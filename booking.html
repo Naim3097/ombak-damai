@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Choose your dates. Ombak Damai Penarik</title>
-  <meta name="description" content="Check availability at Ombak Damai, a four-room coastal roomstay in Penarik, Terengganu. RM 150 a room, a night.">
+  <title data-i18n="title.booking">Choose your dates. Ombak Damai Penarik</title>
+  <meta name="description" data-i18n-content="meta.booking" content="Check availability at Ombak Damai, a four-room coastal roomstay in Penarik, Terengganu. RM 150 a room, a night.">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#0E1A2B">
   <meta property="og:type" content="website">
@@ -16,20 +16,30 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Mr+Dafoe&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    /* When the page will be shown in Malay, hide it until the text is swapped, so English never flashes first. */
+    (function () { try { var q = new URLSearchParams(location.search).get("lang"), s = null; try { s = localStorage.getItem("od-lang"); } catch (e) {} var l = q === "ms" || q === "en" ? q : s === "ms" || s === "en" ? s : /^ms\b/i.test(navigator.language || "") ? "ms" : "en"; if (l === "ms") { var d = document.documentElement; d.classList.add("lang-pending"); setTimeout(function () { d.classList.remove("lang-pending"); }, 2500); } } catch (e) {} })();
+  </script>
 </head>
 <body class="stars">
 
-  <div class="topline">Rhu Sepuluh &middot; Penarik &middot; Terengganu<span class="topline-x"> &middot; The South China Sea</span></div>
+  <div class="topline">
+    <span class="topline-place"><span class="topline-a">Rhu Sepuluh &middot; </span>Penarik &middot; Terengganu<span class="topline-x" data-i18n="top.sea"> &middot; The South China Sea</span></span>
+    <div class="lang" role="group" aria-label="Language" data-i18n-aria="lang.label">
+      <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+      <button type="button" data-lang="ms" lang="ms" aria-label="Bahasa Melayu" aria-pressed="false">BM</button>
+    </div>
+  </div>
 
   <header class="site-head">
     <div class="wrap">
-      <a class="brand" href="index.html" aria-label="Ombak Damai Penarik, home">
+      <a class="brand" href="index.html" aria-label="Ombak Damai Penarik, home" data-i18n-aria="brand.home">
         <img src="assets/img/logo-cream.png" width="720" height="240" alt="Ombak Damai, Penarik, Terengganu">
       </a>
-      <nav class="site-nav" aria-label="Main">
-        <a href="index.html#rooms">Rooms</a>
-        <a href="index.html#rates">Rates</a>
-        <a href="index.html#visit">Getting here</a>
+      <nav class="site-nav" aria-label="Main" data-i18n-aria="nav.label">
+        <a href="index.html#rooms" data-i18n="nav.rooms">Rooms</a>
+        <a href="index.html#rates" data-i18n="nav.rates">Rates</a>
+        <a href="index.html#visit" data-i18n="nav.visit">Getting here</a>
       </nav>
     </div>
   </header>
@@ -37,9 +47,9 @@
   <main class="wrap">
 
     <div class="page-head">
-      <p class="kicker">Booking, step one of two</p>
-      <h1>Choose <span class="script">your dates.</span></h1>
-      <p>Pick the day you arrive and the day you leave, then tell us how many rooms you need. Every room is <span data-od="rate">RM 150</span> a night.</p>
+      <p class="kicker" data-i18n="book.kicker">Booking, step one of two</p>
+      <h1 data-i18n-html="book.h1">Choose <span class="script">your dates.</span></h1>
+      <p data-i18n-html="book.p">Pick the day you arrive and the day you leave, then tell us how many rooms you need. Every room is <span data-od="rate">RM 150</span> a night.</p>
     </div>
 
     <div class="book-grid">
@@ -48,47 +58,47 @@
         <div class="cal-top">
           <p class="cal-hint" id="cal-hint" aria-live="polite">Choose the day you arrive.</p>
           <div class="cal-nav">
-            <button type="button" id="cal-prev">Prev</button>
-            <button type="button" id="cal-next">Next</button>
+            <button type="button" id="cal-prev" data-i18n="cal.prev">Prev</button>
+            <button type="button" id="cal-next" data-i18n="cal.next">Next</button>
           </div>
         </div>
         <div class="months" id="months"></div>
         <div class="cal-legend">
-          <span><span class="chip c-sel"></span>Your stay</span>
-          <span><span class="chip c-few"></span>A few rooms left</span>
-          <span><span class="chip c-full"></span>Fully booked</span>
+          <span><span class="chip c-sel"></span><span data-i18n="leg.stay">Your stay</span></span>
+          <span><span class="chip c-few"></span><span data-i18n="leg.few">A few rooms left</span></span>
+          <span><span class="chip c-full"></span><span data-i18n="leg.full">Fully booked</span></span>
         </div>
       </div>
 
-      <aside class="panel paper sticky" aria-label="Your stay">
-        <h2>Your stay</h2>
-        <div class="qrow"><span class="k">Check-in</span><span class="v" id="q-in">Select a date</span></div>
-        <div class="qrow"><span class="k">Check-out</span><span class="v" id="q-out">Select a date</span></div>
-        <div class="qrow"><span class="k">Nights</span><span class="v" id="q-nights">0</span></div>
+      <aside class="panel paper sticky" aria-label="Your stay" data-i18n-aria="stay.aria">
+        <h2 data-i18n="stay.h">Your stay</h2>
+        <div class="qrow"><span class="k" data-i18n="stay.in">Check-in</span><span class="v" id="q-in">Select a date</span></div>
+        <div class="qrow"><span class="k" data-i18n="stay.out">Check-out</span><span class="v" id="q-out">Select a date</span></div>
+        <div class="qrow"><span class="k" data-i18n="stay.nights">Nights</span><span class="v" id="q-nights">0</span></div>
 
         <div class="field-row">
           <div class="field">
-            <label for="rooms">Rooms</label>
+            <label for="rooms" data-i18n="stay.rooms">Rooms</label>
             <select id="rooms"></select>
           </div>
           <div class="field">
-            <label for="guests">Guests</label>
+            <label for="guests" data-i18n="stay.guests">Guests</label>
             <select id="guests"></select>
           </div>
         </div>
         <p class="field-note" id="rooms-note" aria-live="polite"></p>
 
         <fieldset class="addons">
-          <legend>Add to your request</legend>
+          <legend data-i18n="add.legend">Add to your request</legend>
           <div id="addons"></div>
-          <p class="field-note">No charge to ask. We quote these on WhatsApp.</p>
+          <p class="field-note" data-i18n="add.note">No charge to ask. We quote these on WhatsApp.</p>
         </fieldset>
 
-        <div class="qrow"><span class="k">Rate</span><span class="v" id="q-breakdown"></span></div>
-        <div class="qrow total"><span class="k">Total</span><span class="v" id="q-total">RM 0</span></div>
+        <div class="qrow"><span class="k" data-i18n="stay.rate">Rate</span><span class="v" id="q-breakdown"></span></div>
+        <div class="qrow total"><span class="k" data-i18n="stay.total">Total</span><span class="v" id="q-total">RM 0</span></div>
         <p class="deposit-line" id="q-deposit"></p>
-        <button class="btn btn-ink" id="continue" disabled>Continue</button>
-        <p class="aside-note">No payment is taken online. We confirm availability on WhatsApp and share deposit details there.</p>
+        <button class="btn btn-ink" id="continue" disabled data-i18n="book.continue">Continue</button>
+        <p class="aside-note" data-i18n="book.aside">No payment is taken online. We confirm availability on WhatsApp and share deposit details there.</p>
       </aside>
 
     </div>
@@ -98,7 +108,11 @@
   <footer class="site-foot slim">
     <div class="wrap">
       <div class="foot-base">
-        <span>&copy; 2026 Ombak Damai Penarik. All rights reserved.</span>
+        <span data-i18n="foot.rights">&copy; 2026 Ombak Damai Penarik. All rights reserved.</span>
+        <div class="lang lang-foot" role="group" aria-label="Language" data-i18n-aria="lang.label">
+          <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+          <button type="button" data-lang="ms" lang="ms" aria-label="Bahasa Melayu" aria-pressed="false">BM</button>
+        </div>
         <span>Rhu Sepuluh, Penarik, 22120 Permaisuri, Terengganu</span>
       </div>
     </div>
@@ -106,6 +120,7 @@
 
   <a class="wa-float compact" data-wa="Salam Ombak Damai, saya ada pertanyaan tentang tempahan." href="#" target="_blank" rel="noopener">WhatsApp</a>
 
+  <script src="assets/js/lang-ms.js"></script>
   <script src="assets/js/site.js"></script>
   <script src="assets/js/booking.js"></script>
 </body>

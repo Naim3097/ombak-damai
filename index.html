@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ombak Damai Penarik. Coastal roomstay in Penarik, Terengganu</title>
-  <meta name="description" content="Ombak Damai is a four-room coastal roomstay in Rhu Sepuluh, Penarik, Terengganu. Brick-walled rooms, bonfire nights and turtle trips to the islands. RM 150 a room, a night.">
+  <title data-i18n="title.home">Ombak Damai Penarik. Coastal roomstay in Penarik, Terengganu</title>
+  <meta name="description" data-i18n-content="meta.home" content="Ombak Damai is a four-room coastal roomstay in Rhu Sepuluh, Penarik, Terengganu. Brick-walled rooms, bonfire nights and turtle trips to the islands. RM 150 a room, a night.">
   <!-- Pre-launch: keeps search engines away until the owner approves rates and policies. Remove to launch. -->
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#0E1A2B">
@@ -17,6 +17,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Mr+Dafoe&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    /* When the page will be shown in Malay, hide it until the text is swapped, so English never flashes first. */
+    (function () { try { var q = new URLSearchParams(location.search).get("lang"), s = null; try { s = localStorage.getItem("od-lang"); } catch (e) {} var l = q === "ms" || q === "en" ? q : s === "ms" || s === "en" ? s : /^ms\b/i.test(navigator.language || "") ? "ms" : "en"; if (l === "ms") { var d = document.documentElement; d.classList.add("lang-pending"); setTimeout(function () { d.classList.remove("lang-pending"); }, 2500); } } catch (e) {} })();
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -41,21 +45,27 @@
 </head>
 <body>
 
-  <div class="topline">Rhu Sepuluh &middot; Penarik &middot; Terengganu<span class="topline-x"> &middot; The South China Sea</span></div>
+  <div class="topline">
+    <span class="topline-place"><span class="topline-a">Rhu Sepuluh &middot; </span>Penarik &middot; Terengganu<span class="topline-x" data-i18n="top.sea"> &middot; The South China Sea</span></span>
+    <div class="lang" role="group" aria-label="Language" data-i18n-aria="lang.label">
+      <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+      <button type="button" data-lang="ms" lang="ms" aria-label="Bahasa Melayu" aria-pressed="false">BM</button>
+    </div>
+  </div>
 
   <header class="site-head">
     <div class="wrap">
-      <a class="brand" href="index.html" aria-label="Ombak Damai Penarik, home">
+      <a class="brand" href="index.html" aria-label="Ombak Damai Penarik, home" data-i18n-aria="brand.home">
         <img src="assets/img/logo-cream.png" width="720" height="240" alt="Ombak Damai, Penarik, Terengganu">
       </a>
-      <nav class="site-nav" aria-label="Main">
-        <a href="#rooms">Rooms</a>
-        <a href="#days">Days out</a>
-        <a href="#nights">Nights</a>
+      <nav class="site-nav" aria-label="Main" data-i18n-aria="nav.label">
+        <a href="#rooms" data-i18n="nav.rooms">Rooms</a>
+        <a href="#days" data-i18n="nav.days">Days out</a>
+        <a href="#nights" data-i18n="nav.nights">Nights</a>
         <a href="#penarik">Penarik</a>
-        <a href="#rates">Rates</a>
+        <a href="#rates" data-i18n="nav.rates">Rates</a>
       </nav>
-      <a class="btn btn-gold head-cta" href="booking.html">Check availability</a>
+      <a class="btn btn-gold head-cta" href="booking.html" data-i18n="cta.check">Check availability</a>
     </div>
   </header>
 
@@ -64,31 +74,31 @@
     <section class="hero stars">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <p class="kicker">Coastal roomstay &middot; Penarik, Terengganu</p>
-          <h1>Relax. Recharge. <span class="script">Reconnect.</span></h1>
-          <p class="lede">Four brick-walled rooms around a sand courtyard on the Penarik coast. Spend the day out on the water with the turtles, and the night by the bonfire under a sky full of stars.</p>
+          <p class="kicker" data-i18n="hero.kicker">Coastal roomstay &middot; Penarik, Terengganu</p>
+          <h1 data-i18n-html="hero.h1">Relax. Recharge. <span class="script">Reconnect.</span></h1>
+          <p class="lede" data-i18n="hero.lede">Four brick-walled rooms around a sand courtyard on the Penarik coast. Spend the day out on the water with the turtles, and the night by the bonfire under a sky full of stars.</p>
           <div class="hero-actions">
-            <a class="btn btn-gold" href="booking.html">Check availability</a>
-            <a class="tlink" href="#rooms">See the rooms</a>
+            <a class="btn btn-gold" href="booking.html" data-i18n="cta.check">Check availability</a>
+            <a class="tlink" href="#rooms" data-i18n="hero.see">See the rooms</a>
           </div>
           <p class="hero-note">
-            <span>From <span data-od="rate">RM 150</span> a room, a night</span>
-            <a href="https://maps.app.goo.gl/8eMufFza1EgDsd278" target="_blank" rel="noopener">Rated 5.0 on Google</a>
+            <span data-i18n-html="hero.from">From <span data-od="rate">RM 150</span> a room, a night</span>
+            <a href="https://maps.app.goo.gl/8eMufFza1EgDsd278" target="_blank" rel="noopener" data-i18n="hero.rated">Rated 5.0 on Google</a>
           </p>
         </div>
 
         <div class="postcards">
           <figure class="stamp pc-main">
-            <img src="assets/img/night-sign-560.jpg" srcset="assets/img/night-sign-560.jpg 560w, assets/img/night-sign.jpg 810w" sizes="(max-width: 900px) 62vw, 30vw" width="810" height="1012" alt="Ombak Damai at night: the lit sign under the pavilion, a brick wall with a glowing window, a young rhu tree and a sky full of stars" fetchpriority="high">
-            <figcaption>Ombak Damai, under the stars</figcaption>
+            <img src="assets/img/night-sign-560.jpg" srcset="assets/img/night-sign-560.jpg 560w, assets/img/night-sign.jpg 810w" sizes="(max-width: 900px) 62vw, 30vw" width="810" height="1012" alt="Ombak Damai at night: the lit sign under the pavilion, a brick wall with a glowing window, a young rhu tree and a sky full of stars" data-i18n-alt="hero.alt1" fetchpriority="high">
+            <figcaption data-i18n="hero.cap1">Ombak Damai, under the stars</figcaption>
           </figure>
           <figure class="stamp pc-a">
-            <img src="assets/img/night-rooms-560.jpg" srcset="assets/img/night-rooms-560.jpg 560w, assets/img/night-rooms.jpg 810w" sizes="(max-width: 900px) 52vw, 22vw" width="810" height="648" alt="The brick rooms lit warmly at night under a deep blue sky">
-            <figcaption>The rooms after dark</figcaption>
+            <img src="assets/img/night-rooms-560.jpg" srcset="assets/img/night-rooms-560.jpg 560w, assets/img/night-rooms.jpg 810w" sizes="(max-width: 900px) 52vw, 22vw" width="810" height="648" alt="The brick rooms lit warmly at night under a deep blue sky" data-i18n-alt="hero.alt2">
+            <figcaption data-i18n="hero.cap2">The rooms after dark</figcaption>
           </figure>
           <figure class="stamp pc-b">
-            <img src="assets/img/night-stars-560.jpg" srcset="assets/img/night-stars-560.jpg 560w, assets/img/night-stars.jpg 960w" sizes="(max-width: 900px) 38vw, 16vw" width="960" height="1200" alt="Guests in camp chairs in the courtyard, looking up at a sky of stars">
-            <figcaption>Stargazing</figcaption>
+            <img src="assets/img/night-stars-560.jpg" srcset="assets/img/night-stars-560.jpg 560w, assets/img/night-stars.jpg 960w" sizes="(max-width: 900px) 38vw, 16vw" width="960" height="1200" alt="Guests in camp chairs in the courtyard, looking up at a sky of stars" data-i18n-alt="hero.alt3">
+            <figcaption data-i18n="hero.cap3">Stargazing</figcaption>
           </figure>
           <svg class="postmark" viewBox="0 0 200 200" aria-hidden="true">
             <defs><path id="pm-ring" d="M100 100m-76 0a76 76 0 1 1 152 0a76 76 0 1 1-152 0"/></defs>
@@ -101,32 +111,32 @@
       </div>
     </section>
 
-    <section class="pillars" aria-label="What a stay is like">
+    <section class="pillars" aria-label="What a stay is like" data-i18n-aria="pillars.aria">
       <div class="wrap">
         <div class="pillar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/><path d="M17.5 3v3M16 4.5h3"/></svg>
-          <h2>Starry nights</h2>
-          <p>Unwind under a sky full of stars.</p>
+          <h2 data-i18n="p1.h">Starry nights</h2>
+          <p data-i18n="p1.p">Unwind under a sky full of stars.</p>
         </div>
         <div class="pillar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c3.3 0 6-2.5 6-6 0-3-2-4.6-3-7-1 1.4-1.6 2.3-2 4-1.6-1.6-2.4-4-2-7-3 2.2-5 5.5-5 9.5 0 3.7 2.7 6.5 6 6.5z"/></svg>
-          <h2>Warm moments</h2>
-          <p>Gather, chat and enjoy the firelight.</p>
+          <h2 data-i18n="p2.h">Warm moments</h2>
+          <p data-i18n="p2.p">Gather, chat and enjoy the firelight.</p>
         </div>
         <div class="pillar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 13c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></svg>
-          <h2>Family fun</h2>
-          <p>Splash, play and laugh together.</p>
+          <h2 data-i18n="p3.h">Family fun</h2>
+          <p data-i18n="p3.p">Splash, play and laugh together.</p>
         </div>
         <div class="pillar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14M5 19c3-5 6-8 10-10"/></svg>
-          <h2>Peaceful escape</h2>
-          <p>Surrounded by nature, far from the noise.</p>
+          <h2 data-i18n="p4.h">Peaceful escape</h2>
+          <p data-i18n="p4.p">Surrounded by nature, far from the noise.</p>
         </div>
         <div class="pillar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
-          <h2>Memories that last</h2>
-          <p>The moments you share are the ones you keep.</p>
+          <h2 data-i18n="p5.h">Memories that last</h2>
+          <p data-i18n="p5.p">The moments you share are the ones you keep.</p>
         </div>
       </div>
     </section>
@@ -134,38 +144,38 @@
     <section class="section" id="rooms">
       <div class="wrap split">
         <div class="sticky">
-          <p class="kicker">No. 01 &middot; The rooms</p>
-          <h2>Slow down, breathe <span class="script">and enjoy.</span></h2>
+          <p class="kicker" data-i18n="rooms.kicker">No. 01 &middot; The rooms</p>
+          <h2 data-i18n-html="rooms.h2">Slow down, breathe <span class="script">and enjoy.</span></h2>
           <div class="prose">
-            <p>Ombak Damai is a roomstay: four rooms in a row along a shaded veranda, each with its own front door. Inside, the walls are exposed brick, the beds are made up in plain white, and the doors are painted a soft yellow.</p>
-            <p>Take one room for a quiet weekend, or all four and have the whole place to yourselves.</p>
+            <p data-i18n="rooms.p1">Ombak Damai is a roomstay: four rooms in a row along a shaded veranda, each with its own front door. Inside, the walls are exposed brick, the beds are made up in plain white, and the doors are painted a soft yellow.</p>
+            <p data-i18n="rooms.p2">Take one room for a quiet weekend, or all four and have the whole place to yourselves.</p>
           </div>
           <ul class="amenities">
-            <li>Two double beds in every room</li>
-            <li>Private bathroom in every room</li>
-            <li>Air-conditioning and fan</li>
-            <li>Kettle, cups and drinking water</li>
-            <li>Fresh towels</li>
-            <li>Shared kitchen and living area</li>
-            <li>Splash pool in the courtyard</li>
-            <li>BBQ and bonfire area</li>
-            <li>Parking inside the compound</li>
-            <li>Sleeps up to <span data-od="guests">16</span> across four rooms</li>
+            <li data-i18n="am.1">Two double beds in every room</li>
+            <li data-i18n="am.2">Private bathroom in every room</li>
+            <li data-i18n="am.3">Air-conditioning and fan</li>
+            <li data-i18n="am.4">Kettle, cups and drinking water</li>
+            <li data-i18n="am.5">Fresh towels</li>
+            <li data-i18n="am.6">Shared kitchen and living area</li>
+            <li data-i18n="am.7">Splash pool in the courtyard</li>
+            <li data-i18n="am.8">BBQ and bonfire area</li>
+            <li data-i18n="am.9">Parking inside the compound</li>
+            <li data-i18n-html="am.10">Sleeps up to <span data-od="guests">16</span> across four rooms</li>
           </ul>
         </div>
         <div class="room-media">
           <figure class="stamp lead">
-            <img src="assets/img/room-a-560.jpg" srcset="assets/img/room-a-560.jpg 560w, assets/img/room-a.jpg 1000w" sizes="(max-width: 1020px) 92vw, 44vw" width="1000" height="1250" alt="A double bed with white linen and a patterned cushion beside yellow-framed windows, against an exposed brick wall" loading="lazy">
-            <figcaption>Brick, white linen and yellow doors</figcaption>
+            <img src="assets/img/room-a-560.jpg" srcset="assets/img/room-a-560.jpg 560w, assets/img/room-a.jpg 1000w" sizes="(max-width: 1020px) 92vw, 44vw" width="1000" height="1250" alt="A double bed with white linen and a patterned cushion beside yellow-framed windows, against an exposed brick wall" data-i18n-alt="rooms.alt1" loading="lazy">
+            <figcaption data-i18n="rooms.cap1">Brick, white linen and yellow doors</figcaption>
           </figure>
           <div class="pair">
             <figure class="stamp">
-              <img src="assets/img/room-b-560.jpg" srcset="assets/img/room-b-560.jpg 560w, assets/img/room-b.jpg 1000w" sizes="(max-width: 640px) 92vw, (max-width: 1020px) 45vw, 21vw" width="1000" height="1250" alt="A brick-walled room with a low platform bed, patterned rug and air-conditioner" loading="lazy">
-              <figcaption>Cool and quiet</figcaption>
+              <img src="assets/img/room-b-560.jpg" srcset="assets/img/room-b-560.jpg 560w, assets/img/room-b.jpg 1000w" sizes="(max-width: 640px) 92vw, (max-width: 1020px) 45vw, 21vw" width="1000" height="1250" alt="A brick-walled room with a low platform bed, patterned rug and air-conditioner" data-i18n-alt="rooms.alt2" loading="lazy">
+              <figcaption data-i18n="rooms.cap2">Cool and quiet</figcaption>
             </figure>
             <figure class="stamp">
-              <img src="assets/img/kettle-560.jpg" srcset="assets/img/kettle-560.jpg 560w, assets/img/kettle.jpg 1000w" sizes="(max-width: 640px) 92vw, (max-width: 1020px) 45vw, 21vw" width="1000" height="1250" alt="A tray with cups, coffee, tea, drinking water and a kettle on a wooden rack" loading="lazy">
-              <figcaption>Tea and coffee in the room</figcaption>
+              <img src="assets/img/kettle-560.jpg" srcset="assets/img/kettle-560.jpg 560w, assets/img/kettle.jpg 1000w" sizes="(max-width: 640px) 92vw, (max-width: 1020px) 45vw, 21vw" width="1000" height="1250" alt="A tray with cups, coffee, tea, drinking water and a kettle on a wooden rack" data-i18n-alt="rooms.alt3" loading="lazy">
+              <figcaption data-i18n="rooms.cap3">Tea and coffee in the room</figcaption>
             </figure>
           </div>
         </div>
@@ -175,61 +185,61 @@
     <section class="section daylight" id="days">
       <div class="wrap">
         <div class="sec-head">
-          <p class="kicker">No. 02 &middot; Days out</p>
-          <h2>Every getaway deserves <span class="script">a little adventure.</span></h2>
+          <p class="kicker" data-i18n="days.kicker">No. 02 &middot; Days out</p>
+          <h2 data-i18n-html="days.h2">Every getaway deserves <span class="script">a little adventure.</span></h2>
         </div>
 
         <div class="feature">
           <div class="feature-media trio">
-            <figure class="stamp"><img src="assets/img/turtles-560.jpg" srcset="assets/img/turtles-560.jpg 560w, assets/img/turtles.jpg 1000w" sizes="(max-width: 900px) 60vw, 26vw" width="1000" height="1250" alt="Three green sea turtles swimming at the surface beside the boat" loading="lazy"><figcaption>Turtles beside the boat</figcaption></figure>
-            <figure class="stamp"><img src="assets/img/sandbank-560.jpg" width="560" height="700" alt="Clear shallow water over a sandbank with a boat and a small island beyond" loading="lazy"><figcaption>The sandbank</figcaption></figure>
-            <figure class="stamp"><img src="assets/img/boats-560.jpg" width="560" height="700" alt="Two tour boats flying Terengganu and Malaysian flags on turquoise water" loading="lazy"><figcaption>Boats at the snorkel stop</figcaption></figure>
+            <figure class="stamp"><img src="assets/img/turtles-560.jpg" srcset="assets/img/turtles-560.jpg 560w, assets/img/turtles.jpg 1000w" sizes="(max-width: 900px) 60vw, 26vw" width="1000" height="1250" alt="Three green sea turtles swimming at the surface beside the boat" data-i18n-alt="d1.alt1" loading="lazy"><figcaption data-i18n="d1.cap1">Turtles beside the boat</figcaption></figure>
+            <figure class="stamp"><img src="assets/img/sandbank-560.jpg" width="560" height="700" alt="Clear shallow water over a sandbank with a boat and a small island beyond" data-i18n-alt="d1.alt2" loading="lazy"><figcaption data-i18n="d1.cap2">The sandbank</figcaption></figure>
+            <figure class="stamp"><img src="assets/img/boats-560.jpg" width="560" height="700" alt="Two tour boats flying Terengganu and Malaysian flags on turquoise water" data-i18n-alt="d1.alt3" loading="lazy"><figcaption data-i18n="d1.cap3">Boats at the snorkel stop</figcaption></figure>
           </div>
           <div class="feature-copy">
-            <h3>Snorkel with sea turtles</h3>
-            <p>Boats leave from Merang jetty, 16 minutes down the coast road, for a day among the islands off Redang. Slip into clear water where the turtles come up to feed, wade the shallow sandbank, and be back in time for dinner by the fire.</p>
+            <h3 data-i18n="d1.h">Snorkel with sea turtles</h3>
+            <p data-i18n="d1.p">Boats leave from Merang jetty, 16 minutes down the coast road, for a day among the islands off Redang. Slip into clear water where the turtles come up to feed, wade the shallow sandbank, and be back in time for dinner by the fire.</p>
             <ul class="facts">
-              <li>A full day on the water</li>
-              <li>Boats from Merang jetty</li>
-              <li>About March to October, when the sea allows</li>
+              <li data-i18n="d1.f1">A full day on the water</li>
+              <li data-i18n="d1.f2">Boats from Merang jetty</li>
+              <li data-i18n="d1.f3">About March to October, when the sea allows</li>
             </ul>
           </div>
         </div>
 
         <div class="feature flip">
           <div class="feature-media trio">
-            <figure class="stamp wide"><img src="assets/img/catch-640.jpg" srcset="assets/img/catch-640.jpg 640w, assets/img/catch.jpg 1200w" sizes="(max-width: 900px) 70vw, 30vw" width="1200" height="800" alt="A pile of freshly caught fish laid out on a wooden jetty" loading="lazy"><figcaption>Back at the jetty</figcaption></figure>
-            <figure class="stamp"><img src="assets/img/wake-560.jpg" width="560" height="700" alt="Fishing rods on the stern of a boat with its wake stretching behind" loading="lazy"><figcaption>Heading out</figcaption></figure>
-            <figure class="stamp wide"><img src="assets/img/rods-640.jpg" width="640" height="506" alt="Fishing rods lined up along the fence outside Ombak Damai" loading="lazy"><figcaption>Rods ready at the fence</figcaption></figure>
+            <figure class="stamp wide"><img src="assets/img/catch-640.jpg" srcset="assets/img/catch-640.jpg 640w, assets/img/catch.jpg 1200w" sizes="(max-width: 900px) 70vw, 30vw" width="1200" height="800" alt="A pile of freshly caught fish laid out on a wooden jetty" data-i18n-alt="d2.alt1" loading="lazy"><figcaption data-i18n="d2.cap1">Back at the jetty</figcaption></figure>
+            <figure class="stamp"><img src="assets/img/wake-560.jpg" width="560" height="700" alt="Fishing rods on the stern of a boat with its wake stretching behind" data-i18n-alt="d2.alt2" loading="lazy"><figcaption data-i18n="d2.cap2">Heading out</figcaption></figure>
+            <figure class="stamp wide"><img src="assets/img/rods-640.jpg" width="640" height="506" alt="Fishing rods lined up along the fence outside Ombak Damai" data-i18n-alt="d2.alt3" loading="lazy"><figcaption data-i18n="d2.cap3">Rods ready at the fence</figcaption></figure>
           </div>
           <div class="feature-copy">
-            <h3>Go fishing with the locals</h3>
-            <p>Fishing rods wait along the fence. Boats head out through the river mouth at first light and come back with a catch like this one. On this coast the squid-jigging season runs from about April to September.</p>
+            <h3 data-i18n="d2.h">Go fishing with the locals</h3>
+            <p data-i18n="d2.p">Fishing rods wait along the fence. Boats head out through the river mouth at first light and come back with a catch like this one. On this coast the squid-jigging season runs from about April to September.</p>
             <ul class="facts">
-              <li>River and sea trips by boat</li>
-              <li>Bring your catch back for the grill</li>
-              <li>Ask us about dates and boats</li>
+              <li data-i18n="d2.f1">River and sea trips by boat</li>
+              <li data-i18n="d2.f2">Bring your catch back for the grill</li>
+              <li data-i18n="d2.f3">Ask us about dates and boats</li>
             </ul>
           </div>
         </div>
 
         <div class="feature">
           <div class="feature-media duo">
-            <figure class="stamp"><img src="assets/img/courtyard-560.jpg" srcset="assets/img/courtyard-560.jpg 560w, assets/img/courtyard.jpg 1000w" sizes="(max-width: 900px) 60vw, 26vw" width="1000" height="1250" alt="The sand courtyard with a young rhu tree, a timber pergola and the splash pool" loading="lazy"><figcaption>The courtyard and splash pool</figcaption></figure>
-            <figure class="stamp"><img src="assets/img/veranda-560.jpg" width="560" height="700" alt="The long shaded veranda outside the rooms, with brick walls and dark timber doors" loading="lazy"><figcaption>The veranda</figcaption></figure>
+            <figure class="stamp"><img src="assets/img/courtyard-560.jpg" srcset="assets/img/courtyard-560.jpg 560w, assets/img/courtyard.jpg 1000w" sizes="(max-width: 900px) 60vw, 26vw" width="1000" height="1250" alt="The sand courtyard with a young rhu tree, a timber pergola and the splash pool" data-i18n-alt="d3.alt1" loading="lazy"><figcaption data-i18n="d3.cap1">The courtyard and splash pool</figcaption></figure>
+            <figure class="stamp"><img src="assets/img/veranda-560.jpg" width="560" height="700" alt="The long shaded veranda outside the rooms, with brick walls and dark timber doors" data-i18n-alt="d3.alt2" loading="lazy"><figcaption data-i18n="d3.cap2">The veranda</figcaption></figure>
           </div>
           <div class="feature-copy">
-            <h3>Or stay in and do very little</h3>
-            <p>The courtyard is sand underfoot, with a splash pool for the children, a shaded pavilion for long lunches, and a shared kitchen to cook in. Nobody will mind if you never leave it.</p>
+            <h3 data-i18n="d3.h">Or stay in and do very little</h3>
+            <p data-i18n="d3.p">The courtyard is sand underfoot, with a splash pool for the children, a shaded pavilion for long lunches, and a shared kitchen to cook in. Nobody will mind if you never leave it.</p>
             <ul class="facts">
-              <li>Splash pool and sand courtyard</li>
-              <li>Shaded pavilion and veranda</li>
-              <li>Shared kitchen and living area</li>
+              <li data-i18n="d3.f1">Splash pool and sand courtyard</li>
+              <li data-i18n="d3.f2">Shaded pavilion and veranda</li>
+              <li data-i18n="d3.f3">Shared kitchen and living area</li>
             </ul>
           </div>
         </div>
 
-        <p class="season"><strong>Good to know.</strong> Island trips pause for the monsoon, from about November to February, when the sea is rough. The rooms, the bonfire and the celup tepung stalls carry on all year.</p>
+        <p class="season" data-i18n-html="days.season"><strong>Good to know.</strong> Island trips pause for the monsoon, from about November to February, when the sea is rough. The rooms, the bonfire and the celup tepung stalls carry on all year.</p>
       </div>
     </section>
 
@@ -237,27 +247,27 @@
       <div class="wrap split even">
         <div class="night-media">
           <figure class="stamp tilt-l">
-            <img src="assets/img/bonfire-tall-640.jpg" srcset="assets/img/bonfire-tall-640.jpg 640w, assets/img/bonfire-tall.jpg 1200w" sizes="(max-width: 1020px) 60vw, 26vw" width="1200" height="1600" alt="A bonfire of driftwood burning on the sand, sparks rising into the dark" loading="lazy">
-            <figcaption>Bonfire night</figcaption>
+            <img src="assets/img/bonfire-tall-640.jpg" srcset="assets/img/bonfire-tall-640.jpg 640w, assets/img/bonfire-tall.jpg 1200w" sizes="(max-width: 1020px) 60vw, 26vw" width="1200" height="1600" alt="A bonfire of driftwood burning on the sand, sparks rising into the dark" data-i18n-alt="nights.alt1" loading="lazy">
+            <figcaption data-i18n="nights.cap1">Bonfire night</figcaption>
           </figure>
           <figure class="stamp tilt-r">
-            <img src="assets/img/night-pavilion-640.jpg" srcset="assets/img/night-pavilion-640.jpg 640w, assets/img/night-pavilion.jpg 810w" sizes="(max-width: 1020px) 60vw, 26vw" width="810" height="1080" alt="The sign, pergola and splash pool at night, with a bright star above the trees" loading="lazy">
-            <figcaption>The pavilion after dark</figcaption>
+            <img src="assets/img/night-pavilion-640.jpg" srcset="assets/img/night-pavilion-640.jpg 640w, assets/img/night-pavilion.jpg 810w" sizes="(max-width: 1020px) 60vw, 26vw" width="810" height="1080" alt="The sign, pergola and splash pool at night, with a bright star above the trees" data-i18n-alt="nights.alt2" loading="lazy">
+            <figcaption data-i18n="nights.cap2">The pavilion after dark</figcaption>
           </figure>
         </div>
         <div>
-          <p class="kicker">No. 03 &middot; Nights</p>
-          <h2>Starry nights, <span class="script">warm moments.</span></h2>
+          <p class="kicker" data-i18n="nights.kicker">No. 03 &middot; Nights</p>
+          <h2 data-i18n-html="nights.h2">Starry nights, <span class="script">warm moments.</span></h2>
           <div class="prose">
-            <p>When the sun goes, the courtyard becomes the best room in the house. Light the bonfire, grill what you caught, and look up. This far from the city, the sky fills with stars.</p>
+            <p data-i18n="nights.p">When the sun goes, the courtyard becomes the best room in the house. Light the bonfire, grill what you caught, and look up. This far from the city, the sky fills with stars.</p>
           </div>
           <ul class="facts">
-            <li>Bonfire nights in the courtyard</li>
-            <li>BBQ for the whole group</li>
-            <li>Dark skies for stargazing</li>
+            <li data-i18n="nights.f1">Bonfire nights in the courtyard</li>
+            <li data-i18n="nights.f2">BBQ for the whole group</li>
+            <li data-i18n="nights.f3">Dark skies for stargazing</li>
           </ul>
           <div class="rates-cta">
-            <a class="btn btn-gold" href="booking.html">Book your dates</a>
+            <a class="btn btn-gold" href="booking.html" data-i18n="cta.book">Book your dates</a>
           </div>
         </div>
       </div>
@@ -266,50 +276,50 @@
     <section class="section daylight" id="penarik">
       <div class="wrap">
         <div class="sec-head">
-          <p class="kicker">No. 04 &middot; Around Penarik</p>
-          <h2>Slow days on <span class="script">the Setiu coast.</span></h2>
+          <p class="kicker" data-i18n="around.kicker">No. 04 &middot; Around Penarik</p>
+          <h2 data-i18n-html="around.h2">Slow days on <span class="script">the Setiu coast.</span></h2>
         </div>
         <div class="around">
           <div class="places">
             <div class="place">
               <span class="n">01</span>
               <div>
-                <h3>Celup tepung at Rhu Sepuluh</h3>
-                <p>Our own neighbourhood is famous for it: seafood dipped in batter and fried to order at some forty stalls along the beach road. In June 2026 they set a national record here with a kilometre-long plate of battered prawns.</p>
+                <h3 data-i18n="pl1.h">Celup tepung at Rhu Sepuluh</h3>
+                <p data-i18n="pl1.p">Our own neighbourhood is famous for it: seafood dipped in batter and fried to order at some forty stalls along the beach road. In June 2026 they set a national record here with a kilometre-long plate of battered prawns.</p>
               </div>
             </div>
             <div class="place">
               <span class="n">02</span>
               <div>
                 <h3>Pantai Penarik</h3>
-                <p>Six minutes up the road. Miles of sand, coconut palms and fishing villages, with boats landing the morning catch and Redang and Bidong on the horizon.</p>
+                <p data-i18n="pl2.p">Six minutes up the road. Miles of sand, coconut palms and fishing villages, with boats landing the morning catch and Redang and Bidong on the horizon.</p>
               </div>
             </div>
             <div class="place">
               <span class="n">03</span>
               <div>
-                <h3>Setiu Wetlands</h3>
-                <p>Lagoons, mangroves and river channels behind the coast. Boats go out at sunset for the river, and again after dark for the fireflies.</p>
+                <h3 data-i18n="pl3.h">Setiu Wetlands</h3>
+                <p data-i18n="pl3.p">Lagoons, mangroves and river channels behind the coast. Boats go out at sunset for the river, and again after dark for the fireflies.</p>
               </div>
             </div>
             <div class="place">
               <span class="n">04</span>
               <div>
                 <h3>Kampung Mangkuk</h3>
-                <p>Thirteen minutes north, where Terrapuri has restored traditional Terengganu timber houses and painted terrapin hatchlings are released into the river.</p>
+                <p data-i18n="pl4.p">Thirteen minutes north, where Terrapuri has restored traditional Terengganu timber houses and painted terrapin hatchlings are released into the river.</p>
               </div>
             </div>
             <div class="place">
               <span class="n">05</span>
               <div>
-                <h3>The islands</h3>
-                <p>Merang jetty is 16 minutes away for boats to Redang, Lang Tengah and Bidong. Kuala Besut, for the Perhentians, is under an hour.</p>
+                <h3 data-i18n="pl5.h">The islands</h3>
+                <p data-i18n="pl5.p">Merang jetty is 16 minutes away for boats to Redang, Lang Tengah and Bidong. Kuala Besut, for the Perhentians, is under an hour.</p>
               </div>
             </div>
           </div>
           <figure class="stamp around-fig">
-            <img src="assets/img/celup-tepung-560.jpg" srcset="assets/img/celup-tepung-560.jpg 560w, assets/img/celup-tepung.jpg 1000w" sizes="(max-width: 900px) 70vw, 30vw" width="1000" height="1250" alt="A platter of battered and fried fish, prawns and squid with chilli sauce at a beachside stall" loading="lazy">
-            <figcaption>Celup tepung by the beach</figcaption>
+            <img src="assets/img/celup-tepung-560.jpg" srcset="assets/img/celup-tepung-560.jpg 560w, assets/img/celup-tepung.jpg 1000w" sizes="(max-width: 900px) 70vw, 30vw" width="1000" height="1250" alt="A platter of battered and fried fish, prawns and squid with chilli sauce at a beachside stall" data-i18n-alt="around.alt" loading="lazy">
+            <figcaption data-i18n="around.cap">Celup tepung by the beach</figcaption>
           </figure>
         </div>
       </div>
@@ -318,38 +328,38 @@
     <section class="section" id="rates">
       <div class="wrap split">
         <div>
-          <p class="kicker">No. 05 &middot; Rates</p>
-          <h2>One room, <span class="script">one simple rate.</span></h2>
+          <p class="kicker" data-i18n="rates.kicker">No. 05 &middot; Rates</p>
+          <h2 data-i18n-html="rates.h2">One room, <span class="script">one simple rate.</span></h2>
           <div class="rates-table">
             <div class="rate-row">
-              <span class="k">One room, one night</span>
+              <span class="k" data-i18n="rates.k1">One room, one night</span>
               <span class="v" data-od="rate">RM 150</span>
             </div>
             <div class="rate-row">
-              <span class="k">Whole roomstay, four rooms, one night</span>
+              <span class="k" data-i18n="rates.k2">Whole roomstay, four rooms, one night</span>
               <span class="v" data-od="whole">RM 600</span>
             </div>
             <div class="rate-row">
-              <span class="k">Each room sleeps up to four</span>
-              <span class="v plain">Two double beds</span>
+              <span class="k" data-i18n="rates.k3">Each room sleeps up to four</span>
+              <span class="v plain" data-i18n="rates.v3">Two double beds</span>
             </div>
             <div class="rate-row">
-              <span class="k">Check-in 3.00 pm, check-out 12.00 pm</span>
-              <span class="v plain">Flexible on request</span>
+              <span class="k" data-i18n="rates.k4">Check-in 3.00 pm, check-out 12.00 pm</span>
+              <span class="v plain" data-i18n="rates.v4">Flexible on request</span>
             </div>
             <div class="rate-row">
-              <span class="k"><span data-od="deposit">50%</span> deposit to confirm, balance on arrival</span>
-              <span class="v plain">No online payment</span>
+              <span class="k" data-i18n-html="rates.k5"><span data-od="deposit">50%</span> deposit to confirm, balance on arrival</span>
+              <span class="v plain" data-i18n="rates.v5">No online payment</span>
             </div>
           </div>
           <div class="rates-cta">
-            <a class="btn btn-gold" href="booking.html">Book your dates</a>
-            <a class="tlink" href="#visit">How to find us</a>
+            <a class="btn btn-gold" href="booking.html" data-i18n="cta.book">Book your dates</a>
+            <a class="tlink" href="#visit" data-i18n="rates.find">How to find us</a>
           </div>
         </div>
         <figure class="stamp rates-fig">
-          <img src="assets/img/room-bed-560.jpg" srcset="assets/img/room-bed-560.jpg 560w, assets/img/room-bed.jpg 1000w" sizes="(max-width: 1020px) 70vw, 36vw" width="1000" height="1250" alt="A made-up bed with a patterned cushion beside a brick wall and a small white shelf" loading="lazy">
-          <figcaption>Made up and waiting</figcaption>
+          <img src="assets/img/room-bed-560.jpg" srcset="assets/img/room-bed-560.jpg 560w, assets/img/room-bed.jpg 1000w" sizes="(max-width: 1020px) 70vw, 36vw" width="1000" height="1250" alt="A made-up bed with a patterned cushion beside a brick wall and a small white shelf" data-i18n-alt="rates.alt" loading="lazy">
+          <figcaption data-i18n="rates.cap">Made up and waiting</figcaption>
         </figure>
       </div>
     </section>
@@ -357,37 +367,37 @@
     <section class="section" id="visit">
       <div class="wrap split">
         <div>
-          <p class="kicker">No. 06 &middot; Getting here</p>
+          <p class="kicker" data-i18n="visit.kicker">No. 06 &middot; Getting here</p>
           <h2>Rhu Sepuluh, <span class="script">Penarik.</span></h2>
           <p class="addr">Lot 71117, Lorong 2 Pandan Jaya,<br>Jalan Penarik, Kampung Pandan Jaya,<br>22120 Permaisuri, Terengganu.</p>
           <div class="rates-table">
             <div class="rate-row">
               <span class="k">Pantai Penarik</span>
-              <span class="v plain">6 minutes</span>
+              <span class="v plain" data-i18n="visit.v1">6 minutes</span>
             </div>
             <div class="rate-row">
-              <span class="k">Merang jetty, for Redang</span>
-              <span class="v plain">16 minutes</span>
+              <span class="k" data-i18n="visit.k2">Merang jetty, for Redang</span>
+              <span class="v plain" data-i18n="visit.v2">16 minutes</span>
             </div>
             <div class="rate-row">
-              <span class="k">Kuala Terengganu airport</span>
-              <span class="v plain">About 50 minutes</span>
+              <span class="k" data-i18n="visit.k3">Kuala Terengganu airport</span>
+              <span class="v plain" data-i18n="visit.v3">About 50 minutes</span>
             </div>
             <div class="rate-row">
-              <span class="k">Kuala Besut jetty, for the Perhentians</span>
-              <span class="v plain">About 55 minutes</span>
+              <span class="k" data-i18n="visit.k4">Kuala Besut jetty, for the Perhentians</span>
+              <span class="v plain" data-i18n="visit.v4">About 55 minutes</span>
             </div>
             <div class="rate-row">
-              <span class="k">Kuala Lumpur by road</span>
-              <span class="v plain">About five and a half hours</span>
+              <span class="k" data-i18n="visit.k5">Kuala Lumpur by road</span>
+              <span class="v plain" data-i18n="visit.v5">About five and a half hours</span>
             </div>
           </div>
           <div class="rates-cta">
-            <a class="tlink" href="https://maps.app.goo.gl/8eMufFza1EgDsd278" target="_blank" rel="noopener">Open in Google Maps</a>
+            <a class="tlink" href="https://maps.app.goo.gl/8eMufFza1EgDsd278" target="_blank" rel="noopener" data-i18n="visit.maps">Open in Google Maps</a>
           </div>
         </div>
         <div class="map-frame">
-          <iframe title="Map showing Ombak Damai Penarik" src="https://www.google.com/maps?q=5.5742319,102.8376505&z=14&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe title="Map showing Ombak Damai Penarik" data-i18n-title="visit.map" src="https://www.google.com/maps?q=5.5742319,102.8376505&z=14&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </section>
@@ -395,33 +405,33 @@
     <section class="section">
       <div class="wrap">
         <div class="sec-head">
-          <p class="kicker">No. 07 &middot; Good to know</p>
-          <h2>The small print, <span class="script">kept short.</span></h2>
+          <p class="kicker" data-i18n="know.kicker">No. 07 &middot; Good to know</p>
+          <h2 data-i18n-html="know.h2">The small print, <span class="script">kept short.</span></h2>
         </div>
         <div class="notes">
           <div class="note">
-            <h3>Booking and deposit</h3>
-            <p>Send your request on WhatsApp and we confirm the rooms. A <span data-od="deposit">50%</span> deposit by bank transfer holds your dates, and the balance is paid on arrival. Nothing is charged online.</p>
+            <h3 data-i18n="n1.h">Booking and deposit</h3>
+            <p data-i18n-html="n1.p">Send your request on WhatsApp and we confirm the rooms. A <span data-od="deposit">50%</span> deposit by bank transfer holds your dates, and the balance is paid on arrival. Nothing is charged online.</p>
           </div>
           <div class="note">
-            <h3>One room or the whole place</h3>
-            <p>Book a single room and you share the kitchen, pavilion and pool with other guests. Book all four and the roomstay is yours alone, with room for <span data-od="guests">16</span>.</p>
+            <h3 data-i18n="n2.h">One room or the whole place</h3>
+            <p data-i18n-html="n2.p">Book a single room and you share the kitchen, pavilion and pool with other guests. Book all four and the roomstay is yours alone, with room for <span data-od="guests">16</span>.</p>
           </div>
           <div class="note">
-            <h3>Check-in and check-out</h3>
-            <p>Check-in from 3.00 pm, check-out by 12.00 pm. Tell us if you are arriving early or leaving late and we will do what we can.</p>
+            <h3 data-i18n="n3.h">Check-in and check-out</h3>
+            <p data-i18n="n3.p">Check-in from 3.00 pm, check-out by 12.00 pm. Tell us if you are arriving early or leaving late and we will do what we can.</p>
           </div>
           <div class="note">
-            <h3>Monsoon season</h3>
-            <p>From about November to February the sea is rough and the island boats stop. It is also when the coast is at its quietest, with big skies and big waves.</p>
+            <h3 data-i18n="n4.h">Monsoon season</h3>
+            <p data-i18n="n4.p">From about November to February the sea is rough and the island boats stop. It is also when the coast is at its quietest, with big skies and big waves.</p>
           </div>
           <div class="note">
-            <h3>Families and groups</h3>
-            <p>Children are welcome, and the splash pool is theirs. Please keep an eye on little ones around the water and the fire.</p>
+            <h3 data-i18n="n5.h">Families and groups</h3>
+            <p data-i18n="n5.p">Children are welcome, and the splash pool is theirs. Please keep an eye on little ones around the water and the fire.</p>
           </div>
           <div class="note">
-            <h3>Trips and extras</h3>
-            <p>Island trips, fishing boats, and BBQ and bonfire nights are arranged on request. Tick what you want when you book and we will quote on WhatsApp.</p>
+            <h3 data-i18n="n6.h">Trips and extras</h3>
+            <p data-i18n="n6.p">Island trips, fishing boats, and BBQ and bonfire nights are arranged on request. Tick what you want when you book and we will quote on WhatsApp.</p>
           </div>
         </div>
       </div>
@@ -430,25 +440,25 @@
     <section class="section praise">
       <div class="wrap">
         <div class="sec-head centered">
-          <p class="kicker">Guests say</p>
-          <h2>Rated 5.0 <span class="script">on Google.</span></h2>
-          <p class="praise-sub">From our first 10 reviews. Guests keep mentioning the same three things.</p>
+          <p class="kicker" data-i18n="praise.kicker">Guests say</p>
+          <h2 data-i18n-html="praise.h2">Rated 5.0 <span class="script">on Google.</span></h2>
+          <p class="praise-sub" data-i18n="praise.sub">From our first 10 reviews. Guests keep mentioning the same three things.</p>
         </div>
         <div class="praise-grid">
           <div class="praise-card">
-            <h3>Clean, comfortable rooms</h3>
-            <p>Well kept and well equipped, with a bathroom to every room.</p>
+            <h3 data-i18n="pr1.h">Clean, comfortable rooms</h3>
+            <p data-i18n="pr1.p">Well kept and well equipped, with a bathroom to every room.</p>
           </div>
           <div class="praise-card">
-            <h3>Hosts who look after you</h3>
-            <p>Friendly, helpful and on hand through the whole stay.</p>
+            <h3 data-i18n="pr2.h">Hosts who look after you</h3>
+            <p data-i18n="pr2.p">Friendly, helpful and on hand through the whole stay.</p>
           </div>
           <div class="praise-card">
-            <h3>Quiet, with room for a crowd</h3>
-            <p>A peaceful spot that still fits the whole family or a group of friends.</p>
+            <h3 data-i18n="pr3.h">Quiet, with room for a crowd</h3>
+            <p data-i18n="pr3.p">A peaceful spot that still fits the whole family or a group of friends.</p>
           </div>
         </div>
-        <p class="praise-link"><a class="tlink" href="https://maps.app.goo.gl/8eMufFza1EgDsd278" target="_blank" rel="noopener">Read the reviews on Google</a></p>
+        <p class="praise-link"><a class="tlink" href="https://maps.app.goo.gl/8eMufFza1EgDsd278" target="_blank" rel="noopener" data-i18n="praise.link">Read the reviews on Google</a></p>
       </div>
     </section>
 
@@ -456,15 +466,15 @@
       <div class="wrap">
         <div class="envelope">
           <div class="letter">
-            <p class="kicker">Reserve a</p>
-            <p class="letter-big">Room</p>
-            <p class="kicker">today</p>
+            <p class="kicker" data-i18n="res.a">Reserve a</p>
+            <p class="letter-big" data-i18n="res.big">Room</p>
+            <p class="kicker" data-i18n="res.b">today</p>
             <p class="letter-phone" data-od="phone-intl">+60 11-6980 5737</p>
-            <p class="letter-text">Pick your dates, send the request, and we confirm on WhatsApp. It takes about two minutes.</p>
-            <a class="btn btn-ink" href="booking.html">Check availability</a>
+            <p class="letter-text" data-i18n="res.text">Pick your dates, send the request, and we confirm on WhatsApp. It takes about two minutes.</p>
+            <a class="btn btn-ink" href="booking.html" data-i18n="cta.check">Check availability</a>
           </div>
         </div>
-        <p class="cta-line">Come for the stay, <span class="script">stay for the memories.</span></p>
+        <p class="cta-line" data-i18n-html="res.line">Come for the stay, <span class="script">stay for the memories.</span></p>
       </div>
     </section>
 
@@ -475,10 +485,10 @@
       <div class="foot-grid">
         <div>
           <img src="assets/img/logo-cream.png" width="720" height="240" alt="Ombak Damai, Penarik, Terengganu" loading="lazy">
-          <p class="fine">A four-room coastal roomstay in Rhu Sepuluh, on the Penarik coast of Terengganu.</p>
+          <p class="fine" data-i18n="foot.fine">A four-room coastal roomstay in Rhu Sepuluh, on the Penarik coast of Terengganu.</p>
         </div>
         <div>
-          <h4>Contact</h4>
+          <h4 data-i18n="foot.contact">Contact</h4>
           <ul>
             <li><a data-wa="Salam Ombak Damai, saya ada pertanyaan." href="#" target="_blank" rel="noopener">WhatsApp <span data-od="phone">011-6980 5737</span></a></li>
             <li>Lot 71117, Lorong 2 Pandan Jaya, Jalan Penarik, 22120 Permaisuri, Terengganu</li>
@@ -486,24 +496,28 @@
           </ul>
         </div>
         <div>
-          <h4>Follow</h4>
+          <h4 data-i18n="foot.follow">Follow</h4>
           <ul>
             <li><a href="https://www.tiktok.com/@ombakdamaipenarik" target="_blank" rel="noopener">TikTok</a></li>
             <li><a href="https://www.instagram.com/ombak.damai/" target="_blank" rel="noopener">Instagram</a></li>
           </ul>
         </div>
         <div>
-          <h4>Pages</h4>
+          <h4 data-i18n="foot.pages">Pages</h4>
           <ul>
-            <li><a href="#rooms">Rooms</a></li>
-            <li><a href="#days">Days out</a></li>
-            <li><a href="#rates">Rates</a></li>
-            <li><a href="booking.html">Check availability</a></li>
+            <li><a href="#rooms" data-i18n="nav.rooms">Rooms</a></li>
+            <li><a href="#days" data-i18n="nav.days">Days out</a></li>
+            <li><a href="#rates" data-i18n="nav.rates">Rates</a></li>
+            <li><a href="booking.html" data-i18n="cta.check">Check availability</a></li>
           </ul>
         </div>
       </div>
       <div class="foot-base">
-        <span>&copy; 2026 Ombak Damai Penarik. All rights reserved.</span>
+        <span data-i18n="foot.rights">&copy; 2026 Ombak Damai Penarik. All rights reserved.</span>
+        <div class="lang lang-foot" role="group" aria-label="Language" data-i18n-aria="lang.label">
+          <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+          <button type="button" data-lang="ms" lang="ms" aria-label="Bahasa Melayu" aria-pressed="false">BM</button>
+        </div>
         <span>Penarik, Terengganu, Malaysia</span>
       </div>
     </div>
@@ -511,6 +525,7 @@
 
   <a class="wa-float" data-wa="Salam Ombak Damai, saya ada pertanyaan tentang penginapan." href="#" target="_blank" rel="noopener">WhatsApp</a>
 
+  <script src="assets/js/lang-ms.js"></script>
   <script src="assets/js/site.js"></script>
 </body>
 </html>
