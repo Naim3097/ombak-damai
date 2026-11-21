@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    /* This page finds its files relative to its own folder, so its address has to end with a slash. */
+    if (!/(\/|\.html)$/.test(location.pathname)) location.replace(location.pathname + "/" + location.search + location.hash);
+  </script>
+  <title data-i18n="title.home">Ombak Damai Penarik. Coastal roomstay in Penarik, Terengganu</title>
+  <meta name="description" data-i18n-content="meta.home" content="Ombak Damai is a four-room coastal roomstay in Rhu Sepuluh, Penarik, Terengganu. Brick-walled rooms, bonfire nights and turtle trips to the islands. RM 150 a room, a night.">
+  <!-- Pre-launch: keeps search engines away until the owner approves rates and policies. Remove to launch. -->
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0B1422">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ombak Damai Penarik. Relax. Recharge. Reconnect.">
+  <meta property="og:description" content="A four-room coastal roomstay on the Penarik coast of Terengganu. Spend a day here, from first light to a sky full of stars. RM 150 a room, a night.">
+  <meta property="og:image" content="https://ombak-damai.vercel.app/v2/assets/img/og.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230B1422'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='26' fill='%23D9B36A' text-anchor='middle'%3EOD%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/v2.css">
+  <script>
+    /* Runs before the page is drawn.
+       1. Turns on the scroll-through tour, unless the visitor has asked their device for less motion.
+          If the scripts never arrive, the tour is turned off again so nothing is left stuck.
+       2. Works out whether it is day or night at the roomstay, so the page opens in the right
+          colours with the right photo, with no flash of the other. The main script refines this
+          from the day's exact sunrise and sunset.
+       3. When the page will be shown in Malay, hides it until the text is swapped, so English never flashes first. */
+    (function () {
+      var d = document.documentElement, tour = false;
+      try {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("calm");
+        else { tour = true; d.classList.add("tour"); setTimeout(function () { if (!window.odTourReady) d.classList.remove("tour"); }, 6000); }
+      } catch (e) {}
+      try {
+        var parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kuala_Lumpur", month: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date());
+        var part = function (type) { for (var i = 0; i < parts.length; i++) if (parts[i].type === type) return Number(parts[i].value); return 0; };
+        var asked = (new URLSearchParams(location.search).get("at") || "").match(/^(\d{1,2}):(\d{2})$/);
+        var minutes = asked ? Number(asked[1]) * 60 + Number(asked[2]) : (part("hour") % 24) * 60 + part("minute");
+        // sunrise and sunset at Penarik for each month, January first, in minutes after midnight
+        var rise = [442, 445, 435, 420, 413, 415, 422, 424, 418, 412, 416, 428][part("month") - 1];
+        var set = [1148, 1160, 1162, 1159, 1160, 1167, 1170, 1163, 1147, 1132, 1128, 1135][part("month") - 1];
+        var day = minutes > rise && minutes < set + 20;
+        if (day) {
+          d.classList.add("is-day");
+          if (tour) { d.classList.add("sky-light"); d.style.setProperty("--sky", "#EEF0EB"); }
+        }
+        var first = document.createElement("link");
+        first.rel = "preload"; first.as = "image"; first.setAttribute("fetchpriority", "high");
+        first.href = "assets/img/" + (day ? "place-sign.jpg" : "night-sign.jpg");
+        document.head.appendChild(first);
+      } catch (e) {}
+      try {
+        var q = new URLSearchParams(location.search).get("lang"), s = null;
+        try { s = localStorage.getItem("od-lang"); } catch (e) {}
+        var l = q === "ms" || q === "en" ? q : s === "ms" || s === "en" ? s : /^ms\b/i.test(navigator.language || "") ? "ms" : "en";
+        if (l === "ms") { d.classList.add("lang-pending"); setTimeout(function () { d.classList.remove("lang-pending"); }, 2500); }
+      } catch (e) {}
+    })();
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    "name": "Ombak Damai Penarik",
+    "description": "A four-room coastal roomstay in Rhu Sepuluh, Penarik, Terengganu.",
+    "image": "https://ombak-damai.vercel.app/v2/assets/img/og.jpg",
+    "telephone": "+60 10-764 8227",
+    "priceRange": "RM 150 a room, a night",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Lot 71117, Lorong 2 Pandan Jaya, Jalan Penarik, Kampung Pandan Jaya",
+      "addressLocality": "Permaisuri",
+      "addressRegion": "Terengganu",
+      "postalCode": "22120",
+      "addressCountry": "MY"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 5.5742319, "longitude": 102.8376505 },
+    "sameAs": ["https://www.tiktok.com/@ombakdamaipenarik", "https://www.instagram.com/ombak.damai/"]
+  }
+  </script>
+</head>
+<body>
+
+  <a class="skip" href="#rooms" data-i18n="v2.skip">Skip to rooms and rates</a>
+
+  <header class="bar" id="bar">
+    <a class="brand" href="index.html" aria-label="Ombak Damai Penarik, home" data-i18n-aria="brand.home"><span class="logo" aria-hidden="true"></span></a>
+    <div class="bar-end">
+      <div class="lang" role="group" aria-label="Language" data-i18n-aria="lang.label">
+        <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ms" lang="ms" aria-label="Bahasa Melayu" aria-pressed="false">BM</button>
+      </div>
+      <button type="button" class="bar-link" id="menu-open" aria-haspopup="dialog" aria-controls="menu" data-i18n="v2.menu">Menu</button>
+      <a class="bar-link bar-book" href="booking.html" data-i18n="v2.book">Book</a>
+    </div>
+  </header>
+
+  <dialog class="menu" id="menu" aria-labelledby="menu-day-h">
+    <div class="menu-in" data-lenis-prevent>
+      <div class="menu-top">
+        <span class="logo" aria-hidden="true"></span>
+        <button type="button" class="bar-link" id="menu-close" data-i18n="v2.close">Close</button>
+      </div>
+      <div class="menu-cols">
+        <nav class="menu-day" aria-labelledby="menu-day-h">
+          <h2 class="label" id="menu-day-h" data-i18n="v2.menu.day">A day here</h2>
+          <ol>
+            <li><a href="#first-light" data-go="1" data-img="assets/img/wake.jpg"><span class="t">06:40</span><span class="n" data-i18n="s1.h">First light</span></a></li>
+            <li><a href="#islands" data-go="2" data-img="assets/img/boats.jpg"><span class="t">10:00</span><span class="n" data-i18n="s2.h">To the islands</span></a></li>
+            <li><a href="#turtles" data-go="3" data-img="assets/img/turtles.jpg"><span class="t">11:30</span><span class="n" data-i18n="s3.h">Turtles</span></a></li>
+            <li><a href="#sandbank" data-go="4" data-img="assets/img/sandbank.jpg"><span class="t">13:00</span><span class="n" data-i18n="s4.h">The sandbank</span></a></li>
+            <li><a href="#courtyard" data-go="5" data-img="assets/img/courtyard.jpg"><span class="t">15:30</span><span class="n" data-i18n="s5.h">Back at the house</span></a></li>
+            <li><a href="#room" data-go="6" data-img="assets/img/room-a.jpg"><span class="t">16:30</span><span class="n" data-i18n="s6.h">A cool brick room</span></a></li>
+            <li><a href="#celup-tepung" data-go="7" data-img="assets/img/celup-tepung.jpg"><span class="t">17:45</span><span class="n" data-i18n="s7.h">Celup tepung</span></a></li>
+            <li><a href="#bonfire" data-go="8" data-img="assets/img/bonfire-tall.jpg"><span class="t">20:30</span><span class="n" data-i18n="s8.h">Bonfire</span></a></li>
+            <li><a href="#stars" data-go="9" data-img="assets/img/night-stars.jpg"><span class="t">22:00</span><span class="n" data-i18n="s9.h">Stars</span></a></li>
+          </ol>
+        </nav>
+        <nav class="menu-stay" aria-labelledby="menu-stay-h">
+          <h2 class="label" id="menu-stay-h" data-i18n="v2.menu.stay">The stay</h2>
+          <ul>
+            <li><a href="#rooms" data-i18n="nav.rooms">Rooms</a></li>
+            <li><a href="#rates" data-i18n="nav.rates">Rates</a></li>
+            <li><a href="#coast" data-i18n="v2.nav.coast">The coast</a></li>
+            <li><a href="#know" data-i18n="v2.nav.know">Good to know</a></li>
+            <li><a href="booking.html" data-i18n="cta.book">Book your dates</a></li>
+          </ul>
+          <p class="menu-contact"><a data-wa="Salam Ombak Damai, saya ada pertanyaan." href="#" target="_blank" rel="noopener">WhatsApp <span data-od="phone">010-764 8227</span></a></p>
+        </nav>
+        <figure class="menu-window" aria-hidden="true"><img src="assets/img/night-sign.jpg" width="810" height="1012" alt="" loading="lazy"></figure>
+      </div>
+    </div>
+  </dialog>
+
+  <main>
+
+    <section class="journey" id="day" style="--n: 10" aria-labelledby="day-h">
+      <h2 class="visually-hidden" id="day-h" data-i18n="v2.day.h">A day at Ombak Damai, from first light to the stars</h2>
+      <div class="stage">
+        <div class="stars" aria-hidden="true"></div>
+
+        <ol class="scenes">
+
+          <li class="scene scene-now" id="now" data-time="now">
+            <div class="words">
+              <p class="label" id="live-line" data-i18n="hero.kicker">Coastal roomstay · Penarik, Terengganu</p>
+              <h1 data-i18n="v2.h1">Relax. Recharge. Reconnect.</h1>
+              <p class="lede" data-i18n="v2.lede">Four brick-walled rooms around a sand courtyard on the Penarik coast. Spend a day here, from first light to a sky full of stars.</p>
+              <div class="actions">
+                <a class="btn btn-solid" href="booking.html" data-i18n="cta.check">Check availability</a>
+                <a class="tlink" href="#first-light" data-go="1" data-i18n="v2.spend">Spend a day here</a>
+              </div>
+              <p class="note"><span data-i18n-html="hero.from">From <span data-od="rate">RM 150</span> a room, a night</span><span data-i18n="hero.rated">Rated 5.0 on Google</span></p>
+            </div>
+            <figure class="shot">
+              <img class="shot-night" src="assets/img/night-sign.jpg" width="810" height="1012" alt="Ombak Damai at night: the lit sign under the pavilion, a brick wall with a glowing window, a young rhu tree and a sky full of stars" data-i18n-alt="hero.alt1" loading="lazy">
+              <img class="shot-day" src="assets/img/place-sign.jpg" width="1000" height="1250" alt="Ombak Damai by day: the wooden sign under the pavilion, a young rhu tree and the splash pool, with fields beyond" data-i18n-alt="v2.alt.day" loading="lazy">
+            </figure>
+          </li>
+
+          <li class="scene" id="first-light" data-time="06:40">
+            <div class="words">
+              <p class="label when"><time datetime="06:40">06:40</time></p>
+              <h3 data-i18n="s1.h">First light</h3>
+              <p data-i18n="s1.p">The fishing boats leave through the river mouth before the sun is up. Go out with a local boatman, by river or by sea.</p>
+            </div>
+            <figure class="shot"><img src="assets/img/wake.jpg" width="1000" height="1250" alt="Fishing rods on the stern of a boat with its wake stretching behind" data-i18n-alt="d2.alt2" loading="lazy"></figure>
+          </li>
+
+          <li class="scene" id="islands" data-time="10:00">
+            <div class="words">
+              <p class="label when"><time datetime="10:00">10:00</time></p>
+              <h3 data-i18n="s2.h">To the islands</h3>
+              <p data-i18n="s2.p">Boats run out from Merang jetty, sixteen minutes down the coast road, for a full day in the waters off Redang. About March to October, when the sea allows.</p>
+            </div>
+            <figure class="shot"><img src="assets/img/boats.jpg" width="1000" height="1250" alt="Two tour boats flying Terengganu and Malaysian flags on turquoise water" data-i18n-alt="d1.alt3" loading="lazy"></figure>
+          </li>
+
+          <li class="scene" id="turtles" data-time="11:30">
+            <div class="words">
+              <p class="label when"><time datetime="11:30">11:30</time></p>
+              <h3 data-i18n="s3.h">Turtles</h3>
+              <p data-i18n="s3.p">Slip into clear water where the green turtles come up to feed beside the boat.</p>
+            </div>
+            <figure class="shot"><img src="assets/img/turtles.jpg" width="1000" height="1250" alt="Three green sea turtles swimming at the surface beside the boat" data-i18n-alt="d1.alt1" loading="lazy"></figure>
+          </li>
+
+          <li class="scene" id="sandbank" data-time="13:00">
+            <div class="words">
+              <p class="label when"><time datetime="13:00">13:00</time></p>
+              <h3 data-i18n="s4.h">The sandbank</h3>
+              <p data-i18n="s4.p">Wade the shallows at midday, with nothing on the horizon but an island and one boat.</p>
+            </div>
+            <figure class="shot"><img src="assets/img/sandbank.jpg" width="1000" height="1250" alt="Clear shallow water over a sandbank with a boat and a small island beyond" data-i18n-alt="d1.alt2" loading="lazy"></figure>
+          </li>
+
+          <li class="scene" id="courtyard" data-time="15:30">
+            <div class="words">
+              <p class="label when"><time datetime="15:30">15:30</time></p>
+              <h3 data-i18n="s5.h">Back at the house</h3>
+              <p data-i18n="s5.p">Sand underfoot, a splash pool for the children and long shade under the pavilion. Nobody will mind if you never leave it.</p>
+            </div>
+            <figure class="shot"><img src="assets/img/courtyard.jpg" width="1000" height="1250" alt="The sand courtyard with a young rhu tree, a timber pergola and the splash pool" data-i18n-alt="d3.alt1" loading="lazy"></figure>
+          </li>
+
+          <li class="scene" id="room" data-time="16:30">
+            <div class="words">
+              <p class="label when"><time datetime="16:30">16:30</time></p>
+              <h3 data-i18n="s6.h">A cool brick room</h3>
+              <p data-i18n="s6.p">Four rooms in a row, each with two double beds, its own bathroom, white linen and a door painted soft yellow.</p>
+            </div>
+            <figure class="shot"><img src="assets/img/room-a.jpg" width="1000" height="1250" alt="A double bed with white linen and a patterned cushion beside yellow-framed windows, against an exposed brick wall" data-i18n-alt="rooms.alt1" loading="lazy"></figure>
+          </li>
+
+          <li class="scene" id="celup-tepung" data-time="17:45">
+            <div class="words">
+              <p class="label when"><time datetime="17:45">17:45</time></p>
+              <h3 data-i18n="s7.h">Celup tepung</h3>
+              <p data-i18n="s7.p">Rhu Sepuluh is known for it: seafood dipped in batter and fried to order at some forty stalls along the beach road.</p>
+            </div>
+            <figure class="shot"><img src="assets/img/celup-tepung.jpg" width="1000" height="1250" alt="A platter of battered and fried fish, prawns and squid with chilli sauce at a beachside stall" data-i18n-alt="around.alt" loading="lazy"></figure>
+          </li>
+
+          <li class="scene" id="bonfire" data-time="20:30">
+            <div class="words">
+              <p class="label when"><time datetime="20:30">20:30</time></p>
+              <h3 data-i18n="s8.h">Bonfire</h3>
+              <p data-i18n="s8.p">Light the fire in the courtyard, grill what you caught, and let the evening run long.</p>
+            </div>
+            <figure class="shot"><img src="assets/img/bonfire-tall.jpg" width="1200" height="1600" alt="A bonfire of driftwood burning on the sand, sparks rising into the dark" data-i18n-alt="nights.alt1" loading="lazy"></figure>
+          </li>
+
+          <li class="scene" id="stars" data-time="22:00">
+            <div class="words">
+              <p class="label when"><time datetime="22:00">22:00</time></p>
+              <h3 data-i18n="s9.h">Stars</h3>
+              <p data-i18n="s9.p">This far from the city, the sky fills with stars.</p>
+              <p class="aside" id="moon-line" hidden></p>
+            </div>
+            <figure class="shot"><img src="assets/img/night-stars.jpg" width="960" height="1200" alt="Guests in camp chairs in the courtyard, looking up at a sky of stars" data-i18n-alt="hero.alt3" loading="lazy"></figure>
+          </li>
+
+        </ol>
+
+        <p class="clock" aria-hidden="true"><span id="clock">06:40</span></p>
+
+        <nav class="rail" id="rail" aria-label="Jump through the day" data-i18n-aria="v2.rail">
+          <ol>
+            <li><a href="#first-light" data-go="1" data-time="06:40"><span class="t">06:40</span><span class="n" data-i18n="s1.h">First light</span></a></li>
+            <li><a href="#islands" data-go="2" data-time="10:00"><span class="t">10:00</span><span class="n" data-i18n="s2.h">To the islands</span></a></li>
+            <li><a href="#turtles" data-go="3" data-time="11:30"><span class="t">11:30</span><span class="n" data-i18n="s3.h">Turtles</span></a></li>
+            <li><a href="#sandbank" data-go="4" data-time="13:00"><span class="t">13:00</span><span class="n" data-i18n="s4.h">The sandbank</span></a></li>
+            <li><a href="#courtyard" data-go="5" data-time="15:30"><span class="t">15:30</span><span class="n" data-i18n="s5.h">Back at the house</span></a></li>
+            <li><a href="#room" data-go="6" data-time="16:30"><span class="t">16:30</span><span class="n" data-i18n="s6.h">A cool brick room</span></a></li>
+            <li><a href="#celup-tepung" data-go="7" data-time="17:45"><span class="t">17:45</span><span class="n" data-i18n="s7.h">Celup tepung</span></a></li>
+            <li><a href="#bonfire" data-go="8" data-time="20:30"><span class="t">20:30</span><span class="n" data-i18n="s8.h">Bonfire</span></a></li>
+            <li><a href="#stars" data-go="9" data-time="22:00"><span class="t">22:00</span><span class="n" data-i18n="s9.h">Stars</span></a></li>
+          </ol>
+          <span class="rail-head" aria-hidden="true"></span>
+          <span class="rail-now" id="rail-now" aria-hidden="true" hidden><span data-i18n="v2.now">now</span></span>
+        </nav>
+
+        <p class="cue" aria-hidden="true"><span data-i18n="v2.cue">Scroll to spend a day</span></p>
+        <div class="progress" aria-hidden="true"><span></span></div>
+      </div>
+    </section>
+
+    <section class="band" id="rooms" aria-labelledby="rooms-h">
+      <div class="wrap">
+        <div class="intro" data-reveal>
+          <p class="label" data-i18n="v2.rooms.k">The rooms</p>
+          <h2 id="rooms-h" data-i18n="v2.rooms.h">Slow down, breathe and enjoy.</h2>
+          <div class="cols">
+            <p data-i18n="rooms.p1">Ombak Damai is a roomstay: four rooms in a row along a shaded veranda, each with its own front door. Inside, the walls are exposed brick, the beds are made up in plain white, and the doors are painted a soft yellow.</p>
+            <p data-i18n="rooms.p2">Take one room for a quiet weekend, or all four and have the whole place to yourselves.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="strip" id="strip" tabindex="0" role="region" aria-label="Photos of the rooms" data-i18n-aria="v2.strip" data-lenis-prevent-horizontal data-reveal>
+        <figure><img src="assets/img/room-a.jpg" width="1000" height="1250" alt="A double bed with white linen and a patterned cushion beside yellow-framed windows, against an exposed brick wall" data-i18n-alt="rooms.alt1" loading="lazy"><figcaption data-i18n="rooms.cap1">Brick, white linen and yellow doors</figcaption></figure>
+        <figure><img src="assets/img/room-bed.jpg" width="1000" height="1250" alt="A made-up bed with a patterned cushion beside a brick wall and a small white shelf" data-i18n-alt="rates.alt" loading="lazy"><figcaption data-i18n="rates.cap">Made up and waiting</figcaption></figure>
+        <figure><img src="assets/img/room-b.jpg" width="1000" height="1250" alt="A brick-walled room with a low platform bed, patterned rug and air-conditioner" data-i18n-alt="rooms.alt2" loading="lazy"><figcaption data-i18n="rooms.cap2">Cool and quiet</figcaption></figure>
+        <figure><img src="assets/img/kettle.jpg" width="1000" height="1250" alt="A tray with cups, coffee, tea, drinking water and a kettle on a wooden rack" data-i18n-alt="rooms.alt3" loading="lazy"><figcaption data-i18n="rooms.cap3">Tea and coffee in the room</figcaption></figure>
+        <figure><img src="assets/img/veranda.jpg" width="1000" height="1250" alt="The long shaded veranda outside the rooms, with brick walls and dark timber doors" data-i18n-alt="d3.alt2" loading="lazy"><figcaption data-i18n="d3.cap2">The veranda</figcaption></figure>
+        <figure class="wide"><img src="assets/img/night-rooms.jpg" width="810" height="648" alt="The brick rooms lit warmly at night under a deep blue sky" data-i18n-alt="hero.alt2" loading="lazy"><figcaption data-i18n="hero.cap2">The rooms after dark</figcaption></figure>
+        <figure><img src="assets/img/night-pavilion.jpg" width="810" height="1080" alt="The sign, pergola and splash pool at night, with a bright star above the trees" data-i18n-alt="nights.alt2" loading="lazy"><figcaption data-i18n="nights.cap2">The pavilion after dark</figcaption></figure>
+      </div>
+
+      <div class="wrap">
+        <ul class="amen" data-reveal>
+          <li data-i18n="am.1">Two double beds in every room</li>
+          <li data-i18n="am.2">Private bathroom in every room</li>
+          <li data-i18n="am.3">Air-conditioning and fan</li>
+          <li data-i18n="am.4">Kettle, cups and drinking water</li>
+          <li data-i18n="am.5">Fresh towels</li>
+          <li data-i18n="am.6">Shared kitchen and living area</li>
+          <li data-i18n="am.7">Splash pool in the courtyard</li>
+          <li data-i18n="am.8">BBQ and bonfire area</li>
+          <li data-i18n="am.9">Parking inside the compound</li>
+          <li data-i18n-html="am.10">Sleeps up to <span data-od="guests">16</span> across four rooms</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band" id="rates" aria-labelledby="rates-h">
+      <div class="wrap split">
+        <div class="intro" data-reveal>
+          <p class="label" data-i18n="v2.rates.k">Rates</p>
+          <h2 id="rates-h" data-i18n="v2.rates.h">One room, one simple rate.</h2>
+          <div class="actions">
+            <a class="btn btn-solid" href="booking.html" data-i18n="cta.book">Book your dates</a>
+          </div>
+        </div>
+        <div class="rows" data-reveal>
+          <div class="row"><span class="k" data-i18n="rates.k1">One room, one night</span><span class="v big" data-od="rate">RM 150</span></div>
+          <div class="row"><span class="k" data-i18n="rates.k2">Whole roomstay, four rooms, one night</span><span class="v big" data-od="whole">RM 600</span></div>
+          <div class="row"><span class="k" data-i18n="rates.k3">Each room sleeps up to four</span><span class="v" data-i18n="rates.v3">Two double beds</span></div>
+          <div class="row"><span class="k" data-i18n="rates.k4">Check-in 3.00 pm, check-out 12.00 pm</span><span class="v" data-i18n="rates.v4">Flexible on request</span></div>
+          <div class="row"><span class="k" data-i18n-html="rates.k5"><span data-od="deposit">50%</span> deposit to confirm, balance on arrival</span><span class="v" data-i18n="rates.v5">No online payment</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="coast" aria-labelledby="coast-h">
+      <div class="wrap">
+        <div class="intro" data-reveal>
+          <p class="label" data-i18n="v2.coast.k">The whole coast</p>
+          <h2 id="coast-h" data-i18n="v2.coast.h">Slow days on the Setiu coast.</h2>
+        </div>
+
+        <div class="coast-grid">
+          <div class="map" id="map" data-reveal>
+            <svg viewBox="0 0 1200 963" aria-hidden="true" focusable="false">
+              <path class="coast" d="M1092.8 1029.7L1074.8 1012.4L1074.7 1010.5L1075.6 1009.2L1073.9 1007.8L1074.7 1009.1L1074.3 1009.8L1070.9 1009.3L1065.2 1003.6L1064.2 1003.7L1061.3 1000L1057.1 997.8L1052.7 993.7L970.2 905.7L916.3 857.4L902.2 846.9L890.5 838.7L879.8 832.8L872.1 828.9L864.2 826.3L860.5 831.5L857.7 832.8L858 838.5L851.3 840.2L842.6 840.7L834 839.9L827.4 838.3L798.8 828.6L766.5 812.5L741.5 797.8L708.5 774.1L703.8 774.9L678.4 758.8L658.9 744L636.8 723.3L590.9 675.5L567.2 652.9L514.9 612.5L512.5 610.8L508.1 609.5L489.3 596L467.5 583.3L436.6 562L432.6 559.6L428.4 559.2L421.1 554.9L384 520.9L369.8 506.6L343.4 478.4L321.1 452.6L298.4 424.1L285.1 405.9L266.8 379.5L251 354.7L249.8 354.5L246.1 356.7L240.5 355.1L235.7 349.6L229.9 339.9L226.1 336.7L222.5 335.8L209.7 319.3L204.8 316.5L202.4 317.6L199.7 315.8L191 305L181.9 295.8L174 291.1L156.1 282.7L145.8 275.6L129.5 258L129.5 250.1L128.6 245.7L126.6 241.8L122.8 238.2L120 236.7L119.3 237.1L124 239.9L127.3 244.2L128.9 249.6L128.6 255.9L121.7 252L118.1 247.4L118.9 253.4L121 256L120.8 257.1L113.8 254.9L113 254.1L113.6 252.1L112.3 254.5L110.1 254.4L97.4 250.3L95.2 248.1L97.1 244.6L94.2 249L87.2 247L69.5 231.6L14.1 180.4L-6.3 158.4L-16.8 145.4"/>
+              <path class="isles" d="M1026.2 338.6L1025 335.8L1022.7 333.3L1018.9 333.6L1018 332.9L1015.6 334.8L1013.7 338.8L1010.6 341.8L1010 344.7L1010.5 346L1008.5 349.7L1002.8 350.5L1001.1 350.3L999.9 348.6L998.1 349.6L994.7 348.1L993.6 347.1L993.1 343.5L994.1 341.7L994 337.1L996.3 334.6L997.9 329.8L999.9 328.6L1000.1 324.9L1001.8 323.7L998.2 321.8L997.8 320.6L998.9 319.5L1001.1 319.5L1004.1 317.1L1004.1 306.4L1002.7 306.3L1002.5 307.4L1001.6 306L998.9 305.1L999.3 304.7L998.1 303.6L997.4 304.3L996.4 301.3L995.4 302.9L994 302.3L992.6 299.1L992.5 295.1L991.1 293.5L991.2 291.6L987.8 286.8L986.8 288.8L986.5 295L984.6 296L981 295.6L978.8 291.9L978.3 289L977.7 288.7L974.2 290.9L973.8 289.9L972.4 290L968 286.4L966.6 286.8L964.5 290.7L960.7 290.7L959.8 291.6L959.7 295.9L957.2 298.1L957.3 302.9L954.4 309.3L953.9 312.5L953.9 317.4L956.9 322.1L957 326.7L958.2 329L958.1 333.2L956.4 337L956.1 343.4L953.3 346.1L950.6 345.8L950.5 347.8L948.6 349.8L946.1 350.6L945.4 352.3L950.8 361.7L950.4 365.3L951.3 368.1L952.2 369.5L953.7 369.6L955.2 371.9L959.9 381.7L959.4 386.1L960.7 390.4L958.9 402.5L963.7 412.6L963.5 414.7L965.2 420L966.1 419.4L965.6 417.8L967.3 414.2L965.7 413.3L965.5 411.8L967 410.3L968.3 411.7L970.4 407.1L971.1 403.6L973.2 403.2L973.6 400.7L975.1 400.2L975 399.5L976.7 399L976.6 400.3L978 400.9L977.2 404.8L978.7 406.4L979.3 409.9L979.4 411.2L977.9 412.5L978.7 414.7L981.5 416.3L985.9 416.6L986.8 417.8L989.6 417.1L992 419.1L993.2 419L996.1 417.9L997.5 416.3L1000.2 415.8L1000.7 416.4L1005.3 413.8L1005.3 409.3L1011.7 401.5L1013.7 395.7L1017.7 391.3L1021.8 388.7L1025.1 388.5L1025.9 389.1L1025.9 392.7L1027.2 393.7L1028.4 393.2L1028.5 392.2L1027.6 392.3L1028.2 388.6L1025.7 386.9L1025.8 385L1027.8 383.3L1028.8 383.5L1029.4 385.6L1030.7 384.7L1033.2 384.9L1033.1 381.5L1034.3 380.6L1033.3 379.2L1032.4 379.6L1031.6 378.8L1031.7 377L1034 374L1035.4 373.5L1036.1 374.8L1038.5 373.5L1036.7 372.3L1033.9 372.7L1032.4 368.1L1032.7 365.1L1035.1 363.3L1037.3 359.1L1040.6 358.1L1041.3 357.3L1040.8 356.4L1042.1 355L1041.6 354.2L1043.9 353.6L1044.5 351.4L1047.2 350.2L1046 350L1047.3 347.6L1048.1 347.6L1047.6 347.2L1048.6 347L1048.9 345.5L1052.5 344.1L1051.2 342.5L1052.8 341.6L1049.2 339.9L1049.6 339.2L1048.4 340.2L1047.5 339.2L1046.4 339.7L1046.4 340.8L1045.7 340.3L1043.3 341.5L1043.8 340.6L1041.8 340.9L1042.2 339.2L1041 338.7L1038.4 341L1037.2 340.3L1034.8 341.3L1035.3 338.6L1034.1 338.7L1033.8 338L1029.8 340L1028.6 338.3L1030.4 335.4L1029.5 335.6L1029.4 334.5L1028.4 338.1ZM418.8 103.4L417.7 104.2L416.2 108.1L416.9 121.4L416 123.1L416.3 127.6L415.2 129.5L417.6 134.3L430.6 136.4L431.3 138.4L435.2 140L438.2 139.5L439.6 138.6L439.7 137.2L444.8 134.1L449.6 125.4L449.9 121.9L451.5 119.3L450 109L448 107.2L447.1 104.4L444.7 103.3L443.7 101.2L437.9 99.7L433.6 96.8L431.3 94.3L430.1 90.2L430.4 86.7L431.8 85.1L437 84.2L438.1 83.3L437.6 81.7L438.8 79.8L436.7 78.8L434.8 79L434.7 75.6L429.9 73.8L428 69.3L430.2 66.6L429.2 66.5L430.8 64.7L430.5 62.4L431.7 60.6L433.7 61L434.7 60.1L437.1 60.7L439.1 58.8L439 53.4L436.9 53.8L433.5 51.9L427.7 51.7L426 53.7L424.2 54.5L423.5 53.9L421 56.5L423.1 59.4L422.5 60.9L423.7 63.6L422.3 67.5L420 69.9L419.3 73.8L421.1 77.8L421.2 80.4L419.3 82.4L417 83.3L416.2 85L418.8 88.2L419.6 92.1L416.9 96.8L419.2 97.3L419.7 98.3ZM468.6 160.9L468.6 162.4L470.2 163.1L472.5 161.4L473.8 159.2L476.3 158.9L475.9 151.7L475.2 150.8L476.3 148.5L475.1 146.8L477.9 143L483.1 138.9L491.9 135.8L494.2 137.1L496.9 143.5L499.6 144.5L504.1 148.5L505.2 153.2L506.7 154.6L507.2 156.6L510 155.2L511.2 152.9L514 151.7L517.5 152.7L520.5 156.3L522.2 156.2L521 149.2L524.9 146.5L525.5 141.7L528.3 138.7L525 132.4L524.5 128.3L523.1 125.6L519.5 122.3L522.4 115.1L521.7 107.7L524 107.2L524.5 104.4L519.8 96.5L510.1 93.7L507.4 90.3L503.3 89L503.9 80.3L502.7 78.6L498.7 84.4L498 87.1L493.9 91.4L493.4 98.8L491.1 103.7L486.3 106.1L483.9 105.4L483.5 107.2L482.4 107.8L478.8 105.1L477.9 105.4L476.7 107.9L470.4 111.1L469.7 112.4L472.1 117.6L470.4 120.6L464.8 122.1L461.1 119.4L461.1 120.8L462.7 121.4L463 123.1L460.9 130.8L460.8 138.5L464.5 148.4L463.7 152.7L467.7 153.1L469.1 155.1L469.6 158.6ZM1101.8 663.9L1101.2 662.1L1102 660.3L1100.6 658.2L1097.5 656.8L1097.1 655.9L1094.9 657L1092.7 656.1L1091.4 653.3L1086.4 655.3L1086.4 656.3L1084.9 656.4L1084.5 657.3L1081.7 657.7L1078.2 662.7L1077.9 665.3L1079.7 667.5L1075.6 674.4L1075.5 676L1077 679.1L1080 679.2L1081.4 680.6L1082.8 684.8L1081.4 685.7L1081.4 686.8L1087.1 686.6L1088.6 689.2L1093.1 688.9L1094.3 688.4L1095.8 685.7L1100.5 684.6L1101.4 681.8L1102.6 681.4L1103.3 679.6L1103.1 677.6L1103.5 678L1105.3 675.5L1105.9 670.8L1104.6 667.5L1103.7 667.9L1103.6 666.2L1102.2 664.4L1102.9 664.7L1102.6 663.8ZM967.7 446L969.5 445.9L972 447.9L972 447L974.8 445.2L977.8 445.3L980.4 443.9L981.5 442L978.1 437.9L978.1 436L975.3 433.6L975 431.1L972.6 430.6L970.2 423.4L970.8 422.7L970 422L966.4 427.3L969 435L965.1 442.8L962 446.2L964.2 451.7L963.8 453.8L964.4 451.4L965.1 451.8L965.8 450.9L965.6 448ZM778.7 344.7L780 342.7L779.8 339.9L782.9 339.3L782.3 334.3L780.8 332.4L778.7 333.5L777.6 332.1L776.6 332.9L774.5 331.8L771.1 325.5L765.1 321.7L758.8 314L754.8 314.7L752.9 319.9L754.2 323.6L760.1 328.1L760.3 332.5L758.1 336.4L759.1 338L760.7 338.8L767.1 338.4L769.7 339L770.1 341.2L771.3 342.5L773.2 342.9L773.3 342.1L776.7 341.9ZM217.2 264.1L219.9 263.7L222.6 266.5L224.1 265.5L224.9 263.5L222.9 259.6L220.3 258.3L220.2 257.5L217.2 258.9L214 258.9L214.5 262.2L210.5 265.2L212.4 267.5ZM1103 602.3L1102.5 596.4L1101.9 595L1100.6 594.6L1101.2 593.8L1099.5 593.1L1098.6 593.8L1098.1 597.2L1099.9 604.8L1102.6 605.2L1101.1 603.8ZM321.3 17L322.5 13.2L323 13.3L323.8 12.7L323.7 9.4L321.4 7.6L319 7.5L317.3 6.6L315.2 7.1L314.7 7.7L314.7 8.7L313.1 9.4L313 10.3L312.5 10.4L313.1 12.3L313 13.4L313.5 13.2L315.5 14.4L316.4 14.5L319.4 16.1L320.6 17.4ZM1092.2 717.8L1094.5 718.3L1093.9 717.9L1094.4 716.2L1095.8 715.3L1096.1 714.7L1096.7 714.7L1096.4 714.3L1097.6 713.3L1097.4 711.3L1095.2 711L1094.6 712.2L1094.1 712.1L1091.4 714.1L1090.8 714L1091 714.6L1089.8 715.6L1087.8 716.2L1087.5 716.5L1088.6 718.3L1090 718.5L1090 718.1L1090.7 717.8ZM1084.4 371.7L1083.7 371.8L1085.1 371.2L1086.3 369.4L1085.6 369.3L1085.5 368.3L1083.3 369.2L1083.3 367.6L1082.5 366.7L1081.1 368.2L1081.2 370L1081.4 370.6L1082.7 370.9L1083.6 371.9L1084.6 375.4L1085.6 375.7L1085.8 376.7L1086.6 377.1L1087.4 376.8L1086.5 375.9L1087.9 375.2L1087.4 373.3L1085.6 373.1L1086.1 371.4ZM323 45.8L322.1 46.3L322.6 46.4L322.8 47.1L324.6 47.3L323.5 45.9L325.9 45.1L326.4 45.7L326.9 45.4L326.6 44.9L327.2 44.9L326.9 43.8L327.8 43.5L326.4 42.7L325.7 44L325.2 43.2L324 43.1L324.6 42.8L323.7 41.8L324.5 41.3L323.7 40.9L322.8 41.6L323.4 43.1L322.5 43.5L323.1 44.3L322.7 45.1ZM1027.2 436.9L1026.7 437.1L1025.8 438.2L1025.5 439.5L1024.6 440.1L1024.9 441.2L1024 443.1L1024.6 444L1026.2 443.7L1027.4 442.5L1027.7 439.2L1027.3 438.9L1027.7 438ZM1049.4 362.1L1049.2 362.4L1049.1 361.7L1048.6 361.5L1046.7 362.6L1046.2 363.1L1046.3 364L1046.8 363.8L1046.3 364.7L1047 365.1L1048.9 364.1L1049.5 364.4L1050.2 364L1050.1 366.1L1050.9 365.4L1051.8 363.3L1051.8 362.6L1051.3 362.7L1052.3 361.3L1051.1 361.6L1050.3 362.4L1050.3 361.8ZM1021.8 410.7L1022 411.2L1022.5 411.1L1022.7 409.5L1023.3 409.1L1022.8 408.7L1024.3 407.5L1024.4 406.6L1023 406.6L1021.6 408.4L1021.2 408.1ZM427.3 51.1L428.2 50L428.5 48.4L427.7 48.4L427.1 48.8L427.5 49.1L427.3 49.5L426.7 49.4L426.8 51.5ZM905.3 631L906.3 630.4L906.5 629.4L905.1 628.5L904.5 630.8ZM1034.2 381.3L1035.4 383.1L1036 383.4L1036.9 382.9L1035 381.1ZM1042.5 375.2L1044.5 375.1L1045.8 373.9L1045.2 373.5L1043.3 373.8ZM1022.6 412L1023.2 412.6L1023 412.9L1023.9 413.3L1024.4 412.2L1024.1 411.4L1024.9 410.9ZM1025.1 403.7L1025.9 403.3L1025.9 402.7L1026.7 402.7L1026.4 402.3L1027 401.7L1026.8 400.9L1024.9 402.9ZM1108.9 583L1109 583.4L1109.6 582.3L1108.6 581.8L1108.8 580.8L1107.9 580.5L1108 582.2L1108.3 582.9Z"/>
+              <path class="route" d="M864.2 838.9Q970.7 642.9 985.1 426.9"/>
+              <path class="scale" d="M64 902V907H238.7V902"/>
+            </svg>
+            <span class="map-scale" aria-hidden="true" style="--x: 5.33%; --y: 95.22%">10 km</span>
+            <span class="map-sea" aria-hidden="true" data-i18n="v2.sea">South China Sea</span>
+            <button type="button" class="pin pin-home l is-active" data-place="home" aria-pressed="true" style="--x: 54.46%; --y: 78.93%"><span class="dot"></span><span class="pin-name">Ombak Damai</span></button>
+            <button type="button" class="pin r" data-place="penarik" aria-pressed="false" style="--x: 50.53%; --y: 71.86%"><span class="dot"></span><span class="pin-name">Pantai Penarik</span></button>
+            <button type="button" class="pin l" data-place="mangkuk" aria-pressed="false" style="--x: 41.45%; --y: 64.13%"><span class="dot"></span><span class="pin-name">Kampung Mangkuk</span></button>
+            <button type="button" class="pin l" data-place="wetlands" aria-pressed="false" style="--x: 36.34%; --y: 59.58%"><span class="dot"></span><span class="pin-name" data-i18n="pl3.h">Setiu Wetlands</span></button>
+            <button type="button" class="pin l" data-place="merang" aria-pressed="false" style="--x: 72.02%; --y: 87.11%"><span class="dot"></span><span class="pin-name" data-i18n="v2.pl.merang">Merang jetty</span></button>
+            <button type="button" class="pin r" data-place="islands" aria-pressed="false" style="--x: 83.26%; --y: 36.65%; --gap: 4.4cqw"><span class="dot"></span><span class="pin-name">Redang</span></button>
+            <button type="button" class="pin l" data-place="islands" aria-pressed="false" style="--x: 64%; --y: 34.2%"><span class="dot"></span><span class="pin-name">Lang Tengah</span></button>
+            <button type="button" class="pin l" data-place="islands" aria-pressed="false" style="--x: 90.88%; --y: 69.69%"><span class="dot"></span><span class="pin-name">Bidong</span></button>
+            <button type="button" class="pin t" data-place="besut" aria-pressed="false" style="--x: 38.71%; --y: 11.25%; --gap: 3.6cqw"><span class="dot"></span><span class="pin-name">Perhentian</span></button>
+            <button type="button" class="pin b" data-place="besut" aria-pressed="false" style="--x: 9.4%; --y: 27.12%"><span class="dot"></span><span class="pin-name">Kuala Besut</span></button>
+          </div>
+
+          <ol class="places" id="places" data-reveal>
+            <li class="is-active" data-place="home">
+              <button type="button" aria-expanded="true"><span class="pn">Ombak Damai</span><span class="pt" data-i18n="v2.pl.here">You are here</span></button>
+              <p data-i18n="v2.pl.home">Rhu Sepuluh, where some forty celup tepung stalls line the beach road. The sea is a kilometre away.</p>
+            </li>
+            <li data-place="penarik">
+              <button type="button" aria-expanded="false"><span class="pn">Pantai Penarik</span><span class="pt" data-i18n="visit.v1">6 minutes</span></button>
+              <p data-i18n="pl2.p">Six minutes up the road. Miles of sand, coconut palms and fishing villages, with boats landing the morning catch and Redang and Bidong on the horizon.</p>
+            </li>
+            <li data-place="mangkuk">
+              <button type="button" aria-expanded="false"><span class="pn">Kampung Mangkuk</span><span class="pt" data-i18n="v2.pl.t13">13 minutes</span></button>
+              <p data-i18n="pl4.p">Thirteen minutes north, where Terrapuri has restored traditional Terengganu timber houses and painted terrapin hatchlings are released into the river.</p>
+            </li>
+            <li data-place="wetlands">
+              <button type="button" aria-expanded="false"><span class="pn" data-i18n="pl3.h">Setiu Wetlands</span><span class="pt" data-i18n="v2.pl.behind">Behind the coast</span></button>
+              <p data-i18n="pl3.p">Lagoons, mangroves and river channels behind the coast. Boats go out at sunset for the river, and again after dark for the fireflies.</p>
+            </li>
+            <li data-place="merang">
+              <button type="button" aria-expanded="false"><span class="pn" data-i18n="v2.pl.merang">Merang jetty</span><span class="pt" data-i18n="visit.v2">16 minutes</span></button>
+              <p data-i18n="v2.pl.merang.p">Sixteen minutes down the coast road. The boats for Redang, Lang Tengah and Bidong leave from here.</p>
+            </li>
+            <li data-place="islands">
+              <button type="button" aria-expanded="false"><span class="pn" data-i18n="pl5.h">The islands</span><span class="pt" data-i18n="v2.pl.boat">By boat</span></button>
+              <p data-i18n="v2.pl.islands.p">Redang, Lang Tengah and Bidong: turtles, sandbanks and clear water, a boat ride from Merang. About March to October.</p>
+            </li>
+            <li data-place="besut">
+              <button type="button" aria-expanded="false"><span class="pn" data-i18n="v2.pl.besut">Kuala Besut jetty</span><span class="pt" data-i18n="visit.v4">About 55 minutes</span></button>
+              <p data-i18n="v2.pl.besut.p">Up the coast, for the boats to the Perhentian islands.</p>
+            </li>
+            <li class="far">
+              <div><span class="pn" data-i18n="visit.k3">Kuala Terengganu airport</span><span class="pt" data-i18n="visit.v3">About 50 minutes</span></div>
+            </li>
+            <li class="far">
+              <div><span class="pn" data-i18n="visit.k5">Kuala Lumpur by road</span><span class="pt" data-i18n="visit.v5">About five and a half hours</span></div>
+            </li>
+          </ol>
+        </div>
+
+        <dl class="live" id="live" data-reveal>
+          <div><dt data-i18n="v2.live.now">Penarik now</dt><dd id="live-now">&nbsp;</dd></div>
+          <div><dt data-i18n="v2.live.sun">Sun</dt><dd id="live-sun">&nbsp;</dd></div>
+          <div><dt data-i18n="v2.live.moon">Moon tonight</dt><dd id="live-moon">&nbsp;</dd></div>
+          <div><dt data-i18n="v2.live.sea">The sea</dt><dd id="live-sea">&nbsp;</dd></div>
+          <div id="live-sky-box" hidden><dt data-i18n="v2.live.sky">Forecast today</dt><dd id="live-sky">&nbsp;</dd></div>
+        </dl>
+
+        <figure class="lagoon" data-reveal>
+          <img src="assets/img/setiu-lagoon.jpg" width="2100" height="700" alt="A wooden jetty on the calm Setiu lagoon, with casuarina trees along the far bank" data-i18n-alt="v2.alt.lagoon" loading="lazy">
+          <figcaption><span data-i18n="v2.lagoon.cap">The Setiu lagoon, behind the coast.</span> <a href="https://commons.wikimedia.org/wiki/File:The_lagoon_of_Setiu_Wetlands_State_Park.jpg" target="_blank" rel="noopener" data-i18n="v2.lagoon.credit">Photo: Fikku fiq, CC BY 4.0, cropped</a></figcaption>
+        </figure>
+
+        <p class="where" data-reveal>
+          <span>Lot 71117, Lorong 2 Pandan Jaya, Jalan Penarik, Kampung Pandan Jaya, 22120 Permaisuri, Terengganu</span>
+          <a class="tlink" href="https://maps.app.goo.gl/8eMufFza1EgDsd278" target="_blank" rel="noopener" data-i18n="visit.maps">Open in Google Maps</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="band" id="know" aria-labelledby="know-h">
+      <div class="wrap split">
+        <div class="intro" data-reveal>
+          <p class="label" data-i18n="v2.know.k">Good to know</p>
+          <h2 id="know-h" data-i18n="v2.know.h">The small print, kept short.</h2>
+        </div>
+        <div class="faq" data-reveal>
+          <details name="know" open>
+            <summary data-i18n="n1.h">Booking and deposit</summary>
+            <p data-i18n-html="n1.p">Send your request on WhatsApp and we confirm the rooms. A <span data-od="deposit">50%</span> deposit by bank transfer holds your dates, and the balance is paid on arrival. Nothing is charged online.</p>
+          </details>
+          <details name="know">
+            <summary data-i18n="n2.h">One room or the whole place</summary>
+            <p data-i18n-html="n2.p">Book a single room and you share the kitchen, pavilion and pool with other guests. Book all four and the roomstay is yours alone, with room for <span data-od="guests">16</span>.</p>
+          </details>
+          <details name="know">
+            <summary data-i18n="n3.h">Check-in and check-out</summary>
+            <p data-i18n="n3.p">Check-in from 3.00 pm, check-out by 12.00 pm. Tell us if you are arriving early or leaving late and we will do what we can.</p>
+          </details>
+          <details name="know">
+            <summary data-i18n="n4.h">Monsoon season</summary>
+            <p data-i18n="n4.p">From about November to February the sea is rough and the island boats stop. It is also when the coast is at its quietest, with big skies and big waves.</p>
+          </details>
+          <details name="know">
+            <summary data-i18n="n5.h">Families and groups</summary>
+            <p data-i18n="n5.p">Children are welcome, and the splash pool is theirs. Please keep an eye on little ones around the water and the fire.</p>
+          </details>
+          <details name="know">
+            <summary data-i18n="n6.h">Trips and extras</summary>
+            <p data-i18n="n6.p">Island trips, fishing boats, and BBQ and bonfire nights are arranged on request. Tick what you want when you book and we will quote on WhatsApp.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="guests" aria-labelledby="guests-h">
+      <div class="wrap">
+        <div class="intro" data-reveal>
+          <p class="label" data-i18n="praise.kicker">Guests say</p>
+          <h2 id="guests-h" data-i18n="v2.guests.h">Rated 5.0 on Google.</h2>
+          <p class="sub" data-i18n="praise.sub">From our first 10 reviews. Guests keep mentioning the same three things.</p>
+        </div>
+        <ul class="three" data-reveal>
+          <li><h3 data-i18n="pr1.h">Clean, comfortable rooms</h3><p data-i18n="pr1.p">Well kept and well equipped, with a bathroom to every room.</p></li>
+          <li><h3 data-i18n="pr2.h">Hosts who look after you</h3><p data-i18n="pr2.p">Friendly, helpful and on hand through the whole stay.</p></li>
+          <li><h3 data-i18n="pr3.h">Quiet, with room for a crowd</h3><p data-i18n="pr3.p">A peaceful spot that still fits the whole family or a group of friends.</p></li>
+        </ul>
+        <p data-reveal><a class="tlink" href="https://maps.app.goo.gl/8eMufFza1EgDsd278" target="_blank" rel="noopener" data-i18n="praise.link">Read the reviews on Google</a></p>
+      </div>
+    </section>
+
+    <section class="band reserve" id="reserve" aria-labelledby="reserve-h">
+      <div class="wrap" data-reveal>
+        <h2 id="reserve-h" data-i18n="v2.reserve.h">Come for the stay, stay for the memories.</h2>
+        <p class="sub" data-i18n="res.text">Pick your dates, send the request, and we confirm on WhatsApp. It takes about two minutes.</p>
+        <div class="actions">
+          <a class="btn btn-solid" href="booking.html" data-i18n="cta.check">Check availability</a>
+          <a class="tlink" data-wa="Salam Ombak Damai, saya ada pertanyaan tentang penginapan." href="#" target="_blank" rel="noopener">WhatsApp <span data-od="phone-intl">+60 10-764 8227</span></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <span class="logo" aria-hidden="true"></span>
+          <p data-i18n="foot.fine">A four-room coastal roomstay in Rhu Sepuluh, on the Penarik coast of Terengganu.</p>
+        </div>
+        <div>
+          <h2 class="label" data-i18n="foot.contact">Contact</h2>
+          <ul>
+            <li><a data-wa="Salam Ombak Damai, saya ada pertanyaan." href="#" target="_blank" rel="noopener">WhatsApp <span data-od="phone">010-764 8227</span></a></li>
+            <li>Lot 71117, Lorong 2 Pandan Jaya, Jalan Penarik, 22120 Permaisuri, Terengganu</li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label" data-i18n="foot.follow">Follow</h2>
+          <ul>
+            <li><a href="https://www.tiktok.com/@ombakdamaipenarik" target="_blank" rel="noopener">TikTok</a></li>
+            <li><a href="https://www.instagram.com/ombak.damai/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://maps.app.goo.gl/8eMufFza1EgDsd278" target="_blank" rel="noopener">Google Maps</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="credits" data-i18n-html="v2.credits">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors. Forecast by MET Malaysia through <a href="https://data.gov.my" target="_blank" rel="noopener">data.gov.my</a>. Sun and moon times are worked out for Penarik.</p>
+      <div class="foot-base">
+        <span data-i18n="foot.rights">&copy; 2026 Ombak Damai Penarik. All rights reserved.</span>
+        <div class="lang" role="group" aria-label="Language" data-i18n-aria="lang.label">
+          <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+          <button type="button" data-lang="ms" lang="ms" aria-label="Bahasa Melayu" aria-pressed="false">BM</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script src="assets/vendor/suncalc.js"></script>
+  <script src="assets/js/lang-ms.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/experience.js"></script>
+</body>
+</html>

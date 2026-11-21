@@ -20,6 +20,19 @@ working; leave it in place if you deploy with `serve` or Vercel.
 
 Pushing to `main` deploys to https://ombak-damai.vercel.app.
 
+## Version 2
+
+The `v2` folder holds a second version of the site with a different way of
+moving through it: scrolling runs a clock through a day at the roomstay, the
+page colour follows the hour, and the page opens on the real time there. It
+has its own pages, styles, scripts and photos, and its own
+[README](v2/README.md). Locally it is at http://localhost:4173/v2/, and once
+pushed at https://ombak-damai.vercel.app/v2/.
+
+The two versions do not share files. A change to the rate, the phone number or
+the booked dates has to be made in both `assets/js/site.js` and
+`v2/assets/js/site.js`.
+
 ## Settings
 
 Everything the owner changes lives in `OD` at the top of `assets/js/site.js`.
