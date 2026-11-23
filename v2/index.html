@@ -250,23 +250,27 @@
 
         </ol>
 
-        <p class="clock" aria-hidden="true"><span id="clock">06:40</span></p>
+        <!-- The clock and the day as a line. On a wide screen they sit apart, either side of the stage;
+             on a phone they share one strip under the photo. -->
+        <div class="timeline">
+          <p class="clock" aria-hidden="true"><span id="clock">06:40</span></p>
 
-        <nav class="rail" id="rail" aria-label="Jump through the day" data-i18n-aria="v2.rail">
-          <ol>
-            <li><a href="#first-light" data-go="1" data-time="06:40"><span class="t">06:40</span><span class="n" data-i18n="s1.h">First light</span></a></li>
-            <li><a href="#islands" data-go="2" data-time="10:00"><span class="t">10:00</span><span class="n" data-i18n="s2.h">To the islands</span></a></li>
-            <li><a href="#turtles" data-go="3" data-time="11:30"><span class="t">11:30</span><span class="n" data-i18n="s3.h">Turtles</span></a></li>
-            <li><a href="#sandbank" data-go="4" data-time="13:00"><span class="t">13:00</span><span class="n" data-i18n="s4.h">The sandbank</span></a></li>
-            <li><a href="#courtyard" data-go="5" data-time="15:30"><span class="t">15:30</span><span class="n" data-i18n="s5.h">Back at the house</span></a></li>
-            <li><a href="#room" data-go="6" data-time="16:30"><span class="t">16:30</span><span class="n" data-i18n="s6.h">A cool brick room</span></a></li>
-            <li><a href="#celup-tepung" data-go="7" data-time="17:45"><span class="t">17:45</span><span class="n" data-i18n="s7.h">Celup tepung</span></a></li>
-            <li><a href="#bonfire" data-go="8" data-time="20:30"><span class="t">20:30</span><span class="n" data-i18n="s8.h">Bonfire</span></a></li>
-            <li><a href="#stars" data-go="9" data-time="22:00"><span class="t">22:00</span><span class="n" data-i18n="s9.h">Stars</span></a></li>
-          </ol>
-          <span class="rail-head" aria-hidden="true"></span>
-          <span class="rail-now" id="rail-now" aria-hidden="true" hidden><span data-i18n="v2.now">now</span></span>
-        </nav>
+          <nav class="rail" id="rail" aria-label="Jump through the day" data-i18n-aria="v2.rail">
+            <ol>
+              <li><a href="#first-light" data-go="1" data-time="06:40"><span class="t">06:40</span><span class="n" data-i18n="s1.h">First light</span></a></li>
+              <li><a href="#islands" data-go="2" data-time="10:00"><span class="t">10:00</span><span class="n" data-i18n="s2.h">To the islands</span></a></li>
+              <li><a href="#turtles" data-go="3" data-time="11:30"><span class="t">11:30</span><span class="n" data-i18n="s3.h">Turtles</span></a></li>
+              <li><a href="#sandbank" data-go="4" data-time="13:00"><span class="t">13:00</span><span class="n" data-i18n="s4.h">The sandbank</span></a></li>
+              <li><a href="#courtyard" data-go="5" data-time="15:30"><span class="t">15:30</span><span class="n" data-i18n="s5.h">Back at the house</span></a></li>
+              <li><a href="#room" data-go="6" data-time="16:30"><span class="t">16:30</span><span class="n" data-i18n="s6.h">A cool brick room</span></a></li>
+              <li><a href="#celup-tepung" data-go="7" data-time="17:45"><span class="t">17:45</span><span class="n" data-i18n="s7.h">Celup tepung</span></a></li>
+              <li><a href="#bonfire" data-go="8" data-time="20:30"><span class="t">20:30</span><span class="n" data-i18n="s8.h">Bonfire</span></a></li>
+              <li><a href="#stars" data-go="9" data-time="22:00"><span class="t">22:00</span><span class="n" data-i18n="s9.h">Stars</span></a></li>
+            </ol>
+            <span class="rail-head" aria-hidden="true"></span>
+            <span class="rail-now" id="rail-now" aria-hidden="true" hidden><span data-i18n="v2.now">now</span></span>
+          </nav>
+        </div>
 
         <p class="cue" aria-hidden="true"><span data-i18n="v2.cue">Scroll to spend a day</span></p>
         <div class="progress" aria-hidden="true"><span></span></div>

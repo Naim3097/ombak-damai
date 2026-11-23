@@ -15,10 +15,12 @@ there.
   navy with it.
 - **It opens on the real time at the roomstay.** Open it at night and you get
   the night photo under a dark sky; open it at midday and you get the daytime
-  one. The mark labelled "now" on the right-hand rail shows where the real day
-  has got to.
-- **The rail and the menu are the day laid out.** Click an hour to travel to
-  it. The menu previews each scene's photo as you point at it.
+  one. The mark labelled "now" on the rail shows where the real day has got
+  to.
+- **The rail and the menu are the day laid out.** The rail is a line with a
+  mark for each scene: down the right-hand side of a wide screen, under the
+  photo on a phone. Click an hour to travel to it. The menu previews each
+  scene's photo as you point at it.
 - **The whole coast on one map.** A line map drawn from OpenStreetMap, from
   Kuala Besut to Merang with the islands offshore. The list beside it and the
   marks on it select each other.
@@ -99,6 +101,11 @@ for phones. `og.jpg` stays a JPEG because that is what link previews expect.
 The sky colours are the `SKY` list at the top of `assets/js/experience.js`:
 a time in minutes after midnight, then the colour.
 
+How far the page scrolls for one scene is set in the stylesheet, on
+`.journey`: `--step`, and `--first` for the step from the opening screen to
+the first scene. The script does not repeat those numbers. It reads them back
+from the page, so they only need changing in one place.
+
 ## Languages
 
 English is written in the HTML. Malay is in `assets/js/lang-ms.js`, one line
@@ -108,19 +115,36 @@ together.
 
 ## On a phone
 
+Held upright, a phone gets its own form of the tour. On a wide screen
+everything stays put while the scroll wheel turns; under a finger, a screen
+that stands still does not feel like scrolling. So on a phone something always
+moves with the finger.
+
+- **The words travel.** A scene's title and sentence move up the screen
+  exactly as far as the finger does, as on any page, and slide out of sight
+  under the strip above them. The next scene's words come up from below.
+- **The photo stays, and changes.** It is uncovered from the bottom upwards
+  with the same slow zoom as on a wide screen, at a steady pace set by the
+  finger.
+- **The day as a line.** Under the photo sit the clock and a line with a mark
+  for each scene, a dot that moves along it as time passes, and a mark for the
+  real time. A tap anywhere along the line goes to the nearest scene.
+- **The first swipe turns the page.** The opening screen scrolls away like the
+  top of any page, and the first scene comes up from below in one piece:
+  photo, clock, line and words. From there on the photo stays where it is.
+- **A swipe lands on a scene.** The page comes to rest with a scene exactly in
+  place. Recent browsers do this themselves (CSS scroll snapping); in older
+  ones the script glides the page on to the nearer scene.
 - **Scrolling is the phone's own.** A finger already scrolls smoothly, so the
-  smooth-scroll library is fetched only on screens with a mouse. When a swipe
-  stops part-way between two scenes, the page glides on to the nearer one.
+  smooth-scroll library is fetched only on screens with a mouse.
 - **Lighter photos.** A phone fetches the 720-pixel copies, about a third of
   the weight of the first version's photos, and only as the tour reaches them.
-- **Less to draw per frame.** While the tour scrolls, only the page background
-  and the scene on show are touched. The photos skip their slow zoom.
 - **Targets for a finger.** Buttons and links are at least 44 pixels tall on
   touch screens, and nothing stays highlighted after a tap.
 - **Phone-browser bars.** The tour is sized to the screen with the browser's
-  bars showing, so it does not jump when they slide away. The thin progress
-  line stays at the true bottom of the screen.
-- **Held sideways,** the words and the photo sit side by side.
+  bars showing, so it does not jump when they slide away.
+- **Held sideways,** the words and the photo sit side by side and change in
+  place, as on a wide screen. Turning the phone keeps you on the same scene.
 
 ## Less motion
 

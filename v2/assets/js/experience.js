@@ -4,6 +4,10 @@
    the sky (the page colour) follows the hour, and each scene's photo is uncovered in turn.
    The page opens on the real time at the roomstay.
 
+   On a phone held upright the words are not held in place. They travel with the finger, as on
+   any page, while the photo above them changes and the day is drawn as a line under it. The
+   stylesheet decides when that layout applies, and tells this script with --flow.
+
    Smooth scrolling is Lenis; sun and moon times are SunCalc. Both are in assets/vendor. */
 
 (function () {
@@ -17,6 +21,7 @@
   const N = scenes.length;
   const bar = document.getElementById("bar");
   const clockEl = document.getElementById("clock");
+  const timeline = day.querySelector(".timeline");
   const rail = document.getElementById("rail");
   const railLinks = Array.from(rail.querySelectorAll("a"));
   const railNow = document.getElementById("rail-now");
@@ -142,12 +147,18 @@
     if (themeMeta) themeMeta.setAttribute("content", skyKey);
   }
   function setSky(rgb) {
-    const css = "rgb(" + rgb.map((v) => Math.round(v)).join(" ") + ")";
+    const parts = rgb.map((v) => Math.round(v)).join(" ");
+    const css = "rgb(" + parts + ")";
     if (css === skyKey) return;
     const first = skyKey === "";
     skyKey = css;
     const lum = luminance(rgb);
     root.style.backgroundColor = css;
+    // On a phone the strip under the photo is painted in the same colour, and the words pass behind it.
+    if (timeline) {
+      timeline.style.setProperty("--veil", css);
+      timeline.style.setProperty("--veil-clear", "rgb(" + parts + " / 0)");
+    }
     // Cream text on a dark sky, navy on a light one. 0.18 is where the two read equally well.
     const light = lum > 0.18;
     if (light !== lightNow) { lightNow = light; root.classList.toggle("sky-light", light); }
@@ -159,13 +170,45 @@
 
   /* ---------- the day ---------- */
 
-  const HOLD = 0.34;   // share of each step where a scene rests before the next begins
+  let flow = false;    // a phone held upright: the words travel with the scroll
   const AXIS = [360, 1350]; // the rail runs from 06:00 to 22:30
   const times = scenes.map((s, i) => (i === 0 ? null : parseTime(s.dataset.time)));
   let nowMin = nowMinutes();
 
-  /* How far the change to the next scene has got, 0 to 1. While a scene rests, time stands still. */
-  const turn = (P) => clamp((P - Math.min(Math.floor(P), N - 2) - HOLD) / (1 - HOLD));
+  /* The stylesheet decides how far the page scrolls for each scene. It places one stop per scene
+     down the height of the day, and the script only reads back where they are. On a touch
+     screen the same stops are what the page comes to rest on after a swipe. */
+  const stops = [];
+  if (tour) {
+    for (let i = 0; i < N; i++) {
+      const stop = document.createElement("i");
+      // a swipe does not carry on past the first scene or the last one
+      stop.className = i === 1 || i === N - 1 ? "stop stop-end" : "stop";
+      stop.style.setProperty("--a", Math.min(i, 1));      // the first step may be a different length
+      stop.style.setProperty("--b", Math.max(i - 1, 0));  // from the rest
+      day.appendChild(stop);
+      stops.push(stop);
+    }
+  }
+  let stopY = scenes.map((s, i) => i);   // how far down the day the page rests for each scene
+  let holdPx = 0;
+  const stepAt = (i) => stopY[i + 1] - stopY[i];
+  /* Scene 2.5 is half-way between the third stop and the fourth, and so on. */
+  const yOf = (p) => { const i = clamp(Math.floor(p), 0, N - 2); return stopY[i] + stepAt(i) * (p - i); };
+  function pOf(y) {
+    let i = 0;
+    while (i < N - 2 && y >= stopY[i + 1]) i++;
+    return clamp(i + (y - stopY[i]) / stepAt(i), 0, N - 1);
+  }
+
+  /* The share of a step during which a scene rests before the next begins to show. Where the
+     words travel there is almost none, and none at all on the way to the first scene, which
+     comes up the screen whole. */
+  const holdAt = (i) => (flow ? (i < 1 ? 0 : clamp(holdPx / stepAt(i), 0, 0.5)) : 0.34);
+  /* How far the change from scene i to the next has got, 0 to 1. */
+  const changeAt = (P, i) => { const h = holdAt(i); return clamp((P - i - h) / (1 - h)); };
+  /* The same for wherever the page is. While a scene rests, time stands still. */
+  const turn = (P) => changeAt(P, Math.min(Math.floor(P), N - 2));
 
   function timeAt(P) {
     const i = Math.min(Math.floor(P), N - 2);
@@ -180,7 +223,8 @@
   }
   const axisAt = (m) => clamp((m - AXIS[0]) / (AXIS[1] - AXIS[0])) * 100;
 
-  railLinks.forEach((a) => a.parentElement.style.setProperty("--at", axisAt(parseTime(a.dataset.time)).toFixed(2)));
+  const marks = railLinks.map((a) => axisAt(parseTime(a.dataset.time)));
+  railLinks.forEach((a, k) => a.parentElement.style.setProperty("--at", marks[k].toFixed(2)));
 
   // photos fade in as they arrive
   day.querySelectorAll(".shot img").forEach((img) => {
@@ -191,19 +235,20 @@
   let P = 0;
   let current = -1;
   let clockShown = "";
+  let stripShown = null;
   const warmed = [];
   const eager = [];
 
-  const clockWrap = clockEl.parentElement;
   const cueEl = day.querySelector(".cue");
   const progressEl = day.querySelector(".progress");
-  const lastPut = new Map();
+  const lastPut = new WeakMap();
   /* Write a value only when it has changed. */
   function put(el, name, value) {
     if (!el) return;
-    const key = name + "@" + (el.id || el.className);
-    if (lastPut.get(key) === value) return;
-    lastPut.set(key, value);
+    let seen = lastPut.get(el);
+    if (!seen) { seen = {}; lastPut.set(el, seen); }
+    if (seen[name] === value) return;
+    seen[name] = value;
     el.style.setProperty(name, value);
   }
 
@@ -222,6 +267,7 @@
 
   function render() {
     const lo = Math.floor(P) - 1, hi = Math.ceil(P) + 1;
+    const here = yOf(P);
 
     for (let i = 0; i < N; i++) {
       const s = scenes[i];
@@ -229,9 +275,26 @@
       s.classList.toggle("is-off", !near);
       if (!near) continue;
       if (!eager[i]) { eager[i] = true; if (i > 0) s.querySelectorAll("img").forEach((img) => { img.loading = "eager"; }); }
-      const r = i === 0 ? 1 : ease(clamp((P - (i - 1) - HOLD) / (1 - HOLD)));
-      const next = i === N - 1 ? 0 : ease(clamp((P - i - HOLD) / (1 - HOLD)));
-      const t = (i === 0 ? 1 : smooth(clamp((r - 0.6) / 0.4))) * (1 - smooth(clamp(next / 0.3)));
+      const arriving = i === 0 ? 1 : changeAt(P, i - 1); // how far this scene's photo has come
+      let r, t;
+      if (flow) {
+        /* The words ride on the scroll itself: --y is how far the page still has to go to this
+           scene, so they move exactly as far as the finger does. Nothing is eased, because the
+           finger does the easing. The first scene's photo rides up with its words; every later
+           photo is uncovered in place, at a steady pace. The words fade only where they would
+           otherwise be seen out of place, far below or far above. */
+        const d = i - P; // scenes away; positive while this one is still below
+        r = i <= 1 ? 1 : arriving;
+        if (i === 0) t = 1 - smooth(clamp((P - 0.7) / 0.3));
+        else if (i === 1 && d > 0) t = 1;
+        else if (d > 0) t = 1 - smooth(clamp((d - 0.85) / 0.15));
+        else t = 1 - smooth(clamp((-d - 0.55) / 0.3));
+        put(s, "--y", (stopY[i] - here).toFixed(1) + "px");
+      } else {
+        r = ease(arriving);
+        const next = i === N - 1 ? 0 : ease(changeAt(P, i));
+        t = (i === 0 ? 1 : smooth(clamp((r - 0.6) / 0.4))) * (1 - smooth(clamp(next / 0.3)));
+      }
       put(s, "--r", r.toFixed(4));
       put(s, "--t", t.toFixed(3));
     }
@@ -253,7 +316,13 @@
     if (text !== clockShown) { clockShown = text; clockEl.textContent = text; }
 
     // each of these is set on the one element that uses it, so a frame restyles as little as possible
-    put(clockWrap, "--clock", smooth(clamp((P - 0.42) / 0.4)).toFixed(2));
+    put(timeline, "--clock", smooth(clamp((P - 0.42) / 0.4)).toFixed(2));
+    if (flow) {
+      // on a phone the clock and the line of the day come up the screen with the first scene
+      put(timeline, "--lift", Math.max(0, stopY[1] - here).toFixed(1) + "px");
+      const stripOn = P > 0;
+      if (stripOn !== stripShown) { stripShown = stripOn; timeline.classList.toggle("is-on", stripOn); }
+    }
     put(cueEl, "--cue", (1 - smooth(clamp(P / 0.12))).toFixed(2));
     put(progressEl, "--p", (P / (N - 1)).toFixed(4));
     const head = P < 1 ? axisAt(nowMin) + (axisAt(times[1]) - axisAt(nowMin)) * ease(turn(P)) : axisAt(timeAt(P));
@@ -264,12 +333,19 @@
 
   /* ---------- scrolling ---------- */
 
-  let dayTop = 0, stageH = 0, step = 1, dayEnd = 0;
+  let dayTop = 0, stageH = 0, dayEnd = 0;
   function measure() {
-    stageH = stage.offsetHeight;
-    step = stageH * 0.85;
-    dayTop = day.getBoundingClientRect().top + window.scrollY;
-    dayEnd = dayTop + day.offsetHeight;
+    const box = day.getBoundingClientRect();
+    stageH = stage.getBoundingClientRect().height;
+    dayTop = box.top + window.scrollY;
+    dayEnd = dayTop + box.height;
+    if (!tour) return;
+    const at = stops.map((stop) => stop.getBoundingClientRect().top - box.top);
+    // a browser that cannot work the stops out leaves them all in one place: space them plainly instead
+    stopY = at.every((y, i) => i === 0 || y > at[i - 1] + 1) ? at : scenes.map((s, i) => i * stageH * 0.85);
+    const style = getComputedStyle(day);
+    flow = style.getPropertyValue("--flow").trim() === "1";
+    holdPx = parseFloat(style.getPropertyValue("--hold")) || 0;
   }
 
   /* Smooth scrolling is for a mouse wheel. A finger on a touch screen already scrolls smoothly,
@@ -294,7 +370,7 @@
   }
 
   function goTo(i, instant) {
-    const y = dayTop + clamp(i, 0, N - 1) * step;
+    const y = dayTop + yOf(clamp(i, 0, N - 1));
     if (instant) { if (lenis) lenis.scrollTo(y, { immediate: true }); else window.scrollTo(0, y); return; }
     const far = Math.abs(i - P);
     scrollToY(y, clamp(0.9 + far * 0.34, 1.1, 3.2));
@@ -305,19 +381,33 @@
     scrollToY(Math.max(0, y), 1.5);
   }
 
-  /* When scrolling stops part-way through a change of scene, glide on to whichever scene is nearer. */
+  /* When scrolling stops part-way through a change of scene, glide on to whichever scene is nearer.
+     On a touch screen the browser usually does this itself, coming to rest on the stops, and
+     this is what is left for the browsers that do not. */
   let settleTimer = 0;
   let touching = false;
+  let settledFrom = -1;
   function settle() {
     if (!tour || touching || menu.open) return;
-    const y = window.scrollY;
-    if (y <= dayTop || y >= dayTop + (N - 1) * step) return;
+    const y = window.scrollY - dayTop;
+    if (y <= 0 || y >= stopY[N - 1]) return;
     // worked out afresh from where the page is, in case a busy phone has not drawn this frame yet
-    const p = (y - dayTop) / step;
-    const i = Math.floor(p), f = p - i;
-    if (f <= HOLD) return;
-    const onward = (f - HOLD) / (1 - HOLD) > 0.42;
-    scrollToY(dayTop + (onward ? i + 1 : i + HOLD * 0.5) * step, 0.9, easeOut);
+    const p = pOf(y);
+    const i = Math.min(Math.floor(p), N - 2), f = p - i;
+    if (flow) {
+      // the words travel with the page here, so a scene is at rest only when it is exactly in place
+      const to = yOf(f > 0.5 ? i + 1 : i);
+      if (Math.abs(to - y) < 2) return;
+      // if the page did not stay where it was sent, the browser has its own idea of rest: leave it be
+      if (Math.abs(y - settledFrom) < 3) return;
+      settledFrom = y;
+      scrollToY(dayTop + to, 0.7, easeOut);
+      return;
+    }
+    const hold = holdAt(i);
+    if (f <= hold) return;
+    const onward = (f - hold) / (1 - hold) > 0.42;
+    scrollToY(dayTop + yOf(onward ? i + 1 : i + hold * 0.5), 0.9, easeOut);
   }
 
   let lastY = 0;
@@ -326,15 +416,18 @@
     ticking = false;
     const y = window.scrollY;
     if (tour) {
-      let p = clamp((y - dayTop) / step, 0, N - 1);
-      if (Math.abs(p - Math.round(p)) < 0.004) p = Math.round(p); // at rest on a scene, the clock reads its exact time
+      let p = pOf(y - dayTop);
+      // at rest on a scene, the clock reads its exact time and the words sit exactly in place
+      const at = Math.round(p);
+      if (Math.abs(yOf(at) - (y - dayTop)) < (flow ? 1.5 : 0.004 * stepAt(0))) p = at;
       if (p !== P || current === -1) { P = p; render(); }
       // the progress line belongs to the tour: it appears after the first screen and leaves with the last
       const inTour = y < dayEnd - stageH * 1.2;
       put(progressEl, "--rail", inTour ? smooth(clamp((P - 0.5) / 0.4)).toFixed(2) : "0");
     }
     // The bar floats over the tour. After it, the bar gets a background, leaves on the way down and returns on the way up.
-    const past = y > (tour ? dayEnd - 90 : 60);
+    // Where the words travel, the tour is over as soon as the last scene starts to move off up the screen.
+    const past = y > (tour ? (flow ? dayTop + stopY[N - 1] + 8 : dayEnd - 90) : 60);
     bar.classList.toggle("is-solid", past);
     if (!past) bar.classList.remove("is-away");
     else if (Math.abs(y - lastY) > 5) bar.classList.toggle("is-away", y > lastY && !menu.open);
@@ -418,6 +511,20 @@
         closeMenu();
       }
     }
+  });
+
+  /* On a phone the marks along the line of the day sit too close together for a finger,
+     so a tap anywhere on the line goes to the nearest one. */
+  rail.addEventListener("click", (e) => {
+    // a key pressed on a mark has no position, and simply goes to that mark
+    if (!tour || !flow || (!e.clientX && !e.clientY)) return;
+    const box = rail.getBoundingClientRect();
+    if (!box.width) return;
+    const at = ((e.clientX - box.left) / box.width) * 100;
+    let nearest = 0;
+    marks.forEach((m, k) => { if (Math.abs(m - at) < Math.abs(marks[nearest] - at)) nearest = k; });
+    e.preventDefault();
+    goTo(Number(railLinks[nearest].dataset.go));
   });
 
   /* ---------- sections arrive as they come into view ---------- */
@@ -610,10 +717,13 @@
     const linked = scenes.findIndex((s) => s.id && "#" + s.id === location.hash);
     if (linked > 0) { goTo(linked, true); frame(); }
 
+    const fresh = () => { settledFrom = -1; }; // the visitor has moved the page again
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("touchstart", () => { touching = true; }, { passive: true });
+    window.addEventListener("touchstart", () => { touching = true; fresh(); }, { passive: true });
     window.addEventListener("touchend", () => { touching = false; onScroll(); }, { passive: true });
     window.addEventListener("touchcancel", () => { touching = false; }, { passive: true });
+    window.addEventListener("wheel", fresh, { passive: true });
+    window.addEventListener("keydown", fresh);
 
     // fetch the rest of the photos once the first screen has settled, unless the visitor is saving data
     const saving = navigator.connection && navigator.connection.saveData;
@@ -625,7 +735,16 @@
   let resizeTimer = 0;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { measure(); current = -1; frame(); }, 120);
+    resizeTimer = setTimeout(() => {
+      const end = stopY[N - 1], at = P;
+      const inside = tour && window.scrollY - dayTop < end;
+      measure();
+      // Turning a phone on its side changes how far apart the scenes are. Stay on the one that was
+      // showing. (A phone's own bars sliding away also count as a resize, but move nothing.)
+      if (inside && Math.abs(stopY[N - 1] - end) > 1) goTo(at, true);
+      current = -1;
+      frame();
+    }, 120);
   });
   window.addEventListener("load", () => { measure(); frame(); });
 

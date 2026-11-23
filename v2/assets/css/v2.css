@@ -410,13 +410,34 @@ html.is-day .shot-night { display: none; }
 .note { display: flex; flex-wrap: wrap; gap: 6px 26px; margin-top: 34px; font-size: 13px; }
 .scene .words > p.note { max-width: none; font: 500 11.5px/1.5 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--faint); margin-top: 34px; }
 
-.clock, .rail, .cue, .progress, .stars { display: none; }
+.clock, .rail, .cue, .progress, .stars, .stop { display: none; }
+/* the clock and the rail are wrapped together for the phone layout; anywhere else the wrapper has no box */
+.timeline { display: contents; }
 
 /* ---------- the day: the tour ----------
    The stage stays put while the page scrolls behind it. Each scene sits on top of the last
-   and is uncovered by the scroll: --r is how far its photo is revealed, --t how visible its words. */
+   and is uncovered by the scroll: --r is how far its photo is revealed, --t how visible its words.
+   --step is how far the page scrolls for one scene, --first the same for the first of them,
+   and --tail how long the last one is held. */
 
-html.tour .journey { height: calc(((var(--n) - 1) * 0.85 + 1.3) * var(--sh)); }
+html.tour .journey {
+  --step: calc(var(--sh) * 0.85);
+  --first: var(--step);
+  --tail: 0.3;
+  height: calc(var(--first) + (var(--n) - 2) * var(--step) + (1 + var(--tail)) * var(--sh));
+}
+
+/* One stop for each scene, added by the script, where the page is when that scene is in place.
+   The script reads the steps back from them. */
+html.tour .stop {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: calc(var(--a) * var(--first) + var(--b) * var(--step));
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
 
 html.tour .stage {
   position: sticky;
@@ -642,37 +663,74 @@ html.tour .progress {
   .scene .shot { order: -1; }
 }
 
-/* A phone held upright: the photo above, the words below. */
+/* A phone held upright. The photo stays under the bar and changes as it does on a wide screen,
+   and beneath it sit the clock and the day drawn as a line. The words are not held in place:
+   they travel up the screen with the finger, as on any page, and pass out of sight under that
+   line. --y is how far a scene is from its place.
+
+   One scene is one step of the scroll. A step is about as long as the photo is tall, so the
+   edge of the next photo rises at much the same pace as the words. It is kept between two
+   limits so that, on a short phone or a tall one, one scene's words are leaving as the next
+   one's arrive, with neither a crush nor an empty gap between them.
+
+   The first step is a whole screen. The opening screen scrolls away like the top of any page,
+   its words passing up behind its photo, and the first scene comes up from below all in one
+   piece: photo, clock, line and words. From there on the photo stays where it is. */
 @media (max-width: 860px) and (orientation: portrait) {
-  html.tour .stage { --words-h: 256px; }
+  html.tour .journey {
+    --flow: 1;          /* tells the script the words travel */
+    --tail: 0;
+    --hold: 28px;       /* the page moves this far before the next photo begins to show */
+    --strip-h: 58px;    /* the clock and the line of the day */
+    --words-h: 204px;   /* the room under them for a scene's words */
+    --zone: calc(var(--sh) - var(--words-h));
+    --frame-h: max(120px, calc(var(--zone) - var(--strip-h) - var(--bar-h) - 2px));
+    --step: clamp(300px, calc(var(--frame-h) + var(--hold)), 380px);
+    --first: calc(var(--sh) - var(--bar-h) + 46px);   /* the first photo starts just below the screen */
+  }
+  /* the next words come up from below the stage, which a phone shows once its own bars slide away */
+  html.tour .stage { overflow: visible; }
+  /* the line of the day shows how far along you are, so the thin line at the bottom is not needed */
+  html.tour .progress { display: none; }
+
   html.tour .scene .shot {
     top: calc(var(--bar-h) + 2px);
     left: var(--gutter);
     right: var(--gutter);
-    height: calc(var(--sh) - var(--bar-h) - 2px - var(--words-h));
+    height: var(--frame-h);
     aspect-ratio: auto;
     transform: none;
   }
   html.tour .scene .words {
     left: var(--gutter);
     right: var(--gutter);
-    top: calc(var(--sh) - var(--words-h) + 84px);
+    top: calc(var(--zone) + 24px);
     width: auto;
-  }
-  html.tour .clock {
-    bottom: auto;
-    top: calc(var(--sh) - var(--words-h) + 24px);
-    font-size: 60px;
+    transform: translateY(var(--y, 0px));
+    will-change: transform;
+    /* Cut off level with the middle of the strip, where the cut cannot be seen. Above the strip
+       the photo would hide the words anyway, but not one that is still on its way. */
+    clip-path: inset(max(0px, calc(0px - var(--y, 0px) - 24px - var(--strip-h) / 2)) -100vw -100vh -100vw);
   }
   html.tour .scene h3 { font-size: clamp(30px, 8.6vw, 40px); }
-  html.tour .scene .words > p:not(.label) { margin-top: 10px; font-size: 15.5px; line-height: 1.55; max-width: none; }
+  html.tour .scene .words > p:not(.label) { margin-top: 10px; font-size: 15.5px; line-height: 1.55; max-width: 46ch; }
   html.tour .scene .words > .aside { font-size: 12.5px; margin-top: 6px; }
+
+  /* the first scene's photo rides up the screen with its words, then stays; until the script
+     has placed it, it waits out of sight */
+  html.tour .scene:nth-child(2) .shot {
+    clip-path: none;
+    transform: translateY(max(0px, var(--y, 200vh)));
+    will-change: transform;
+  }
 
   html.tour .scene-now .shot { height: calc(var(--sh) - var(--bar-h) - 2px - var(--hero-h, 412px)); }
   html.tour .scene-now .words {
     top: auto;
     bottom: 54px;
-    transform: translateY(calc((1 - var(--t, 1)) * -24px));
+    transform: translateY(var(--y, 0px));
+    /* cut off level with the bottom of the photo, as the words pass up behind it */
+    clip-path: inset(max(0px, calc(100% - var(--hero-h, 412px) + 54px - var(--y, 0px))) -100vw -100vh -100vw);
   }
   html.tour .scene h1 { font-size: clamp(38px, 11vw, 52px); margin-top: 12px; }
   html.tour .scene-now .actions { margin-top: 22px; gap: 12px 24px; }
@@ -681,27 +739,150 @@ html.tour .progress {
   /* no room for the words of the cue here; its moving line alone says there is more below */
   html.tour .cue { bottom: 12px; font-size: 0; letter-spacing: 0; }
   html.tour .cue::after { height: 24px; margin-top: 0; }
+
+  /* The strip under the photo: the clock, then the day as a line. It is painted in the colour of
+     the sky, so the words slide out of sight behind it, and its lower edge is soft. --lift is
+     how far it still has to come up the screen with the first scene. */
+  html.tour .timeline {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--zone) - var(--strip-h) - 1px);
+    height: calc(var(--strip-h) + 1px);
+    padding: 1px var(--gutter) 0;
+    background: var(--veil, var(--sky));
+    transform: translateY(var(--lift, 0px));
+    will-change: transform;
+    visibility: hidden;
+  }
+  html.tour .timeline.is-on { visibility: visible; }
+  html.tour .timeline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 24px;
+    background: linear-gradient(to bottom, var(--veil, var(--sky)), var(--veil-clear, transparent));
+    pointer-events: none;
+  }
+
+  html.tour .clock {
+    position: static;
+    flex: none;
+    margin-left: -0.03em;
+    font-size: 40px;
+    opacity: 1;
+  }
+
+  /* a mark for each scene, placed by its time; a tap anywhere along the line goes to the nearest */
+  html.tour .rail {
+    display: block;
+    position: relative;
+    flex: 1;
+    align-self: stretch;
+    min-width: 0;
+    cursor: pointer;
+  }
+  .rail ol { position: absolute; inset: 0; }
+  .rail ol::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--line); }
+  .rail li { position: absolute; left: calc(var(--at, 0) * 1%); top: 0; bottom: 0; }
+  .rail a {
+    position: absolute;
+    left: -9px;
+    top: calc(50% - 15px);
+    width: 18px;
+    height: 30px;
+    color: var(--faint);
+    transition: color 0.35s;
+  }
+  .rail a::after {
+    content: "";
+    position: absolute;
+    left: 8.5px;
+    top: 5px;
+    width: 1px;
+    height: 20px;
+    background: currentColor;
+    transform: scaleY(0.4);
+    transition: transform 0.45s var(--ease);
+  }
+  .rail a[aria-current="true"] { color: var(--ink); }
+  .rail a[aria-current="true"]::after { transform: scaleY(1); }
+  .rail .t, .rail .n { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  /* The head is moved with a transform, so following the finger costs the phone no layout.
+     It is the right-hand end of a bar as wide as the line, slid in from the left: slid the
+     other way it would reach past the edge of the screen and make the page wider than the phone. */
+  .rail-head {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 0;
+    transform: translateX(calc((var(--head, 0) - 100) * 1%));
+    pointer-events: none;
+  }
+  .rail-head::before {
+    content: "";
+    position: absolute;
+    right: -3.5px;
+    top: -3.5px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+  .rail-now {
+    position: absolute;
+    left: calc(var(--now, 0) * 1%);
+    top: 50%;
+    font: 500 9px/1 var(--sans);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .rail-now::before { content: ""; position: absolute; left: -0.5px; top: -5px; width: 1px; height: 11px; background: var(--accent); }
+  .rail-now span { position: absolute; left: 0; bottom: 12px; padding-left: 0.2em; transform: translateX(-50%); }
 }
 
 @media (max-width: 860px) and (orientation: portrait) and (max-height: 760px) {
-  html.tour .stage { --hero-h: 326px; }
+  html.tour .journey { --hero-h: 326px; }
   html.tour .scene-now .lede { display: none; }
 }
 @media (max-width: 860px) and (orientation: portrait) and (max-height: 640px) {
-  html.tour .stage { --hero-h: 286px; }
+  html.tour .journey { --hero-h: 286px; }
   html.tour .scene h1 { font-size: 34px; }
 }
 
-/* narrow phones fit fewer words to a line, so the words get more of the screen */
+/* Narrow phones fit fewer words to a line, so the words get more of the screen. Each of these
+   heights holds the longest scene in either language with a line to spare. */
 @media (max-width: 380px) and (orientation: portrait) {
-  html.tour .stage { --words-h: 284px; }
+  html.tour .journey { --words-h: 220px; }
 }
 @media (max-width: 340px) and (orientation: portrait) {
-  html.tour .stage { --words-h: 292px; }
+  html.tour .journey { --words-h: 212px; }
   html.tour .scene .words > p:not(.label) { font-size: 14.5px; }
-  html.tour .clock { font-size: 52px; }
-  html.tour .scene .words { top: calc(var(--sh) - var(--words-h) + 74px); }
-  html.tour .scene-now .words { top: auto; }
+  html.tour .clock { font-size: 34px; }
+  html.tour .timeline { gap: 18px; }
+}
+
+/* On a touch screen the page comes to rest on a scene by itself, the way a row of photos does:
+   a swipe lands on one of the stops. Only for browsers recent enough to do this well; in any
+   other, the script glides the page to the nearest scene instead. */
+@media (max-width: 860px) and (orientation: portrait) and (hover: none) and (pointer: coarse) {
+  @supports (height: 100svh) {
+    html.tour.ready { scroll-snap-type: y proximity; scroll-padding-top: 0; }
+    html.tour .stop { scroll-snap-align: start; }
+    /* a hard swipe halts at the first scene on the way in and at the last on the way out,
+       rather than running straight past either end of the day */
+    html.tour .stop-end { scroll-snap-stop: always; }
+  }
 }
 
 /* Short and wide, such as a phone held sideways or a small window:
@@ -1299,12 +1480,10 @@ a, button, summary, select, label { -webkit-tap-highlight-color: transparent; }
   .lagoon figcaption a { display: inline-block; padding-block: 11px; }
 }
 
-/* Where nothing hovers, a press is shown while the finger is down, and nothing stays lit afterwards.
-   The photos also skip their slow zoom, which leaves a phone less to draw on each frame. */
+/* Where nothing hovers, a press is shown while the finger is down, and nothing stays lit afterwards. */
 @media (hover: none) {
   .btn:active, .bar-link:active, .tlink:active, .cal-nav button:active:not(:disabled), .places button:active,
   .faq summary:active, .menu-day a:active, .menu-stay li a:active, button.day:active:not(:disabled) { opacity: 0.55; }
-  html.tour .scene .shot img { transform: none; }
 }
 
 /* ---------- less motion ---------- */
