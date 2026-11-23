@@ -19,7 +19,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230B1422'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='26' fill='%23D9B36A' text-anchor='middle'%3EOD%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/v2.css">
   <script>
     /* Runs before the page is drawn.
@@ -50,7 +50,11 @@
         }
         var first = document.createElement("link");
         first.rel = "preload"; first.as = "image"; first.setAttribute("fetchpriority", "high");
-        first.href = "assets/img/" + (day ? "place-sign.jpg" : "night-sign.jpg");
+        if (day) {
+          first.setAttribute("imagesrcset", "assets/img/place-sign-720.webp 720w, assets/img/place-sign.webp 1000w");
+          first.setAttribute("imagesizes", "(max-width: 860px) 50vw, 520px");
+        }
+        first.href = "assets/img/" + (day ? "place-sign.webp" : "night-sign.webp");
         document.head.appendChild(first);
       } catch (e) {}
       try {
@@ -109,15 +113,15 @@
         <nav class="menu-day" aria-labelledby="menu-day-h">
           <h2 class="label" id="menu-day-h" data-i18n="v2.menu.day">A day here</h2>
           <ol>
-            <li><a href="#first-light" data-go="1" data-img="assets/img/wake.jpg"><span class="t">06:40</span><span class="n" data-i18n="s1.h">First light</span></a></li>
-            <li><a href="#islands" data-go="2" data-img="assets/img/boats.jpg"><span class="t">10:00</span><span class="n" data-i18n="s2.h">To the islands</span></a></li>
-            <li><a href="#turtles" data-go="3" data-img="assets/img/turtles.jpg"><span class="t">11:30</span><span class="n" data-i18n="s3.h">Turtles</span></a></li>
-            <li><a href="#sandbank" data-go="4" data-img="assets/img/sandbank.jpg"><span class="t">13:00</span><span class="n" data-i18n="s4.h">The sandbank</span></a></li>
-            <li><a href="#courtyard" data-go="5" data-img="assets/img/courtyard.jpg"><span class="t">15:30</span><span class="n" data-i18n="s5.h">Back at the house</span></a></li>
-            <li><a href="#room" data-go="6" data-img="assets/img/room-a.jpg"><span class="t">16:30</span><span class="n" data-i18n="s6.h">A cool brick room</span></a></li>
-            <li><a href="#celup-tepung" data-go="7" data-img="assets/img/celup-tepung.jpg"><span class="t">17:45</span><span class="n" data-i18n="s7.h">Celup tepung</span></a></li>
-            <li><a href="#bonfire" data-go="8" data-img="assets/img/bonfire-tall.jpg"><span class="t">20:30</span><span class="n" data-i18n="s8.h">Bonfire</span></a></li>
-            <li><a href="#stars" data-go="9" data-img="assets/img/night-stars.jpg"><span class="t">22:00</span><span class="n" data-i18n="s9.h">Stars</span></a></li>
+            <li><a href="#first-light" data-go="1" data-img="assets/img/wake-720.webp"><span class="t">06:40</span><span class="n" data-i18n="s1.h">First light</span></a></li>
+            <li><a href="#islands" data-go="2" data-img="assets/img/boats-720.webp"><span class="t">10:00</span><span class="n" data-i18n="s2.h">To the islands</span></a></li>
+            <li><a href="#turtles" data-go="3" data-img="assets/img/turtles-720.webp"><span class="t">11:30</span><span class="n" data-i18n="s3.h">Turtles</span></a></li>
+            <li><a href="#sandbank" data-go="4" data-img="assets/img/sandbank-720.webp"><span class="t">13:00</span><span class="n" data-i18n="s4.h">The sandbank</span></a></li>
+            <li><a href="#courtyard" data-go="5" data-img="assets/img/courtyard-720.webp"><span class="t">15:30</span><span class="n" data-i18n="s5.h">Back at the house</span></a></li>
+            <li><a href="#room" data-go="6" data-img="assets/img/room-a-720.webp"><span class="t">16:30</span><span class="n" data-i18n="s6.h">A cool brick room</span></a></li>
+            <li><a href="#celup-tepung" data-go="7" data-img="assets/img/celup-tepung-720.webp"><span class="t">17:45</span><span class="n" data-i18n="s7.h">Celup tepung</span></a></li>
+            <li><a href="#bonfire" data-go="8" data-img="assets/img/bonfire-tall-720.webp"><span class="t">20:30</span><span class="n" data-i18n="s8.h">Bonfire</span></a></li>
+            <li><a href="#stars" data-go="9" data-img="assets/img/night-stars-720.webp"><span class="t">22:00</span><span class="n" data-i18n="s9.h">Stars</span></a></li>
           </ol>
         </nav>
         <nav class="menu-stay" aria-labelledby="menu-stay-h">
@@ -131,7 +135,7 @@
           </ul>
           <p class="menu-contact"><a data-wa="Salam Ombak Damai, saya ada pertanyaan." href="#" target="_blank" rel="noopener">WhatsApp <span data-od="phone">010-764 8227</span></a></p>
         </nav>
-        <figure class="menu-window" aria-hidden="true"><img src="assets/img/night-sign.jpg" width="810" height="1012" alt="" loading="lazy"></figure>
+        <figure class="menu-window" aria-hidden="true"><img decoding="async" src="assets/img/night-sign.webp" width="810" height="1012" alt="" loading="lazy"></figure>
       </div>
     </div>
   </dialog>
@@ -157,8 +161,8 @@
               <p class="note"><span data-i18n-html="hero.from">From <span data-od="rate">RM 150</span> a room, a night</span><span data-i18n="hero.rated">Rated 5.0 on Google</span></p>
             </div>
             <figure class="shot">
-              <img class="shot-night" src="assets/img/night-sign.jpg" width="810" height="1012" alt="Ombak Damai at night: the lit sign under the pavilion, a brick wall with a glowing window, a young rhu tree and a sky full of stars" data-i18n-alt="hero.alt1" loading="lazy">
-              <img class="shot-day" src="assets/img/place-sign.jpg" width="1000" height="1250" alt="Ombak Damai by day: the wooden sign under the pavilion, a young rhu tree and the splash pool, with fields beyond" data-i18n-alt="v2.alt.day" loading="lazy">
+              <img decoding="async" class="shot-night" src="assets/img/night-sign.webp" width="810" height="1012" alt="Ombak Damai at night: the lit sign under the pavilion, a brick wall with a glowing window, a young rhu tree and a sky full of stars" data-i18n-alt="hero.alt1" loading="lazy">
+              <img decoding="async" class="shot-day" src="assets/img/place-sign.webp" srcset="assets/img/place-sign-720.webp 720w, assets/img/place-sign.webp 1000w" sizes="(max-width: 860px) 50vw, 520px" width="1000" height="1250" alt="Ombak Damai by day: the wooden sign under the pavilion, a young rhu tree and the splash pool, with fields beyond" data-i18n-alt="v2.alt.day" loading="lazy">
             </figure>
           </li>
 
@@ -168,7 +172,7 @@
               <h3 data-i18n="s1.h">First light</h3>
               <p data-i18n="s1.p">The fishing boats leave through the river mouth before the sun is up. Go out with a local boatman, by river or by sea.</p>
             </div>
-            <figure class="shot"><img src="assets/img/wake.jpg" width="1000" height="1250" alt="Fishing rods on the stern of a boat with its wake stretching behind" data-i18n-alt="d2.alt2" loading="lazy"></figure>
+            <figure class="shot"><img decoding="async" src="assets/img/wake.webp" srcset="assets/img/wake-720.webp 720w, assets/img/wake.webp 1000w" sizes="(max-width: 860px) 50vw, 520px" width="1000" height="1250" alt="Fishing rods on the stern of a boat with its wake stretching behind" data-i18n-alt="d2.alt2" loading="lazy"></figure>
           </li>
 
           <li class="scene" id="islands" data-time="10:00">
@@ -177,7 +181,7 @@
               <h3 data-i18n="s2.h">To the islands</h3>
               <p data-i18n="s2.p">Boats run out from Merang jetty, sixteen minutes down the coast road, for a full day in the waters off Redang. About March to October, when the sea allows.</p>
             </div>
-            <figure class="shot"><img src="assets/img/boats.jpg" width="1000" height="1250" alt="Two tour boats flying Terengganu and Malaysian flags on turquoise water" data-i18n-alt="d1.alt3" loading="lazy"></figure>
+            <figure class="shot"><img decoding="async" src="assets/img/boats.webp" srcset="assets/img/boats-720.webp 720w, assets/img/boats.webp 1000w" sizes="(max-width: 860px) 50vw, 520px" width="1000" height="1250" alt="Two tour boats flying Terengganu and Malaysian flags on turquoise water" data-i18n-alt="d1.alt3" loading="lazy"></figure>
           </li>
 
           <li class="scene" id="turtles" data-time="11:30">
@@ -186,7 +190,7 @@
               <h3 data-i18n="s3.h">Turtles</h3>
               <p data-i18n="s3.p">Slip into clear water where the green turtles come up to feed beside the boat.</p>
             </div>
-            <figure class="shot"><img src="assets/img/turtles.jpg" width="1000" height="1250" alt="Three green sea turtles swimming at the surface beside the boat" data-i18n-alt="d1.alt1" loading="lazy"></figure>
+            <figure class="shot"><img decoding="async" src="assets/img/turtles.webp" srcset="assets/img/turtles-720.webp 720w, assets/img/turtles.webp 1000w" sizes="(max-width: 860px) 50vw, 520px" width="1000" height="1250" alt="Three green sea turtles swimming at the surface beside the boat" data-i18n-alt="d1.alt1" loading="lazy"></figure>
           </li>
 
           <li class="scene" id="sandbank" data-time="13:00">
@@ -195,7 +199,7 @@
               <h3 data-i18n="s4.h">The sandbank</h3>
               <p data-i18n="s4.p">Wade the shallows at midday, with nothing on the horizon but an island and one boat.</p>
             </div>
-            <figure class="shot"><img src="assets/img/sandbank.jpg" width="1000" height="1250" alt="Clear shallow water over a sandbank with a boat and a small island beyond" data-i18n-alt="d1.alt2" loading="lazy"></figure>
+            <figure class="shot"><img decoding="async" src="assets/img/sandbank.webp" srcset="assets/img/sandbank-720.webp 720w, assets/img/sandbank.webp 1000w" sizes="(max-width: 860px) 50vw, 520px" width="1000" height="1250" alt="Clear shallow water over a sandbank with a boat and a small island beyond" data-i18n-alt="d1.alt2" loading="lazy"></figure>
           </li>
 
           <li class="scene" id="courtyard" data-time="15:30">
@@ -204,7 +208,7 @@
               <h3 data-i18n="s5.h">Back at the house</h3>
               <p data-i18n="s5.p">Sand underfoot, a splash pool for the children and long shade under the pavilion. Nobody will mind if you never leave it.</p>
             </div>
-            <figure class="shot"><img src="assets/img/courtyard.jpg" width="1000" height="1250" alt="The sand courtyard with a young rhu tree, a timber pergola and the splash pool" data-i18n-alt="d3.alt1" loading="lazy"></figure>
+            <figure class="shot"><img decoding="async" src="assets/img/courtyard.webp" srcset="assets/img/courtyard-720.webp 720w, assets/img/courtyard.webp 1000w" sizes="(max-width: 860px) 50vw, 520px" width="1000" height="1250" alt="The sand courtyard with a young rhu tree, a timber pergola and the splash pool" data-i18n-alt="d3.alt1" loading="lazy"></figure>
           </li>
 
           <li class="scene" id="room" data-time="16:30">
@@ -213,7 +217,7 @@
               <h3 data-i18n="s6.h">A cool brick room</h3>
               <p data-i18n="s6.p">Four rooms in a row, each with two double beds, its own bathroom, white linen and a door painted soft yellow.</p>
             </div>
-            <figure class="shot"><img src="assets/img/room-a.jpg" width="1000" height="1250" alt="A double bed with white linen and a patterned cushion beside yellow-framed windows, against an exposed brick wall" data-i18n-alt="rooms.alt1" loading="lazy"></figure>
+            <figure class="shot"><img decoding="async" src="assets/img/room-a.webp" srcset="assets/img/room-a-720.webp 720w, assets/img/room-a.webp 1000w" sizes="(max-width: 860px) 50vw, 520px" width="1000" height="1250" alt="A double bed with white linen and a patterned cushion beside yellow-framed windows, against an exposed brick wall" data-i18n-alt="rooms.alt1" loading="lazy"></figure>
           </li>
 
           <li class="scene" id="celup-tepung" data-time="17:45">
@@ -222,7 +226,7 @@
               <h3 data-i18n="s7.h">Celup tepung</h3>
               <p data-i18n="s7.p">Rhu Sepuluh is known for it: seafood dipped in batter and fried to order at some forty stalls along the beach road.</p>
             </div>
-            <figure class="shot"><img src="assets/img/celup-tepung.jpg" width="1000" height="1250" alt="A platter of battered and fried fish, prawns and squid with chilli sauce at a beachside stall" data-i18n-alt="around.alt" loading="lazy"></figure>
+            <figure class="shot"><img decoding="async" src="assets/img/celup-tepung.webp" srcset="assets/img/celup-tepung-720.webp 720w, assets/img/celup-tepung.webp 1000w" sizes="(max-width: 860px) 50vw, 520px" width="1000" height="1250" alt="A platter of battered and fried fish, prawns and squid with chilli sauce at a beachside stall" data-i18n-alt="around.alt" loading="lazy"></figure>
           </li>
 
           <li class="scene" id="bonfire" data-time="20:30">
@@ -231,7 +235,7 @@
               <h3 data-i18n="s8.h">Bonfire</h3>
               <p data-i18n="s8.p">Light the fire in the courtyard, grill what you caught, and let the evening run long.</p>
             </div>
-            <figure class="shot"><img src="assets/img/bonfire-tall.jpg" width="1200" height="1600" alt="A bonfire of driftwood burning on the sand, sparks rising into the dark" data-i18n-alt="nights.alt1" loading="lazy"></figure>
+            <figure class="shot"><img decoding="async" src="assets/img/bonfire-tall.webp" srcset="assets/img/bonfire-tall-720.webp 720w, assets/img/bonfire-tall.webp 1000w" sizes="(max-width: 860px) 50vw, 520px" width="1000" height="1333" alt="A bonfire of driftwood burning on the sand, sparks rising into the dark" data-i18n-alt="nights.alt1" loading="lazy"></figure>
           </li>
 
           <li class="scene" id="stars" data-time="22:00">
@@ -241,7 +245,7 @@
               <p data-i18n="s9.p">This far from the city, the sky fills with stars.</p>
               <p class="aside" id="moon-line" hidden></p>
             </div>
-            <figure class="shot"><img src="assets/img/night-stars.jpg" width="960" height="1200" alt="Guests in camp chairs in the courtyard, looking up at a sky of stars" data-i18n-alt="hero.alt3" loading="lazy"></figure>
+            <figure class="shot"><img decoding="async" src="assets/img/night-stars.webp" srcset="assets/img/night-stars-720.webp 720w, assets/img/night-stars.webp 960w" sizes="(max-width: 860px) 50vw, 520px" width="960" height="1200" alt="Guests in camp chairs in the courtyard, looking up at a sky of stars" data-i18n-alt="hero.alt3" loading="lazy"></figure>
           </li>
 
         </ol>
@@ -282,13 +286,13 @@
       </div>
 
       <div class="strip" id="strip" tabindex="0" role="region" aria-label="Photos of the rooms" data-i18n-aria="v2.strip" data-lenis-prevent-horizontal data-reveal>
-        <figure><img src="assets/img/room-a.jpg" width="1000" height="1250" alt="A double bed with white linen and a patterned cushion beside yellow-framed windows, against an exposed brick wall" data-i18n-alt="rooms.alt1" loading="lazy"><figcaption data-i18n="rooms.cap1">Brick, white linen and yellow doors</figcaption></figure>
-        <figure><img src="assets/img/room-bed.jpg" width="1000" height="1250" alt="A made-up bed with a patterned cushion beside a brick wall and a small white shelf" data-i18n-alt="rates.alt" loading="lazy"><figcaption data-i18n="rates.cap">Made up and waiting</figcaption></figure>
-        <figure><img src="assets/img/room-b.jpg" width="1000" height="1250" alt="A brick-walled room with a low platform bed, patterned rug and air-conditioner" data-i18n-alt="rooms.alt2" loading="lazy"><figcaption data-i18n="rooms.cap2">Cool and quiet</figcaption></figure>
-        <figure><img src="assets/img/kettle.jpg" width="1000" height="1250" alt="A tray with cups, coffee, tea, drinking water and a kettle on a wooden rack" data-i18n-alt="rooms.alt3" loading="lazy"><figcaption data-i18n="rooms.cap3">Tea and coffee in the room</figcaption></figure>
-        <figure><img src="assets/img/veranda.jpg" width="1000" height="1250" alt="The long shaded veranda outside the rooms, with brick walls and dark timber doors" data-i18n-alt="d3.alt2" loading="lazy"><figcaption data-i18n="d3.cap2">The veranda</figcaption></figure>
-        <figure class="wide"><img src="assets/img/night-rooms.jpg" width="810" height="648" alt="The brick rooms lit warmly at night under a deep blue sky" data-i18n-alt="hero.alt2" loading="lazy"><figcaption data-i18n="hero.cap2">The rooms after dark</figcaption></figure>
-        <figure><img src="assets/img/night-pavilion.jpg" width="810" height="1080" alt="The sign, pergola and splash pool at night, with a bright star above the trees" data-i18n-alt="nights.alt2" loading="lazy"><figcaption data-i18n="nights.cap2">The pavilion after dark</figcaption></figure>
+        <figure><img decoding="async" src="assets/img/room-a.webp" srcset="assets/img/room-a-720.webp 720w, assets/img/room-a.webp 1000w" sizes="(max-width: 860px) 240px, 432px" width="1000" height="1250" alt="A double bed with white linen and a patterned cushion beside yellow-framed windows, against an exposed brick wall" data-i18n-alt="rooms.alt1" loading="lazy"><figcaption data-i18n="rooms.cap1">Brick, white linen and yellow doors</figcaption></figure>
+        <figure><img decoding="async" src="assets/img/room-bed.webp" srcset="assets/img/room-bed-720.webp 720w, assets/img/room-bed.webp 1000w" sizes="(max-width: 860px) 240px, 432px" width="1000" height="1250" alt="A made-up bed with a patterned cushion beside a brick wall and a small white shelf" data-i18n-alt="rates.alt" loading="lazy"><figcaption data-i18n="rates.cap">Made up and waiting</figcaption></figure>
+        <figure><img decoding="async" src="assets/img/room-b.webp" srcset="assets/img/room-b-720.webp 720w, assets/img/room-b.webp 1000w" sizes="(max-width: 860px) 240px, 432px" width="1000" height="1250" alt="A brick-walled room with a low platform bed, patterned rug and air-conditioner" data-i18n-alt="rooms.alt2" loading="lazy"><figcaption data-i18n="rooms.cap2">Cool and quiet</figcaption></figure>
+        <figure><img decoding="async" src="assets/img/kettle.webp" srcset="assets/img/kettle-720.webp 720w, assets/img/kettle.webp 1000w" sizes="(max-width: 860px) 240px, 432px" width="1000" height="1250" alt="A tray with cups, coffee, tea, drinking water and a kettle on a wooden rack" data-i18n-alt="rooms.alt3" loading="lazy"><figcaption data-i18n="rooms.cap3">Tea and coffee in the room</figcaption></figure>
+        <figure><img decoding="async" src="assets/img/veranda.webp" srcset="assets/img/veranda-720.webp 720w, assets/img/veranda.webp 1000w" sizes="(max-width: 860px) 240px, 432px" width="1000" height="1250" alt="The long shaded veranda outside the rooms, with brick walls and dark timber doors" data-i18n-alt="d3.alt2" loading="lazy"><figcaption data-i18n="d3.cap2">The veranda</figcaption></figure>
+        <figure class="wide"><img decoding="async" src="assets/img/night-rooms.webp" width="810" height="648" alt="The brick rooms lit warmly at night under a deep blue sky" data-i18n-alt="hero.alt2" loading="lazy"><figcaption data-i18n="hero.cap2">The rooms after dark</figcaption></figure>
+        <figure><img decoding="async" src="assets/img/night-pavilion.webp" width="810" height="1080" alt="The sign, pergola and splash pool at night, with a bright star above the trees" data-i18n-alt="nights.alt2" loading="lazy"><figcaption data-i18n="nights.cap2">The pavilion after dark</figcaption></figure>
       </div>
 
       <div class="wrap">
@@ -402,7 +406,10 @@
         </dl>
 
         <figure class="lagoon" data-reveal>
-          <img src="assets/img/setiu-lagoon.jpg" width="2100" height="700" alt="A wooden jetty on the calm Setiu lagoon, with casuarina trees along the far bank" data-i18n-alt="v2.alt.lagoon" loading="lazy">
+          <picture>
+            <source media="(max-width: 640px)" srcset="assets/img/setiu-lagoon-m.webp" width="960" height="600">
+            <img decoding="async" src="assets/img/setiu-lagoon.webp" srcset="assets/img/setiu-lagoon-1400.webp 1400w, assets/img/setiu-lagoon.webp 2100w" sizes="(max-width: 1320px) 90vw, 1168px" width="2100" height="700" alt="A wooden jetty on the calm Setiu lagoon, with casuarina trees along the far bank" data-i18n-alt="v2.alt.lagoon" loading="lazy">
+          </picture>
           <figcaption><span data-i18n="v2.lagoon.cap">The Setiu lagoon, behind the coast.</span> <a href="https://commons.wikimedia.org/wiki/File:The_lagoon_of_Setiu_Wetlands_State_Park.jpg" target="_blank" rel="noopener" data-i18n="v2.lagoon.credit">Photo: Fikku fiq, CC BY 4.0, cropped</a></figcaption>
         </figure>
 
@@ -511,7 +518,6 @@
     </div>
   </footer>
 
-  <script src="assets/vendor/lenis.min.js"></script>
   <script src="assets/vendor/suncalc.js"></script>
   <script src="assets/js/lang-ms.js"></script>
   <script src="assets/js/site.js"></script>

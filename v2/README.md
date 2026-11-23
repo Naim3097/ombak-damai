@@ -90,6 +90,12 @@ Photos are shown in an upright frame, at most about 520 pixels wide on a
 computer screen. They are 1000 pixels wide, which is as large as the owner's
 phone photos allow, so they should not be shown bigger.
 
+The photos are WebP files. Each photo in the tour and in the row of room
+photos has two copies: `name.webp` at full size and `name-720.webp`, 720
+pixels wide, which is the one a phone fetches. To replace a photo, supply
+both. The lagoon panorama has a third, `setiu-lagoon-m.webp`, cropped taller
+for phones. `og.jpg` stays a JPEG because that is what link previews expect.
+
 The sky colours are the `SKY` list at the top of `assets/js/experience.js`:
 a time in minutes after midnight, then the colour.
 
@@ -99,6 +105,22 @@ English is written in the HTML. Malay is in `assets/js/lang-ms.js`, one line
 per piece of text, matched by the `data-i18n` attributes. It works the same
 way as in version 1, and the two versions remember the visitor's choice
 together.
+
+## On a phone
+
+- **Scrolling is the phone's own.** A finger already scrolls smoothly, so the
+  smooth-scroll library is fetched only on screens with a mouse. When a swipe
+  stops part-way between two scenes, the page glides on to the nearer one.
+- **Lighter photos.** A phone fetches the 720-pixel copies, about a third of
+  the weight of the first version's photos, and only as the tour reaches them.
+- **Less to draw per frame.** While the tour scrolls, only the page background
+  and the scene on show are touched. The photos skip their slow zoom.
+- **Targets for a finger.** Buttons and links are at least 44 pixels tall on
+  touch screens, and nothing stays highlighted after a tap.
+- **Phone-browser bars.** The tour is sized to the screen with the browser's
+  bars showing, so it does not jump when they slide away. The thin progress
+  line stays at the true bottom of the screen.
+- **Held sideways,** the words and the photo sit side by side.
 
 ## Less motion
 
@@ -111,7 +133,7 @@ scripts fail to load.
 
 | What | From | Licence |
 | --- | --- | --- |
-| Smooth scrolling | [Lenis](https://github.com/darkroomengineering/lenis) 1.3.27, the most starred smooth-scroll project on GitHub | MIT |
+| Smooth scrolling, on screens with a mouse | [Lenis](https://github.com/darkroomengineering/lenis) 1.3.27, the most starred smooth-scroll project on GitHub | MIT |
 | Sun and moon times | [SunCalc](https://github.com/mourner/suncalc) 2.1.4 | BSD 2-Clause |
 | Coastline and islands | [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, traced into a simplified line map | ODbL |
 | Today's forecast | MET Malaysia through [data.gov.my](https://developer.data.gov.my/realtime-api/weather) | CC BY 4.0 |

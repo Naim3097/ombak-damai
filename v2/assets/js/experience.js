@@ -128,19 +128,33 @@
     return 0.2126 * lin(rgb[0]) + 0.7152 * lin(rgb[1]) + 0.0722 * lin(rgb[2]);
   }
 
+  /* While the tour scrolls, the sky is changed on every frame. Only the page's own background is
+     touched then, which costs a phone almost nothing. The page-wide colour that buttons and panels
+     read (--sky), and the colour of the phone's own bars, follow as soon as the scroll pauses. */
+  const starsEl = day.querySelector(".stars");
   let skyKey = "";
-  let metaTimer = 0;
+  let lightNow = null;
+  let starsNow = "";
+  let restTimer = 0;
+  function skyAtRest() {
+    clearTimeout(restTimer);
+    root.style.setProperty("--sky", skyKey);
+    if (themeMeta) themeMeta.setAttribute("content", skyKey);
+  }
   function setSky(rgb) {
     const css = "rgb(" + rgb.map((v) => Math.round(v)).join(" ") + ")";
     if (css === skyKey) return;
+    const first = skyKey === "";
     skyKey = css;
     const lum = luminance(rgb);
-    root.style.setProperty("--sky", css);
+    root.style.backgroundColor = css;
     // Cream text on a dark sky, navy on a light one. 0.18 is where the two read equally well.
-    root.classList.toggle("sky-light", lum > 0.18);
-    stage.style.setProperty("--stars", clamp((0.036 - lum) / 0.022).toFixed(3));
-    // the phone's own bars take the sky colour too, once the scroll has paused
-    if (themeMeta) { clearTimeout(metaTimer); metaTimer = setTimeout(() => themeMeta.setAttribute("content", skyKey), 160); }
+    const light = lum > 0.18;
+    if (light !== lightNow) { lightNow = light; root.classList.toggle("sky-light", light); }
+    const stars = clamp((0.036 - lum) / 0.022).toFixed(2);
+    if (stars !== starsNow && starsEl) { starsNow = stars; starsEl.style.setProperty("--stars", stars); }
+    if (first) skyAtRest();
+    else { clearTimeout(restTimer); restTimer = setTimeout(skyAtRest, 140); }
   }
 
   /* ---------- the day ---------- */
@@ -180,12 +194,30 @@
   const warmed = [];
   const eager = [];
 
+  const clockWrap = clockEl.parentElement;
+  const cueEl = day.querySelector(".cue");
+  const progressEl = day.querySelector(".progress");
+  const lastPut = new Map();
+  /* Write a value only when it has changed. */
+  function put(el, name, value) {
+    if (!el) return;
+    const key = name + "@" + (el.id || el.className);
+    if (lastPut.get(key) === value) return;
+    lastPut.set(key, value);
+    el.style.setProperty(name, value);
+  }
+
   /* Fetch a scene's photo ahead of time, so it is there when the scroll reaches it. */
   function warm(i) {
     if (i < 1 || i >= N || warmed[i]) return;
     warmed[i] = true;
     const img = scenes[i].querySelector("img");
-    if (img) { const pre = new Image(); pre.src = img.getAttribute("src"); }
+    if (!img) return;
+    // the same choice of sizes as the photo itself, so a phone fetches the smaller copy
+    const pre = new Image();
+    if (img.sizes) pre.sizes = img.sizes;
+    if (img.srcset) pre.srcset = img.srcset;
+    pre.src = img.getAttribute("src");
   }
 
   function render() {
@@ -200,8 +232,8 @@
       const r = i === 0 ? 1 : ease(clamp((P - (i - 1) - HOLD) / (1 - HOLD)));
       const next = i === N - 1 ? 0 : ease(clamp((P - i - HOLD) / (1 - HOLD)));
       const t = (i === 0 ? 1 : smooth(clamp((r - 0.6) / 0.4))) * (1 - smooth(clamp(next / 0.3)));
-      s.style.setProperty("--r", r.toFixed(4));
-      s.style.setProperty("--t", t.toFixed(4));
+      put(s, "--r", r.toFixed(4));
+      put(s, "--t", t.toFixed(3));
     }
     warm(hi + 1);
     warm(hi + 2);
@@ -220,12 +252,12 @@
     const text = clockText(timeAt(P));
     if (text !== clockShown) { clockShown = text; clockEl.textContent = text; }
 
-    stage.style.setProperty("--clock", smooth(clamp((P - 0.42) / 0.4)).toFixed(3));
-    stage.style.setProperty("--rail", smooth(clamp((P - 0.5) / 0.4)).toFixed(3));
-    stage.style.setProperty("--cue", (1 - smooth(clamp(P / 0.12))).toFixed(3));
-    stage.style.setProperty("--p", (P / (N - 1)).toFixed(4));
+    // each of these is set on the one element that uses it, so a frame restyles as little as possible
+    put(clockWrap, "--clock", smooth(clamp((P - 0.42) / 0.4)).toFixed(2));
+    put(cueEl, "--cue", (1 - smooth(clamp(P / 0.12))).toFixed(2));
+    put(progressEl, "--p", (P / (N - 1)).toFixed(4));
     const head = P < 1 ? axisAt(nowMin) + (axisAt(times[1]) - axisAt(nowMin)) * ease(turn(P)) : axisAt(timeAt(P));
-    rail.style.setProperty("--head", head.toFixed(2));
+    put(rail, "--head", head.toFixed(2));
 
     setSky(skyFor(P));
   }
@@ -240,9 +272,20 @@
     dayEnd = dayTop + day.offsetHeight;
   }
 
+  /* Smooth scrolling is for a mouse wheel. A finger on a touch screen already scrolls smoothly,
+     and the phone does it best when nothing stands between the finger and the page. */
+  const touchFirst = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
   let lenis = null;
-  if (tour && window.Lenis) {
-    lenis = new Lenis({ autoRaf: true, lerp: 0.085, wheelMultiplier: 0.95 });
+  if (tour && !touchFirst) {
+    // fetched only where it is used, so a phone never downloads it
+    const tag = document.createElement("script");
+    tag.src = "assets/vendor/lenis.min.js";
+    tag.onload = () => {
+      if (!window.Lenis) return;
+      lenis = new Lenis({ autoRaf: true, lerp: 0.085, wheelMultiplier: 0.95 });
+      if (menu.open) lenis.stop();
+    };
+    document.head.appendChild(tag);
   }
 
   function scrollToY(y, seconds, easing) {
@@ -269,7 +312,9 @@
     if (!tour || touching || menu.open) return;
     const y = window.scrollY;
     if (y <= dayTop || y >= dayTop + (N - 1) * step) return;
-    const i = Math.floor(P), f = P - i;
+    // worked out afresh from where the page is, in case a busy phone has not drawn this frame yet
+    const p = (y - dayTop) / step;
+    const i = Math.floor(p), f = p - i;
     if (f <= HOLD) return;
     const onward = (f - HOLD) / (1 - HOLD) > 0.42;
     scrollToY(dayTop + (onward ? i + 1 : i + HOLD * 0.5) * step, 0.9, easeOut);
@@ -284,6 +329,9 @@
       let p = clamp((y - dayTop) / step, 0, N - 1);
       if (Math.abs(p - Math.round(p)) < 0.004) p = Math.round(p); // at rest on a scene, the clock reads its exact time
       if (p !== P || current === -1) { P = p; render(); }
+      // the progress line belongs to the tour: it appears after the first screen and leaves with the last
+      const inTour = y < dayEnd - stageH * 1.2;
+      put(progressEl, "--rail", inTour ? smooth(clamp((P - 0.5) / 0.4)).toFixed(2) : "0");
     }
     // The bar floats over the tour. After it, the bar gets a background, leaves on the way down and returns on the way up.
     const past = y > (tour ? dayEnd - 90 : 60);
@@ -307,6 +355,7 @@
 
   function openMenu() {
     if (menu.open) return;
+    skyAtRest(); // the menu takes the colour of the sky as it is at this moment
     if (lenis) lenis.stop();
     menu.classList.remove("is-closing");
     menu.showModal();
